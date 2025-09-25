@@ -804,13 +804,6 @@ body{
   pointer-events: none;
 }
 
-.intro-photo-card img{
-  display:block;
-  width:100%;
-  height: auto;
-  border-radius: 1.1rem;
-}
-
 /* Responsive */
 @media (max-width: 1000px){
   .intro-grid{ gap: 2rem; }
@@ -853,22 +846,13 @@ body{
   display: flex;                     /* supaya img bisa flex-fill */
 }
 
-.intro-photo-card img{
-  width: 100%;
-  height: 100%;                      /* isi penuh tinggi kartu */
-  object-fit: cover;                 /* crop rapih tanpa gepeng */
-  border-radius: 1.1rem;
-}
 
 /* Saat mobile (1 kolom), balik ke tinggi natural */
 @media (max-width: 860px){
   .intro-photo-card{
     height: auto;
   }
-  .intro-photo-card img{
-    height: auto;
-    object-fit: cover;
-  }
+
 }
 
 @media (min-width: 1200px){
@@ -949,12 +933,6 @@ body{
   border: 1px solid rgba(255,255,255,.08);
   box-shadow: 0 18px 50px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06);
 }
-.intro-photo-card img{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 18px;
-}
 
 /* responsive: jadi 1 kolom, semua full width */
 @media (max-width: 980px){
@@ -967,7 +945,7 @@ body{
   .intro-title, .intro-sub, .intro-sub.alt{ text-align: center; }
   .intro-text{ margin-inline: auto; }
   .intro-photo-card{ order: -1; max-width: 760px; margin-inline: auto; height: auto; }
-  .intro-photo-card img{ height: auto; }
+
 }
 
 
@@ -1579,4 +1557,414 @@ body{
   height: 28px;
 }
 
+/* ==== About/Intro fixes ==== */
 
+/* beri padding sisi yang konsisten untuk mobile */
+.intro {
+  padding-inline: clamp(16px, 5vw, 32px);
+}
+
+/* batasi lebar container agar tidak mepet tepi layar */
+.intro-grid {
+  max-width: 1100px;
+  width: 100%;
+  margin-inline: auto;
+  column-gap: clamp(24px, 5vw, 56px);
+}
+
+/* Foto: ukuran ramah mobile (tidak meluber) */
+.intro-photo {
+  display: block;
+  width: min(72vw, 360px);   /* lebar maksimum di mobile */
+  aspect-ratio: 4 / 5;       /* proporsional */
+  height: auto;
+  object-fit: cover;
+  border-radius: 18px;
+  margin: 0 auto;            /* center */
+}
+
+/* Di desktop/layar lebar, biarkan memenuhi kartu & samakan tinggi kolom */
+@media (min-width: 980px) {
+  .intro-grid {
+    grid-template-columns: 1.25fr 1fr;
+    align-items: stretch;
+  }
+  .intro-photo-card {
+    display: flex;
+    height: 100%;
+  }
+  .intro-photo {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;      /* gunakan tinggi card */
+  }
+}
+
+/* Saat mobile 1 kolom: foto di atas, tinggi natural */
+@media (max-width: 980px) {
+  .intro-grid { grid-template-columns: 1fr; row-gap: 28px; }
+  .intro-photo-card { order: -1; }
+  .intro-text { margin-inline: auto; } /* center block text dalam container */
+}
+
+/* === About/Intro: foto === */
+/* (1) Default mobile-first — JANGAN pakai height:100% di sini */
+.intro-photo-card img{
+  width: 100%;
+  height: auto;          /* <-- ini kuncinya */
+  object-fit: cover;
+  border-radius: 1.1rem;
+}
+
+/* (2) Desktop saja: samakan tinggi foto dengan kolom teks */
+@media (min-width: 980px){
+  .intro-photo-card{ height: 100%; display: flex; }
+  .intro-photo-card img{ height: 100%; }   /* <-- hanya aktif di desktop */
+}
+
+/* (opsional) Mobile: batasi lebar & center */
+@media (max-width: 980px){
+  .intro { padding-inline: clamp(16px, 5vw, 32px); }
+  .intro-photo-card{ order: -1; max-width: 760px; margin-inline: auto; }
+  .intro-photo-card img{
+    width: min(72vw, 360px);
+    aspect-ratio: 4 / 5;
+    margin-inline: auto;
+  }
+}
+
+
+/* === FINAL OVERRIDES: About/Intro === */
+
+/* Tambah padding sisi & kecilkan lebar konten keseluruhan */
+.intro{
+  padding-inline: clamp(20px, 7vw, 40px);   /* kiri-kanan lebih lega */
+}
+
+/* Perkecil lebar container agar tidak full-bleed */
+.intro-grid{
+  max-width: 960px;                          /* dulu 1100/1200, sekarang lebih sempit */
+  margin-inline: auto;
+}
+
+/* Batasi lebar paragraf agar nyaman dibaca */
+.intro-text{
+  max-width: 62ch;                           /* lebar baris ~62 karakter */
+  margin-inline: auto;                        /* center di container */
+}
+
+/* Mobile: kecilkan foto lagi */
+@media (max-width: 980px){
+  .intro-photo-card img{
+    width: min(64vw, 300px);                 /* dari 72vw/360px → lebih kecil */
+    aspect-ratio: 4 / 5;
+  }
+}
+
+/* ==== SKILLS (seragam) ==== */
+#skills{ padding-block: clamp(28px, 6vw, 72px); }
+
+.skills-wrap{
+  width: min(1100px, 92vw);
+  margin-inline: auto;
+  text-align: center;
+}
+.skills-title{
+  font-size: clamp(1.8rem, 2.4vw + 1rem, 3rem);
+  font-weight: 800; letter-spacing:.02em; color:#e5e7eb;
+  margin-bottom: clamp(16px, 2.4vw, 28px);
+}
+.skills-subhead{
+  font-family: var(--ff-sub, "Lora", serif);
+  font-style: italic; font-weight: 700; color:#d8dee9;
+  margin: 10px 0 12px;
+}
+
+/* Grid – semua kartu 150x150px (bisa diubah) */
+.skill-grid{
+  --cell: 150px;              /* << ukuran kartu seragam */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--cell), 1fr));
+  gap: 18px;
+  justify-items: center;
+  margin: 0 auto 28px;
+  max-width: 1000px;
+}
+.skill-grid.is-sm{ --cell: 150px; }  /* jaga konsisten */
+.skill-grid.is-md{ --cell: 170px; }  /* jika nanti butuh lebih besar */
+
+/* Kartu persegi */
+.skill-card{
+  width: 100%;
+  max-width: var(--cell);     /* cegah melebar */
+  aspect-ratio: 1;
+  list-style: none;
+  background: rgba(17,24,39,.85);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 18px;
+  box-shadow: 0 14px 40px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.05);
+  transition: transform .18s ease, box-shadow .25s ease;
+  display: flex; align-items: center; justify-content: center;
+}
+.skill-card:hover{ transform: translateY(-2px); box-shadow: 0 18px 50px rgba(0,0,0,.45); }
+
+.skill-card-inner{
+  width: 86%; height: 86%;
+  display: grid; place-items: center; row-gap: 10px;
+}
+
+/* Ikon: ukuran fix agar tidak “meloncat” antar brand */
+.skill-icon{
+  width: 56px;                /* konsisten */
+  height: 56px;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,.35));
+  user-select: none; pointer-events: none;
+}
+.skill-label{
+  font-weight: 700;
+  font-size: .95rem;
+  letter-spacing: .02em;
+  color: #e5e7eb;
+}
+
+/* Mobile tweak */
+@media (max-width: 640px){
+  .skill-grid{ --cell: 130px; gap: 14px; }
+  .skill-icon{ width: 48px; height: 48px; }
+}
+
+
+/* Grid default: minmax → melebar (buat baris banyak item) */
+.skill-grid.is-sm{ grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+.skill-grid.is-md{ grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+
+/* Packed: kolom lebar fix → rapat & centered (untuk Web Dev 3 item) */
+.skill-grid.is-packed{
+  --cell: 150px;                /* samakan dengan .is-sm */
+  grid-template-columns: repeat(auto-fit, var(--cell));
+  justify-content: center;      /* kumpulkan di tengah */
+  gap: 18px;                    /* jarak antar kartu */
+}
+
+/* ====== Skills: Mobile polish ====== */
+
+/* tablet kecil (≤640px): dua kolom rapat */
+@media (max-width: 640px){
+  .skills-wrap{
+    padding-block: clamp(20px, 6vw, 36px);
+    width: min(92vw, 540px);
+  }
+  .skills-title{ font-size: clamp(1.6rem, 1.2rem + 2vw, 2.1rem); margin-bottom: 12px; }
+  .skills-subhead{ margin: 6px 0 10px; font-size: 1.05rem; }
+
+  /* grid: dua kolom fix; pusatkan */
+  .skill-grid{
+    grid-template-columns: repeat(2, minmax(140px, 1fr));
+    gap: 12px;
+    justify-items: center;
+    margin-bottom: 16px;
+  }
+  /* jika pakai is-packed di Web Dev, tetap dua kolom */
+  .skill-grid.is-packed{
+    grid-template-columns: repeat(2, minmax(140px, 1fr));
+    gap: 12px;
+    justify-content: center;
+  }
+
+  /* kartu sedikit lebih kecil */
+  .skill-card{
+    aspect-ratio: 1;
+    border-radius: 14px;
+    box-shadow: 0 10px 26px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.05);
+  }
+  .skill-card-inner{ width: 88%; height: 88%; row-gap: 8px; padding: 10px; }
+
+  /* ikon & label kecil */
+  .skill-icon{
+    width: clamp(36px, 8vw, 48px);
+    height: clamp(36px, 8vw, 48px);
+  }
+  .skill-label{ font-size: .85rem; }
+}
+
+/* hp kecil (≤400px): rapetin lagi, boleh 2 kolom 130px */
+@media (max-width: 400px){
+  .skill-grid{
+    grid-template-columns: repeat(2, minmax(130px, 1fr));
+    gap: 10px;
+  }
+  .skills-title{ font-size: 1.55rem; }
+  .skills-subhead{ font-size: 1rem; }
+  .skill-icon{ width: 40px; height: 40px; }
+  .skill-label{ font-size: .82rem; }
+}
+
+/* hp sangat kecil (≤340px): fallback 1 kolom supaya tidak pecah */
+@media (max-width: 340px){
+  .skill-grid{ grid-template-columns: 1fr; gap: 10px; }
+}
+
+/* ===== Projects grid (kartu kecil seragam) ===== */
+.proj-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.proj-card{
+  display:flex; flex-direction:column;
+  background: rgba(17,24,39,.65);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 14px;
+  box-shadow: 0 10px 28px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.05);
+  overflow:hidden;
+  transition: transform .18s ease, box-shadow .25s ease, background .25s ease;
+}
+.proj-card:hover{
+  transform: translateY(-2px);
+  background: rgba(17,24,39,.72);
+  box-shadow: 0 16px 40px rgba(0,0,0,.45);
+}
+
+.proj-img{
+  width:100%; aspect-ratio: 16/9; object-fit: cover;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+
+.proj-body{ padding: .9rem .95rem .5rem; }
+.proj-title{ margin: 0 0 .35rem 0; font-weight: 700; }
+.proj-chip{
+  display:inline-block; font-size:.8rem; padding:.18rem .5rem;
+  border-radius: 999px; border:1px solid rgba(255,255,255,.14);
+  background: rgba(2,6,23,.6); color:#e5e7eb; margin-bottom:.35rem;
+}
+.proj-stack-mini{ font-size: .85rem; color:#9fb3c8; }
+
+.proj-actions{
+  display:flex; gap:.5rem; padding: .7rem .95rem .95rem;
+}
+.proj-btn{ flex:1; }
+.proj-btn-alt{
+  border:1px solid rgba(255,255,255,.12);
+  background: rgba(2,6,23,.55); color:#e5e7eb;
+}
+.proj-btn-alt:hover{ background: rgba(2,6,23,.7); }
+
+/* ===== Modal detail project: pakai style CV modal, tweak dikit ===== */
+
+/* samakan transparansi/glass dengan widget AI */
+.cv-backdrop{ background: rgba(0,0,0,.35); }          /* sedikit lebih transparan */
+.cv-modal.proj-modal{
+  background: rgba(17,24,39,.78);                     /* glassy */
+  border: 1px solid rgba(255,255,255,.10);
+  backdrop-filter: blur(10px);
+}
+
+.proj-thumb{
+  width:100%; border-radius:10px; margin-bottom:.6rem;
+  border:1px solid rgba(255,255,255,.06);
+}
+.proj-meta{ display:flex; align-items:center; gap:.6rem; margin-bottom:.35rem; }
+.proj-meta .proj-tag{
+  padding:.22rem .55rem; border-radius:9999px;
+  background: rgba(2,6,23,.55); border:1px solid rgba(255,255,255,.12);
+  font-size:.82rem;
+}
+.proj-stack{ font-size:.9rem; color:#9fb3c8; }
+.proj-desc{ color:#cfd5df; margin-top:.35rem; }
+
+/* Typography konsisten di modal */
+.cv-modal,
+.proj-modal { font-family: var(--ff-body); }
+
+.cv-header h3,
+.proj-title,
+.proj-modal h3 { font-family: var(--ff-heading); }
+
+.cv-backdrop { background: rgba(0,0,0,.32); }
+.cv-modal, .proj-modal { background: rgba(17,24,39,.76); }
+
+/* Title di kartu project */
+.proj-title{
+  font-family: var(--ff-heading);
+  font-weight: 800;
+  /* lebih kecil supaya 1 baris */
+  font-size: clamp(1.15rem, 1.1vw + .6rem, 1.45rem);
+  line-height: 1.05;
+  letter-spacing: .01em;
+  margin: 0 0 .35rem 0;
+
+  /* cegah turun baris & potong rapi kalau kepanjangan */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Area tombol */
+.proj-actions{ display:flex; gap:.6rem; padding:.7rem .95rem .95rem; }
+
+/* Bentuk pill + tinggi konsisten */
+.proj-actions .btn{
+  border-radius: 9999px;          /* rounded */
+  padding: .62rem 1.05rem;        /* nyaman untuk pill */
+  letter-spacing: .08em;          /* biar “VIEW DETAIL” rapi */
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(17,24,39,.75);
+}
+.proj-actions .btn:hover{
+  background: rgba(17,24,39,.85);
+}
+
+/* Varian secondary (VISIT) ikut rounded juga */
+.proj-btn.proj-btn-alt{
+  border-radius: 9999px;
+  background: rgba(2,6,23,.55);
+}
+.proj-btn.proj-btn-alt:hover{
+  background: rgba(2,6,23,.7);
+}
+/* default */
+.proj-actions .btn{
+  border-radius: 9999px;
+  padding: .62rem 1.05rem;
+  background: rgba(17,24,39,.75);
+  border: 1px solid rgba(255,255,255,.14);
+  color: #e5e7eb;                     /* warna teks awal */
+  transition: color .2s ease, background .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+
+/* hover: ubah warna teks + sedikit glow */
+.proj-actions .btn:hover{
+  color: #93c5fd;                      /* <<< warna teks berubah */
+  background: rgba(17,24,39,.9);
+  border-color: rgba(147,197,253,.35);
+  box-shadow: 0 8px 22px rgba(147,197,253,.15);
+}
+
+/* optional: fokus keyboard */
+.proj-actions .btn:focus-visible{
+  outline: 2px solid transparent;
+  box-shadow: 0 0 0 3px rgba(147,197,253,.45);
+}
+
+/* tombol VISIT juga boleh ikut ganti warna teks saat hover */
+.proj-btn.proj-btn-alt{
+  border-radius: 9999px;
+  background: rgba(2,6,23,.55);
+  color: #e5e7eb;
+  border: 1px solid rgba(255,255,255,.12);
+}
+.proj-btn.proj-btn-alt:hover{
+  color: #93c5fd;                      /* teks berubah juga */
+  background: rgba(2,6,23,.7);
+  border-color: rgba(147,197,253,.35);
+}
+
+html.modal-open,
+body.modal-open {
+  overflow: hidden !important;
+  overscroll-behavior: contain;
+  touch-action: none;
+}
