@@ -1092,3 +1092,491 @@ body{
   padding: .6rem .75rem; cursor:pointer;
 }
 .ai-send:hover{ filter: brightness(1.05); }
+
+/* --- layout kanan (icons + CTA) --- */
+.nav-right{
+  display: none;
+  align-items: center;
+  gap: .75rem;
+}
+@media screen and (min-width: 992px){
+  .nav-right{ display: flex; }
+}
+
+/* tombol CTA di kanan; JANGAN pakai .nav-link supaya hover link tidak ikut */
+.nav-cta{
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .55rem .9rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  letter-spacing: .02em;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(17,24,39,.75);
+  color: #e5e7eb;
+  box-shadow: 0 8px 24px rgba(0,0,0,.30), inset 0 1px 0 rgba(255,255,255,.06);
+  backdrop-filter: blur(6px);
+  transition: transform .18s ease, box-shadow .25s ease, background .25s ease;
+}
+.nav-cta:hover{
+  transform: translateY(-1px);
+  background: rgba(17,24,39,.85);
+  box-shadow: 0 12px 28px rgba(37,99,235,.18), inset 0 1px 0 rgba(255,255,255,.08);
+}
+.nav-cta:active{ transform: translateY(0); }
+.nav-cta i{ font-size: .95rem; opacity: .9; }
+
+/* --- Navbar right area & CTA --- */
+.nav-right{ display:flex; align-items:center; gap:.8rem; }
+.nav-icons{ display:flex; }
+.nav-cta{
+  display:inline-flex; align-items:center; gap:.45rem;
+  padding:.55rem 1rem; border-radius:9999px;
+  background: rgba(17,24,39,.85); color:#e5e7eb; border:1px solid rgba(255,255,255,.12);
+  box-shadow: 0 8px 24px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06);
+  cursor:pointer; transition: transform .18s ease, box-shadow .25s ease, background .25s ease;
+}
+.nav-cta:hover{ transform: translateY(-1px); background: rgba(17,24,39,.82); box-shadow: 0 14px 36px rgba(37,99,235,.18), inset 0 1px 0 rgba(255,255,255,.08); }
+
+/* ====== CV Modal (Portal) ====== */
+.cv-backdrop{
+  position: fixed; inset: 0;
+  display: grid; place-items: center;
+  padding: clamp(12px, 4vw, 28px);
+  background: rgba(0,0,0,.45);
+  z-index: 5000; /* > navbar (2000) & AI widget (2999) */
+}
+
+.cv-modal{
+  width: min(900px, 96vw);
+  height: min(82vh, 980px);
+  background: rgba(17,24,39,.88);
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 30px 80px rgba(0,0,0,.6);
+  display: flex; flex-direction: column; overflow: hidden;
+  animation: ai-pop .18s ease-out; /* kamu sudah punya keyframes ai-pop */
+}
+
+/* Header */
+.cv-header{
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .85rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,0));
+}
+.cv-header h3{ font-weight: 700; color: #e5e7eb; }
+.cv-close{
+  background: transparent; border: none; color: #cbd5e1; cursor: pointer;
+  font-size: 1.1rem;
+}
+
+/* Body */
+.cv-body{ padding: .8rem; display: grid; grid-template-rows: 1fr auto; gap: .6rem; flex: 1; }
+.cv-frame{
+  width: 100%; height: 100%; border: 0; border-radius: 10px;
+  background: #0b1220;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.06);
+}
+.cv-hint{
+  margin: 0; font-size: .85rem; color: #9aa5b1;
+}
+.cv-hint a{ color: #93c5fd; }
+
+/* Footer */
+.cv-footer{
+  padding: .9rem 1rem 1.1rem;
+  border-top: 1px solid rgba(255,255,255,.08);
+  display: flex; justify-content: center;
+}
+.cv-download{
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .7rem 1.1rem; border-radius: 10px;
+  background: #2563eb; color: #fff; text-decoration: none;
+  border: 1px solid rgba(255,255,255,.12);
+  box-shadow: 0 10px 30px rgba(37,99,235,.25), inset 0 1px 0 rgba(255,255,255,.08);
+}
+.cv-download:hover{ filter: brightness(1.06); }
+
+/* Tombol "My CV" di navbar kanan */
+.cv-btn{
+  height: 38px; padding: 0 .9rem; border-radius: 9999px;
+  display: inline-flex; align-items: center; gap: .45rem;
+  background: rgba(17,24,39,.8); color:#e5e7eb;
+  border: 1px solid rgba(255,255,255,.12);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 8px 24px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06);
+  cursor: pointer; transition: transform .18s ease, background .25s ease;
+}
+.cv-btn:hover{
+  transform: translateY(-1px);
+  background: rgba(17,24,39,.86);
+}
+
+
+/* --- ukuran & alignment logo --- */
+.nav-logo{
+  display: block;
+  height: 2.25rem;             /* tinggi konsisten */
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,.4));
+}
+
+/* --- container utama navbar --- */
+.navbar{
+  height: 4rem;                 /* sudah ada, biar pasti segaris */
+  display: flex;
+  align-items: center;
+}
+.nav-center{
+  width: 90vw;
+  max-width: 1170px;
+  margin: 0 auto;
+
+  /* penting: semua anak segaris tengah */
+  display: flex;
+  align-items: center;
+}
+
+/* --- sisi kiri (logo + hamburger) --- */
+.nav-header{
+  display: flex;
+  align-items: center;
+  gap: .75rem;                  /* jarak logo & hamburger */
+}
+
+/* --- menu links di tengah --- */
+@media (min-width: 992px){
+  .nav-links{
+    display: flex;
+    align-items: center;
+    height: auto;
+
+    /* pusatkan group links di tengah bar */
+    margin-left: auto;
+    margin-right: auto;
+
+    /* JARAK ANTAR ITEM */
+    gap: 1.25rem;               /* atur jarak menu di desktop */
+  }
+
+  /* rapikan tampilan link */
+  .nav-link{
+    padding: .5rem 0;           /* tipis saja; hover tetap jalan */
+    font-size: 1rem;
+  }
+}
+
+/* --- icons + tombol di kanan --- */
+.nav-icons{
+  display: flex;                /* semula 'none' untuk mobile; di desktop sudah flex */
+  align-items: center;
+  gap: .8rem;                   /* jarak antar icon dan tombol My CV */
+}
+
+/* samakan tinggi tombol My CV dgn navbar */
+.cv-btn{
+  height: 38px;
+  padding: 0 .9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+}
+
+/* ukuran icon sosmed supaya sejajar dengan tombol */
+.nav-icon{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px; height: 34px;   /* kotak kecil biar center */
+  border-radius: 8px;
+  font-size: 1.05rem;
+}
+
+
+/* Desktop: rapetin ikon sosmed */
+@media (min-width: 992px){
+  .nav-icons{
+    display: flex;
+    align-items: center;
+
+    /* jarak antar ikon super mepet */
+    gap: .35rem;                 /* sebelumnya .8rem */
+  }
+  .nav-icon{
+    /* perkecil “kotak” ikon supaya tidak boros ruang */
+    width: 28px;
+    height: 28px;
+    font-size: .95rem;
+    border-radius: 6px;          /* boleh 0 kalau mau benar2 flat */
+  }
+}
+
+/* === Navbar overrides === */
+
+/* Samakan tinggi logo & rata tengah */
+.nav-logo{ height: 2.25rem; }
+
+/* Pastikan konten navbar segaris tengah */
+.navbar{ height: 4rem; display:flex; align-items:center; }
+.nav-center{ display:flex; align-items:center; }
+
+/* Menu tengah: pakai gap, bukan padding per-item */
+@media (min-width: 992px){
+  .nav-links{
+    display:flex;
+    align-items:center;
+    gap: 1.25rem;          /* jarak antar menu */
+    margin-inline: auto;   /* center di bar */
+  }
+  .nav-link{
+    padding: .4rem 0 !important;  /* tipis saja, biar hover tetap enak */
+  }
+}
+
+/* Ikon sosmed: rapetin & buang margin-right lama */
+@media (min-width: 992px){
+  .nav-icons{ display:flex; align-items:center; gap: 0rem !important; }
+  .nav-icons .nav-icon{
+    display:inline-flex; align-items:center; justify-content:center;
+    width: 26px; height: 26px; font-size: .9rem;
+    margin-right: 0 !important;   /* KUNCI: override rule lama 0.7rem */
+    border-radius: 6px;
+  }
+}
+
+/* Tombol My CV: tinggi sama dengan ikon */
+.cv-btn{
+  height: 38px; padding: 0 .9rem;
+  display:inline-flex; align-items:center; gap:.45rem;
+}
+
+/* ==== Mobile/Tablet dropdown nav (smooth) ==== */
+
+/* ==== Mobile/Tablet dropdown nav (smooth) ==== */
+/* Default (mobile): tertutup */
+.nav-links {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.28s ease;
+  /* tampil sebagai block penuh di bawah bar */
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 4rem; /* sama dengan tinggi .navbar */
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding: 0; /* item link sudah punya padding sendiri */
+}
+
+/* Saat dibuka */
+.nav-links.is-open {
+  max-height: 300px; /* cukup untuk semua item, sisanya diatur via JS inline */
+}
+
+/* Item link tetap pakai hover yang lama; rapikan spacing untuk mobile */
+.nav-links .nav-link {
+  display: block;
+  padding: 0.9rem 1.25rem;
+}
+
+/* Desktop: balik ke layout lama (inline flex di bar) */
+@media (min-width: 992px) {
+  .nav-links {
+    position: static;
+    max-height: none !important;
+    overflow: visible;
+    background: transparent;
+    border: 0;
+    display: flex;            /* sudah ada di CSS lama, ini penguat */
+    align-items: center;
+    padding: 0;
+  }
+  .nav-links .nav-link {
+    padding: 0 0;             /* tetap rapi seperti style kamu */
+  }
+}
+
+/* ==== Navbar mobile: layout kanan + dropdown ==== */
+
+/* Container kanan untuk icons + hamburger */
+.nav-right-mobile{
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+/* (desktop) tombol hamburger disembunyikan; icons tetap sesuai rule lama */
+@media (min-width: 992px){
+  .nav-right-mobile { gap: .75rem; }
+  .nav-toggle { display: none; }
+}
+
+/* Dropdown (mobile) – gunakan max-height, bukan height */
+.nav-links{
+  /* override rule lama */
+  height: auto !important;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height .28s ease;
+
+  /* jadi panel penuh di bawah navbar */
+  position: absolute;
+  left: 0; right: 0; top: 4rem;              /* 4rem = tinggi navbar */
+  z-index: 2500;                              /* di atas hero */
+  background: rgba(0,0,0,.88);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 10px 24px rgba(0,0,0,.35);
+  padding: 0;
+}
+
+/* Saat dibuka */
+.nav-links.is-open{ max-height: 320px; }
+
+.nav-links .nav-link{
+  display: block;
+  padding: .95rem 1.2rem;
+}
+
+/* Desktop: kembali ke inline yang lama */
+@media (min-width: 992px){
+  .nav-links{
+    position: static;
+    max-height: none !important;
+    overflow: visible;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    padding: 0;
+    display: flex;                 /* penguat ke style lama */
+    align-items: center;
+  }
+  .nav-links .nav-link{ padding: 0; }
+}
+
+/* Aksesibilitas kecil */
+.sr-only{
+  position: absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+}
+
+/* ===== Center menu di desktop + jarak antar item ===== */
+@media (min-width: 992px){
+  /* tata letak 3 kolom: kiri (logo), tengah (links), kanan (icons/btn) */
+  .nav-center{
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+  }
+
+  /* group links tepat di tengah bar */
+  .nav-links{
+    display: flex;
+    justify-content: center;   /* center secara horizontal */
+    align-items: center;
+    gap: 1.6rem;               /* atur jarak antar menu */
+    margin: 0;                 /* hilangkan margin auto lama */
+    position: static;          /* pastikan bukan absolute (mobile style) */
+    background: transparent;   /* no panel bg di desktop */
+    border: 0;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  /* link tetap tipis, hover tetap sesuai style lama */
+  .nav-link{
+    padding: .4rem 0;
+  }
+}
+
+
+/* ===== Navbar: right cluster on tablet/phone ===== */
+@media (max-width: 991px){
+  /* pastikan baris navbar center & auto push ke kanan */
+  .nav-center{ display:flex; align-items:center; }
+  .nav-right-mobile{
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: .35rem;                /* rapat, biar nggak melebar */
+  }
+
+  /* ikon sosmed: ukuran konsisten & tengah */
+  .nav-right-mobile .nav-icons{
+    display: flex;
+    align-items: center;
+    gap: .35rem;
+  }
+  .nav-right-mobile .nav-icon{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px; height: 28px;     /* kotak kecil */
+    font-size: .95rem;
+    border-radius: 6px;             /* lembut */
+  }
+
+  /* tombol My CV: tinggi sama dengan ikon + hamburger */
+  .cv-btn{
+    height: 36px;
+    padding: 0 .75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    /* biar nggak nempel ikon */
+    margin-left: .25rem;
+  }
+
+  /* hamburger di ujung kanan, ukuran serasi */
+  .nav-toggle{
+    width: 36px; height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: .35rem;            /* jarak kecil dari My CV */
+    border-radius: 10px;
+    background: rgba(17,24,39,.75);
+    border: 1px solid rgba(255,255,255,.12);
+  }
+  .nav-toggle i{ font-size: 1.1rem; }
+
+  /* dropdown menu saat open – tetap seperti sebelumnya, tapi eksplisit */
+  .nav-links{
+    position: absolute;
+    top: 64px; left: 0; right: 0;
+    background: rgba(0,0,0,.7);
+    backdrop-filter: blur(6px);
+    border-top: 1px solid rgba(255,255,255,.08);
+    overflow: hidden;
+    transition: max-height .25s ease;
+  }
+  .nav-links.is-open{ max-height: 320px; }
+}
+
+/* --- Tweak posisi judul modal CV --- */
+.cv-header{
+  /* sedikit kurangi padding atas-bawah supaya rapi */
+  padding: .75rem 1rem .7rem;
+}
+
+.cv-header h3{
+  margin: 0;            /* buang margin default dari global h3 */
+  line-height: 1.1;     /* tinggi baris lebih rapat */
+  transform: translateY(1px); /* dorong turun 1px biar pas */
+}
+
+/* rapikan tombol close agar sejajar secara optik */
+.cv-close{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+}
+
+

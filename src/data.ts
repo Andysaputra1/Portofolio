@@ -1,12 +1,11 @@
 export const pageLinks = [
-  {id:1, href:"#about", text:"About Me"},
-  {id:2, href:"#", text:"about"},
-  {id:3, href:"#services", text:"services"},
-  {id:4, href:"#tours", text:"tours"},
+  { id: 1, href: "#about",   text: "About Me" },
+  { id: 2, href: "#skills",  text: "Skills" },
+  { id: 3, href: "#projects",text: "Projects" },
+  { id: 4, href: "#contact", text: "Contact Me!" },
 ];
 
 export const socialLinks = [
-  {id:1, href:"https://www.facebook.com", icon:"fab fa-facebook"},
-  {id:2, href:"https://www.twitter.com", icon:"fab fa-twitter"},
-  {id:3, href:"https://www.squarespace.com", icon:"fab fa-squarespace"},
+  { id: 1, href: "https://linkedin.com/in/andy-saputra-586b22247", icon: "fab fa-linkedin" },
+  { id: 2, href: "https://www.instagram.com/anditific/",   icon: "fab fa-instagram" },
 ];
