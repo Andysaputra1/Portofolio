@@ -11,8 +11,8 @@ function Hero() {
 
       {/* teks di tengah */}
       <div className="hero-text">
-        <h1>HERE'S WHERE THE IDEA BEGIN</h1>
-        <p className="subhead">big thing come from the small thing</p>
+        <h1>ANDY SAPUTRA PORTOFOLIO</h1>
+        <p className="subhead">“Whatever your hand finds to do, do it with your might.”</p>
        
       {/* aksi di bawah heading */}
       <div className="hero-actions">
