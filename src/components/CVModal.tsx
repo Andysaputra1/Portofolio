@@ -1,6 +1,6 @@
 // CVModal.tsx
 import { createPortal } from "react-dom";
-import cvPdf from "../assets/Andy_Saputra_CV.pdf";
+import cvPdf from "../assets/Andy Saputra_CV.pdf";
 
 type Props = { open: boolean; onClose: () => void };
 
