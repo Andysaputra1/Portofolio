@@ -1,8 +1,9 @@
 export const pageLinks = [
   { id: 1, href: "#about",   text: "About Me" },
   { id: 2, href: "#skills",  text: "Skills" },
-  { id: 3, href: "#projects",text: "Projects" },
-  { id: 4, href: "#contact", text: "Contact Me!" },
+  { id: 3, href: "#experience",text: "Experience" },
+  { id: 4, href: "#projects",text: "Projects" },
+  { id: 5, href: "#contact", text: "Contact Me!" },
 ];
 
 export const socialLinks = [

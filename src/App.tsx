@@ -5,6 +5,7 @@ import ChatWidget from "./components/ChatWidget.tsx";
 import TechStack from "./components/Skills";
 import Projects from "./components/Projects.tsx";
 import Contact from "./components/Contact.tsx";
+import OrganizationExperience from "./components/OrganizationExperience.tsx";
 export default function App() {
   return (
     <>
@@ -13,6 +14,7 @@ export default function App() {
     <About/>
     <ChatWidget/>
     <TechStack/>
+    <OrganizationExperience/>
     <Projects/>
     <Contact/>
     </>
