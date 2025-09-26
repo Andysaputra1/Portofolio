@@ -2170,3 +2170,25 @@ body.modal-open {
   background:#93c5fd;
   box-shadow:0 0 0 3px rgba(147,197,253,.18);
 }
+
+/* --- Modal: izinkan area isi yang scroll --- */
+.cv-modal{
+  max-height: 86vh;            /* jaga tinggi modal */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;            /* kunci tepi modal, scroll di .cv-body */
+}
+
+.cv-body{
+  flex: 1;
+  min-height: 0;               /* KUNCI: agar child flex boleh menyusut */
+  overflow-y: auto;            /* scroll di dalam body */
+  -webkit-overflow-scrolling: touch; /* smooth di iOS */
+  overscroll-behavior: contain;      /* cegah laman belakang ikut scroll */
+}
+
+/* Biar gambar header di modal tidak “makan” seluruh tinggi */
+.proj-thumb{
+  max-height: 45vh;
+  object-fit: cover;
+}
