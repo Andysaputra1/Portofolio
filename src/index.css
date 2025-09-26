@@ -2192,3 +2192,71 @@ body.modal-open {
   max-height: 45vh;
   object-fit: cover;
 }
+
+/* ===== Experience: no-bullet, lebih rapi ===== */
+
+/* hilangkan bullet custom & padding kiri */
+.exp-item{ 
+  padding-left: 0; 
+}
+.exp-item::before{ display: none; }
+
+/* kasih pemisah halus antar item */
+.exp-item + .exp-item{
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+
+/* header tiap item lebih tegas */
+.exp-role{ 
+  font-weight: 800; 
+  color:#e5e7eb;
+}
+.exp-org{ 
+  color:#9fb3c8; 
+  font-weight:600;
+}
+.exp-period{ 
+  color:#94a3b8; 
+  font-size:.95rem; 
+}
+
+/* ringkasan tetap */
+.exp-summary{ 
+  color:#cfd5df; 
+  margin:.35rem 0 .5rem;
+}
+
+/* sub-role: jadi badge blok kecil, tanpa bullet */
+.exp-subrole{
+  margin:.6rem 0 .35rem;
+  padding:.5rem .6rem;
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:10px;
+  background: rgba(255,255,255,.02);
+  border-left: none;               /* hapus garis kiri lama */
+}
+
+/* judul sub-role */
+.exp-subtitle{ 
+  display:block; 
+  font-weight:700; 
+  color:#e5e7eb; 
+  margin-bottom:.25rem;
+}
+
+/* daftar poin di dalam sub-role → baris biasa, tanpa bullet */
+.exp-bullets{
+  list-style:none;
+  display:grid;
+  gap:.25rem;
+  margin:0;
+  padding:0;
+}
+.exp-bullets li{
+  padding-left: 0;                 /* hapus indent */
+  color:#cfd5df;
+}
+.exp-bullets li::before{ display:none; } /* benar-benar tanpa bullet */
+

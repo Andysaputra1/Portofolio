@@ -25,11 +25,7 @@ export default function OrganizationExperience() {
                     <div className="exp-subtitle">
                       {r.title} {r.context && <span className="exp-context">{r.context}</span>}
                     </div>
-                    <ul className="exp-bullets">
-                      {r.bullets.map((b, i) => (
-                        <li key={i}>{b}</li>
-                      ))}
-                    </ul>
+        
                   </div>
                 ))}
               </li>
