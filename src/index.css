@@ -2260,3 +2260,44 @@ body.modal-open {
 }
 .exp-bullets li::before{ display:none; } /* benar-benar tanpa bullet */
 
+/* === Scroll Reveal (fade + slide-up, NO BLUR, slower) === */
+.reveal{
+  --y: 22px;                 /* sedikit lebih jauh biar terasa */
+  --dr: 0ms;
+  opacity: 0;
+  transform: translateY(var(--y));
+  transition:
+    opacity .95s ease var(--dr),
+    transform 1.1s cubic-bezier(.22,.8,.36,1) var(--dr);
+  will-change: opacity, transform;
+}
+.reveal.is-inview{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger: delay per item lebih lama */
+.reveal-stagger > .reveal{
+  transition-delay: calc(var(--i, 0) * 150ms);
+}
+
+/* (Opsional) Jika ada child yang TIDAK pakai .reveal */
+.reveal-stagger > *{
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity .75s ease, transform .9s cubic-bezier(.22,.8,.36,1);
+}
+.reveal-stagger.is-inview > *{  /* pastikan pakai is-inview, bukan is-visible */
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(var(--i, 0) * 150ms);
+}
+
+/* Aksesibilitas */
+@media (prefers-reduced-motion: reduce){
+  .reveal, .reveal-stagger > .reveal, .reveal-stagger > *{
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
