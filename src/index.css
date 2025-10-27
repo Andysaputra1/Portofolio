@@ -2301,32 +2301,3 @@ body.modal-open {
     transform: none !important;
   }
 }
-
-/* Contact form */
-.contact-form{ margin-top: .9rem; display: grid; gap: .6rem; }
-.cf-row{ display:block; }
-.cf-input, .cf-textarea{
-  width:100%; padding:.75rem .9rem; border-radius:12px;
-  background: rgba(2,6,23,.55); color:#e5e7eb;
-  border:1px solid rgba(255,255,255,.12); outline:none;
-  transition: border-color .2s ease, box-shadow .2s ease;
-}
-.cf-input::placeholder, .cf-textarea::placeholder{ color:#94a3b8; }
-.cf-input:focus, .cf-textarea:focus{
-  border-color: rgba(147,197,253,.35);
-  box-shadow: 0 0 0 3px rgba(147,197,253,.2);
-}
-.cf-textarea{ resize: vertical; min-height: 110px; }
-
-.cf-send{
-  width:100%; border-radius:12px; border:1px solid rgba(255,255,255,.14);
-  background:#2563eb; color:#fff;
-}
-.cf-send[disabled]{ opacity:.7; cursor:not-allowed; }
-
-.cf-note{
-  font-size:.92rem; padding:.45rem .6rem; border-radius:10px;
-  width:max-content; border:1px solid rgba(255,255,255,.12);
-}
-.cf-note.ok { background: rgba(34,197,94,.18);  color:#e5e7eb; }
-.cf-note.err{ background: rgba(239,68,68,.18); color:#e5e7eb; }
