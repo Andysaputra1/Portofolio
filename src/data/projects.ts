@@ -31,7 +31,7 @@ export const projects: Project[] = [
     title: "Explore ID",
     tag: "University Project",
     stack: "React.js · SQL",
-    link: "https://github.com/revckries/ExploreID",
+    link: "https://exploreid-one.vercel.app/",
     image: imgExplore,
     description:
       "AndySaputraPortofolio is a React.js-based personal website deployed on Vercel, featuring profile details, skills, experiences, contact info, downloadable CV, and an OpenAI-powered AI chatbot, highlighting technical proficiency, deployment skills, personal branding, creativity, interactive design, innovation, adaptability, problem-solving, modern UI, and continuous learning."
