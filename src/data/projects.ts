@@ -34,7 +34,7 @@ export const projects: Project[] = [
     link: "https://exploreid-one.vercel.app/",
     image: imgExplore,
     description:
-      "AndySaputraPortofolio is a React.js-based personal website deployed on Vercel, featuring profile details, skills, experiences, contact info, downloadable CV, and an OpenAI-powered AI chatbot, highlighting technical proficiency, deployment skills, personal branding, creativity, interactive design, innovation, adaptability, problem-solving, modern UI, and continuous learning."
+      "I built a travel discovery web platform using React.js and SQL database integration, developed collaboratively under Scrum Agile methodology with clear task divisions across sprints and weekly stand-up reviews. This iterative workflow improved team efficiency, ensured continuous feature testing, and resulted in optimized search performance and responsive UI/UX design. The platform enables users to explore destinations easily while promoting local tourism engagement and showcasing practical teamwork and adaptability in real-world project execution."
   },
   {
     id: "diabetes",
