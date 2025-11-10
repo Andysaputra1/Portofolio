@@ -1,27 +1,21 @@
-// CVModal.tsx (Sudah diperbaiki)
-
 import { createPortal } from "react-dom";
-import { useEffect } from "react"; // 1. Import useEffect
+import { useEffect } from "react"; // <-- Import
 import cvPdf from "../assets/Andy Saputra_CV.pdf";
 
 type Props = { open: boolean; onClose: () => void };
 
 export default function CVModal({ open, onClose }: Props) {
-  // 2. Tambahkan useEffect ini
+  // Tambahkan useEffect ini
   useEffect(() => {
     if (open) {
-      // Saat modal terbuka, tambahkan class ke body
       document.body.classList.add("modal-open");
     } else {
-      // Saat modal tertutup, hapus class dari body
       document.body.classList.remove("modal-open");
     }
-
-    // Cleanup function: pastikan class dihapus jika komponen di-unmount
     return () => {
       document.body.classList.remove("modal-open");
     };
-  }, [open]); // Efek ini bergantung pada prop 'open'
+  }, [open]); // Bergantung pada 'open'
 
   if (!open) return null;
 
