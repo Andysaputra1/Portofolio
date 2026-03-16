@@ -53,7 +53,7 @@ useEffect(() => {
     setInput("");
 
     try {
-      const r = await fetch(`${import.meta.env.VITE_API_URL}/api/chat`, {
+      const r = await fetch("/api/chat", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ question: userMsg.content }),
