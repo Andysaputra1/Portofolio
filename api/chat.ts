@@ -2,7 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import OpenAI from "openai";
 
 // Import data cache yang baru saja kamu buat
-import storeCache from '../data/store.cache.json';
+import storeCache from '../data/store.cache.json' with { type: 'json' };
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
