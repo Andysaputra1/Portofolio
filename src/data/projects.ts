@@ -18,8 +18,8 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    id: "exploreid",
-    title: "Explore ID",
+    id: "reservasi",
+    title: "Resevarsi ID",
     tag: "Personal Project",
     stack: "React.js · SQL",
     link: "https://reservasiid.vercel.app/",
