@@ -4,6 +4,7 @@ import imgExplore   from "../images/projectPhotos/ExploreId.png";
 import imgDiabety   from "../images/projectPhotos/DiebetyAi.png";
 import imgScolio    from "../images/projectPhotos/ScolioCheck.png";
 import imgAsphalt   from "../images/projectPhotos/Asphalt9Rejend.png";
+import imgReservasi from "../images/projectPhotos/image.png";
 
 export type Project = {
   id: string;
@@ -16,6 +17,16 @@ export type Project = {
 };
 
 export const projects: Project[] = [
+  {
+    id: "exploreid",
+    title: "Explore ID",
+    tag: "University Project",
+    stack: "React.js · SQL",
+    link: "https://reservasiid.vercel.app/",
+    image: imgReservasi,
+    description:
+      "reservasi.id is a modern, web-based ferry ticket booking platform built with React.js that serves as a digital aggregator connecting passengers directly with official ticket agents. Focused on streamlining international sea travel, the platform specifically facilitates the strategic routes connecting Batam (Indonesia), Singapore, and Malaysia. By leveraging React.js, the system ensures a fast, dynamic, and responsive user experience, allowing users to seamlessly search for real-time ferry schedules, compare prices from various agents, and securely manage their e-tickets all within a single, centralized application."
+  },
   {
     id: "portfolio",
     title: "AndySaputraPortofolio",
