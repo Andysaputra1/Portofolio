@@ -20,7 +20,7 @@ export const projects: Project[] = [
   {
     id: "exploreid",
     title: "Explore ID",
-    tag: "University Project",
+    tag: "Personal Project",
     stack: "React.js · SQL",
     link: "https://reservasiid.vercel.app/",
     image: imgReservasi,
