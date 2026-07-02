@@ -41,7 +41,7 @@ export default function CVModal({ open, onClose }: Props) {
           <p className="cv-hint">
             Jika preview tidak tampil atau hanya 1 halaman, silakan&nbsp;
             <a href={cvPdf} target="_blank" rel="noreferrer">
-              buka CV di tab baru
+              buka CV di tab baru.
             </a>
             .
           </p>
