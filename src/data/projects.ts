@@ -3,7 +3,6 @@ import imgPortfolio from "../images/projectPhotos/AndySaputraPortofolio.png";
 import imgExplore   from "../images/projectPhotos/ExploreId.png";
 import imgDiabety   from "../images/projectPhotos/DiebetyAi.png";
 import imgScolio    from "../images/projectPhotos/ScolioCheck.png";
-import imgAsphalt   from "../images/projectPhotos/Asphalt9Rejend.png";
 import imgReservasi from "../images/projectPhotos/image.png";
 
 export type Project = {
