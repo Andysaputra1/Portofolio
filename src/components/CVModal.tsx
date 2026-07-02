@@ -1,6 +1,6 @@
 import { createPortal } from "react-dom";
 import { useEffect } from "react"; // <-- Import
-import cvPdf from "../assets/Andy Saputra_CV.pdf";
+import cvPdf from "../assets/Andy Saputra_CV3 NewVersion.pdf";
 
 type Props = { open: boolean; onClose: () => void };
 

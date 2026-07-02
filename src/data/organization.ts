@@ -17,6 +17,14 @@ export type OrgExp = {
 export const orgExperiences: OrgExp[] = [
   {
     id: 1,
+    role: "Application Developer Intern",
+    org: "Jakarta",
+    period: "February 2026 – January 2027",
+    summary:
+      "Internship focused on developing and maintaining web applications, collaborating with cross-functional teams to implement features, optimize performance, and ensure a seamless user experience.",
+  },
+  {
+    id: 2,
     role: "Freshmen Leader",
     org: "Alam Sutera",
     period: "Aug 2025 – Sep 2025",
@@ -24,7 +32,7 @@ export const orgExperiences: OrgExp[] = [
       "Guided first-year students to adapt to university life, introducing Binusian values and mentoring with direction, encouragement, and practical advice for a smooth transition.",
   },
   {
-    id: 2,
+    id: 3,
     org: "BINUS TV Club – Alam Sutera",
     period: "Aug 2023 – Dec 2025",
     summary:
@@ -67,7 +75,7 @@ export const orgExperiences: OrgExp[] = [
     ],
   },
   {
-    id: 3,
+    id: 4,
     org: "Church Community GMS – Alam Sutera",
     period: "Dec 2023 – Present",
     summary:
@@ -84,14 +92,14 @@ export const orgExperiences: OrgExp[] = [
     ],
   },
   {
-    id: 4,
+    id: 5,
     org: "BINUSIAN BASKETBALL – Alam Sutera",
     period: "Aug 2024 – Dec 2025",
     summary:
       "Creative & Fun Division: focused on digitalization and design; produced design assets for programs & social media; led communication for the creative/design team.",
   },
   {
-    id: 5,
+    id: 6,
     role: "Volunteer",
     org: "Teach For Indonesia – Alam Sutera",
     period: "Aug 2023 – Dec 2024",
@@ -108,7 +116,7 @@ export const orgExperiences: OrgExp[] = [
     ],
   },
   {
-    id: 6,
+    id: 7,
     org: "Student Representative Council (MPK) – Batam",
     period: "Aug 2022 – Dec 2022",
     role:
