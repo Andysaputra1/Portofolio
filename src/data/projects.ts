@@ -67,14 +67,14 @@ export const projects: Project[] = [
     description:
       "Our team utilises deep learning, specifically a CNN-based VGG16 model, to develop a model capable of detecting scoliosis using X-ray images."
   },
-  {
-    id: "asphalt",
-    title: "ASPHALT 9: REJENDS",
-    tag: "University Project",
-    stack: "HTML · CSS · JavaScript",
-    link: "https://andysaputra1.github.io/Asphalt",
-    image: imgAsphalt,
-    description:
-      "My technical skills in web development are a testament to my ability to handle complex tasks. I have been assigned to develop a website, handling all back-end and front-end preparations using Figma, JavaScript, CSS, and HTML."
-  }
+  // {
+  //   id: "asphalt",
+  //   title: "ASPHALT 9: REJENDS",
+  //   tag: "University Project",
+  //   stack: "HTML · CSS · JavaScript",
+  //   link: "https://andysaputra1.github.io/Asphalt",
+  //   image: imgAsphalt,
+  //   description:
+  //     "My technical skills in web development are a testament to my ability to handle complex tasks. I have been assigned to develop a website, handling all back-end and front-end preparations using Figma, JavaScript, CSS, and HTML."
+  // }
 ];
