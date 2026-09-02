@@ -1,8 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { createRequire } from "node:module";
 import OpenAI from "openai";
-
-// Import data cache yang baru saja kamu buat
-import storeCache from '../data/store.cache.json' with { type: 'json' };
 
 const MODEL_EMB = "text-embedding-3-large";
 const MODEL_CHAT = "gpt-5.6-sol";
@@ -13,6 +11,8 @@ const RATE_WINDOW_MS = 60_000;
 const recentRequests = new Map<string, number[]>();
 
 type StoreChunk = { embedding: number[]; source: string; text: string };
+const require = createRequire(import.meta.url);
+const storeCache = require("../data/store.cache.json") as StoreChunk[];
 
 const SYSTEM_PROMPT = `
 You are the candidate’s public career chatbot. Audience: HR and general public.
@@ -52,8 +52,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     requests.push(now);
     recentRequests.set(address, requests);
 
-    // Gunakan cache
-    const STORE = storeCache as StoreChunk[];
+    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+    const STORE = storeCache;
     if (STORE.length === 0) {
       return res.status(503).json({ error: "Vector store is empty." });
     }
@@ -69,7 +69,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const context = ranked.map(r => `SOURCE: ${r.source}\n${r.text}`).join("\n\n---\n\n");
 
-    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
     const response = await openai.responses.create({
       model: MODEL_CHAT,
       instructions: SYSTEM_PROMPT,
