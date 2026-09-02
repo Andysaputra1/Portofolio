@@ -580,14 +580,32 @@ Hero
   position: relative;
   z-index: 2;
   display: block;
-  width: calc(6.25vw - 2px); /* 100 / 16 = 6.25 */
+  width: calc(6.25vw - 2px);
   height: calc(6.25vw - 2px);
   background: #181818;
-  transition: 1.5s;
+  transition: background 0.8s ease, box-shadow 0.35s ease, transform 0.25s ease;
 }
 .hero-grid > span:hover {
   background: #777;
   transition: 0s;
+}
+.hero-grid > span.is-snake {
+  background: #777;
+  box-shadow: none;
+  transform: none;
+  transition: background 0.08s linear;
+}
+.hero-grid > span.is-snake-head {
+  background: #969696;
+  box-shadow: none;
+  transform: none;
+}
+.hero-grid > span.is-snake.snake-segment-1 { background: #666; }
+.hero-grid > span.is-snake.snake-segment-2 { background: #555; }
+.hero-grid > span.is-snake.snake-segment-3 { background: #454545; }
+.hero-grid > span.is-snake.snake-segment-4 { background: #353535; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-grid > span.is-snake { transition: none; }
 }
 
 .hero-text {
