@@ -4,11 +4,15 @@ import OpenAI from "openai";
 // Import data cache yang baru saja kamu buat
 import storeCache from '../data/store.cache.json' with { type: 'json' };
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
 const MODEL_EMB = "text-embedding-3-large";
-const MODEL_CHAT = "gpt-4o";
+const MODEL_CHAT = "gpt-5.6-sol";
 const TOP_K = 6;
+const MAX_QUESTION_LENGTH = 800;
+const RATE_LIMIT = 12;
+const RATE_WINDOW_MS = 60_000;
+const recentRequests = new Map<string, number[]>();
+
+type StoreChunk = { embedding: number[]; source: string; text: string };
 
 const SYSTEM_PROMPT = `
 You are the candidate’s public career chatbot. Audience: HR and general public.
@@ -36,11 +40,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const question: string = req.body?.question ?? "";
-    if (!question) return res.status(400).json({ error: "question required" });
+    const question = typeof req.body?.question === "string" ? req.body.question.trim() : "";
+    if (!question) return res.status(400).json({ error: "Pertanyaan wajib diisi." });
+    if (question.length > MAX_QUESTION_LENGTH) return res.status(400).json({ error: "Pertanyaan maksimal 800 karakter." });
+    if (!process.env.OPENAI_API_KEY) return res.status(503).json({ error: "Layanan AI belum dikonfigurasi." });
+
+    const address = (req.headers["x-forwarded-for"] ?? req.socket?.remoteAddress ?? "unknown").toString().split(",")[0].trim();
+    const now = Date.now();
+    const requests = (recentRequests.get(address) ?? []).filter((time) => now - time < RATE_WINDOW_MS);
+    if (requests.length >= RATE_LIMIT) return res.status(429).json({ error: "Terlalu banyak pertanyaan. Coba lagi dalam satu menit." });
+    requests.push(now);
+    recentRequests.set(address, requests);
 
     // Gunakan cache
-    const STORE = storeCache as any[];
+    const STORE = storeCache as StoreChunk[];
     if (STORE.length === 0) {
       return res.status(503).json({ error: "Vector store is empty." });
     }
@@ -56,18 +69,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const context = ranked.map(r => `SOURCE: ${r.source}\n${r.text}`).join("\n\n---\n\n");
 
-    const cmp = await openai.chat.completions.create({
+    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+    const response = await openai.responses.create({
       model: MODEL_CHAT,
-      temperature: 0.1,
-      messages: [
-        { role: "system", content: SYSTEM_PROMPT },
-        { role: "user", content: `Context:\n${context}\n\nQuestion:\n${question}\n\nAnswer based *only* on the context provided, citing with tags.` }
-      ]
+      instructions: SYSTEM_PROMPT,
+      input: `Context:\n${context}\n\nQuestion:\n${question}\n\nAnswer based only on the context provided, citing with tags.`,
+      reasoning: { effort: "medium" },
+      max_output_tokens: 450,
+      store: false,
     });
 
-    return res.status(200).json({ answer: cmp.choices?.[0]?.message?.content ?? "No answer." });
-  } catch (e: any) {
+    return res.status(200).json({ answer: response.output_text || "Maaf, belum ada jawaban." });
+  } catch (e: unknown) {
     console.error(e);
-    return res.status(500).json({ error: e?.message || "server error" });
+    return res.status(500).json({ error: "Terjadi gangguan pada layanan AI. Coba lagi nanti." });
   }
 }

@@ -6,7 +6,7 @@ import useScrollReveal from "../hook/useScrollReveal.ts";
 const EMAIL = "andychensaputra@gmail.com";
 const PHONE = "+6281995247372";
 
-const si = (i: number) => ({ ["--i" as any]: i } as CSSProperties);
+const si = (i: number) => ({ "--i": i } as CSSProperties & Record<"--i", number>);
 
 export default function Contact() {
   const [openCV, setOpenCV] = useState(false);
@@ -23,7 +23,9 @@ export default function Contact() {
       await navigator.clipboard.writeText(text);
       setCopied(text);
       setTimeout(() => setCopied(null), 1200);
-    } catch {}
+    } catch {
+      setCopied(null);
+    }
   };
 
   return (

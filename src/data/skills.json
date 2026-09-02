@@ -1,0 +1,11 @@
+[
+  { "id": "react", "name": "React.js", "group": "Web Development", "image": "react" },
+  { "id": "html", "name": "HTML", "group": "Web Development", "image": "html" },
+  { "id": "css", "name": "CSS", "group": "Web Development", "image": "css" },
+  { "id": "python", "name": "Python", "group": "Programming Languages & Database", "image": "python" },
+  { "id": "c", "name": "C", "group": "Programming Languages & Database", "image": "c" },
+  { "id": "java", "name": "Java", "group": "Programming Languages & Database", "image": "java" },
+  { "id": "sql", "name": "SQL", "group": "Programming Languages & Database", "image": "sql" },
+  { "id": "javascript", "name": "JavaScript", "group": "Programming Languages & Database", "image": "javascript" },
+  { "id": "typescript", "name": "TypeScript", "group": "Programming Languages & Database", "image": "typescript" }
+]

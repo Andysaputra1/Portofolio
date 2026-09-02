@@ -6,6 +6,7 @@ export default function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
+  const [isSending, setIsSending] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const messagesRef = useRef<HTMLDivElement>(null);
@@ -25,19 +26,6 @@ export default function ChatWidget() {
     if (open) setTimeout(() => inputRef.current?.focus(), 50);
   }, [open]);
 
-  // click outside to close (optional, only when small screens)
-  useEffect(() => {
-    function onClick(e: MouseEvent) {
-      if (!open) return;
-      if (panelRef.current && !panelRef.current.contains(e.target as Node)) {
-        // kalau kamu mau tidak auto close pada click backdrop, hapus baris ini
-        // setOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", onClick);
-    return () => document.removeEventListener("mousedown", onClick);
-  }, [open]);
-
 useEffect(() => {
   messagesRef.current?.scrollTo({
     top: messagesRef.current.scrollHeight,
@@ -47,10 +35,11 @@ useEffect(() => {
 
 
   async function send() {
-    if (!input.trim()) return;
+    if (!input.trim() || isSending) return;
     const userMsg: Msg = { role: "user", content: input.trim() };
     setMsgs((m) => [...m, userMsg]);
     setInput("");
+    setIsSending(true);
 
     try {
       const r = await fetch("/api/chat", {
@@ -58,10 +47,14 @@ useEffect(() => {
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ question: userMsg.content }),
       });
-      const j: { answer?: string } = await r.json();
-      setMsgs((m) => [...m, { role: "assistant", content: j.answer ?? "No answer." }]);
-    } catch {
-      setMsgs((m) => [...m, { role: "assistant", content: "Maaf, server error. Coba lagi ya." }]);
+      const j: { answer?: string; error?: string } = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(j.error || "Layanan AI sedang tidak tersedia.");
+      setMsgs((m) => [...m, { role: "assistant", content: j.answer ?? "Maaf, belum ada jawaban." }]);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "AI belum bisa merespons saat ini. Silakan coba lagi sebentar lagi.";
+      setMsgs((m) => [...m, { role: "assistant", content: message }]);
+    } finally {
+      setIsSending(false);
     }
   }
 
@@ -103,6 +96,7 @@ useEffect(() => {
                   {m.content}
                 </div>
               ))}
+              {isSending && <div className="ai-bubble assistant ai-loading" role="status"><i className="fa-solid fa-circle-notch" aria-hidden="true" /> Menyiapkan jawaban…</div>}
             </div>
 
             <div className="ai-input">
@@ -110,11 +104,12 @@ useEffect(() => {
                 ref={inputRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && send()}
+                onKeyDown={(e) => e.key === "Enter" && void send()}
                 placeholder="Tulis pertanyaanmu…"
                 aria-label="Chat input"
+                disabled={isSending}
               />
-              <button onClick={send} className="ai-send" aria-label="Send">
+              <button onClick={() => void send()} className="ai-send" aria-label="Send" disabled={isSending || !input.trim()}>
                 <i className="fa-solid fa-paper-plane"></i>
               </button>
             </div>

@@ -1,6 +1,8 @@
 // src/components/Skills.tsx
-import { useMemo, type CSSProperties } from "react";
+import type { CSSProperties } from "react";
 import useScrollReveal from "../hook/useScrollReveal.ts";
+import { usePortfolioData } from "../context/PortfolioDataContext";
+import type { Skill } from "../types/portfolio";
 
 import reactImg from "../images/logoLanguage/react.png";
 import htmlImg from "../images/logoLanguage/html.png";
@@ -12,8 +14,8 @@ import javaImg from "../images/logoLanguage/java.png";
 import sqlImg from "../images/logoLanguage/sql.png";
 import tsImg from "../images/logoLanguage/typescript.png";
 
-type TechSkill = { name: string; img: string; alt?: string };
-const si = (i: number) => ({ ["--i" as any]: i } as CSSProperties);
+const si = (i: number) => ({ "--i": i } as CSSProperties & Record<"--i", number>);
+const imageMap: Record<string, string> = { react: reactImg, html: htmlImg, css: cssImg, javascript: jsImg, python: pythonImg, c: cImg, java: javaImg, sql: sqlImg, typescript: tsImg };
 
 function TechGrid({
   title,
@@ -21,7 +23,7 @@ function TechGrid({
   size = "md",
 }: {
   title: string;
-  items: TechSkill[];
+  items: Skill[];
   size?: "sm" | "md";
 }) {
   const packed = items.length <= 4;
@@ -43,9 +45,9 @@ function TechGrid({
         role="list"
       >
         {items.map((s, idx) => (
-          <li key={s.name} className="skill-card" style={si(idx)} aria-label={s.name}>
+          <li key={s.id} className="skill-card" style={si(idx)} aria-label={s.name}>
             <div className="skill-card-inner">
-              <img className="skill-icon" src={s.img} alt={s.alt ?? s.name} />
+              {s.image && <img className="skill-icon" src={imageMap[s.image] ?? s.image} alt={s.name} />}
               <span className="skill-label">{s.name}</span>
             </div>
           </li>
@@ -56,26 +58,9 @@ function TechGrid({
 }
 
 export default function Skills() {
-  const webDev: TechSkill[] = useMemo(
-    () => [
-      { name: "React.js", img: reactImg, alt: "React logo" },
-      { name: "HTML", img: htmlImg, alt: "HTML logo" },
-      { name: "CSS", img: cssImg, alt: "CSS logo" },
-    ],
-    []
-  );
-
-  const langs: TechSkill[] = useMemo(
-    () => [
-      { name: "Python", img: pythonImg, alt: "Python logo" },
-      { name: "C", img: cImg, alt: "C language logo" },
-      { name: "Java", img: javaImg, alt: "Java logo" },
-      { name: "SQL", img: sqlImg, alt: "SQL/MySQL logo" },
-      { name: "JavaScript", img: jsImg, alt: "JavaScript logo" },
-      { name: "TypeScript", img: tsImg, alt: "TypeScript logo" },
-    ],
-    []
-  );
+  const { skills } = usePortfolioData();
+  const webDev = skills.filter((skill) => skill.group === "Web Development");
+  const langs = skills.filter((skill) => skill.group === "Programming Languages & Database");
 
   // Section title ikut reveal
   const wrapTitleRef = useScrollReveal<HTMLHeadingElement>();

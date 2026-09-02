@@ -1,28 +1,31 @@
 import { createPortal } from "react-dom";
-import { useEffect } from "react"; // <-- Import
-import cvPdf from "../assets/Andy Saputra_CV3 NewVersion.pdf";
+import { useEffect, useCallback } from "react";
+import { lockScroll, unlockScroll } from "../utils/scrollLock";
+import { usePortfolioData } from "../context/PortfolioDataContext";
 
 type Props = { open: boolean; onClose: () => void };
 
 export default function CVModal({ open, onClose }: Props) {
-  // Tambahkan useEffect ini
+  const { cvUrl, cvName } = usePortfolioData();
+  const handleClose = useCallback(() => onClose(), [onClose]);
+
   useEffect(() => {
-    if (open) {
-      document.body.classList.add("modal-open");
-    } else {
-      document.body.classList.remove("modal-open");
-    }
+    if (!open) return;
+    lockScroll();
+    const closeOnEscape = (event: KeyboardEvent) => event.key === "Escape" && handleClose();
+    window.addEventListener("keydown", closeOnEscape);
     return () => {
-      document.body.classList.remove("modal-open");
+      window.removeEventListener("keydown", closeOnEscape);
+      unlockScroll();
     };
-  }, [open]); // Bergantung pada 'open'
+  }, [handleClose, open]);
 
   if (!open) return null;
 
   const modal = (
     <div
       className="cv-backdrop"
-      onClick={onClose}
+      onClick={handleClose}
       role="dialog"
       aria-modal="true"
       aria-label="My CV"
@@ -31,16 +34,16 @@ export default function CVModal({ open, onClose }: Props) {
         {/* ... sisa kode modal Anda (header, body, footer) ... */}
         <div className="cv-header">
           <h3>My CV</h3>
-          <button className="cv-close" aria-label="Close" onClick={onClose}>
+          <button className="cv-close" aria-label="Close" onClick={handleClose}>
             <i className="fa-solid fa-xmark" />
           </button>
         </div>
 
         <div className="cv-body">
-          <iframe className="cv-frame" src={cvPdf} title="CV Preview" />
+          <iframe className="cv-frame" src={cvUrl} title="CV Preview" />
           <p className="cv-hint">
             Jika preview tidak tampil atau hanya 1 halaman, silakan&nbsp;
-            <a href={cvPdf} target="_blank" rel="noreferrer">
+            <a href={cvUrl} target="_blank" rel="noreferrer">
               buka CV di tab baru.
             </a>
             .
@@ -48,7 +51,7 @@ export default function CVModal({ open, onClose }: Props) {
         </div>
 
         <div className="cv-footer">
-          <a className="cv-download" href={cvPdf} download>
+          <a className="cv-download" href={cvUrl} download={cvName}>
             <i className="fa-solid fa-download" /> Download CV
           </a>
         </div>

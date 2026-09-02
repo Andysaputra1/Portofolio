@@ -3,7 +3,7 @@ import meImg from "../images/Photo1.jpg";
 import useScrollReveal from "../hook/useScrollReveal.ts";
 import type { CSSProperties } from "react";
 
-const si = (i: number) => ({ ["--i" as any]: i } as CSSProperties);
+const si = (i: number) => ({ "--i": i } as CSSProperties & Record<"--i", number>);
 
 export default function About() {
   // refs untuk elemen yang ingin direveal

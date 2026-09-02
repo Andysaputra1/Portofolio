@@ -1,7 +1,7 @@
 // ProjectModal.tsx
 import { useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
-import type { Project } from "../data/projects";
+import type { Project } from "../types/portfolio";
 import { lockScroll, unlockScroll } from "../utils/scrollLock";
 
 type Props = {
@@ -11,24 +11,24 @@ type Props = {
 };
 
 export default function ProjectModal({ open, onClose, project }: Props) {
-  if (!open || !project) return null;
-
   // 🔑 Tutup modal + pastikan scroll dibuka kembali
   const handleClose = useCallback(() => {
-    try { unlockScroll(); } catch {}
     onClose();
   }, [onClose]);
 
   // lock saat mount, unlock saat unmount; ESC pakai handleClose
   useEffect(() => {
+    if (!open) return;
     lockScroll();
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && handleClose();
     window.addEventListener("keydown", onKey);
     return () => {
       window.removeEventListener("keydown", onKey);
-      try { unlockScroll(); } catch {}
+      unlockScroll();
     };
-  }, [handleClose]);
+  }, [handleClose, open]);
+
+  if (!open || !project) return null;
 
   const modal = (
     <div className="cv-backdrop" onClick={handleClose} role="dialog" aria-modal="true" aria-label={project.title}>
