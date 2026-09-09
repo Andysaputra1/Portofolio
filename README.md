@@ -1,4 +1,4 @@
-﻿# Andy Saputra portfolio
+# Andy Saputra portfolio
 
 React + TypeScript + Vite, with an OpenAI career chatbot deployed as a Vercel function.
 
@@ -8,7 +8,7 @@ Use Node.js 24 or newer. Run `npm install`, copy `.env.example` to `.env`, and s
 
 Run `npm run dev`. Vite runs `/api/chat` through the same server-only handler used by Vercel. Restart the dev server after changing environment variables. `npm run preview` serves only the static build; it does not run the AI API.
 
-`OPENAI_CHAT_MODEL` is optional and defaults to `gpt-5.6-sol`. The embedding cache uses `text-embedding-3-large`; changing the embedding model requires rebuilding the cache. The chatbot combines retrieved profile excerpts with the current projects, skills, and experience JSON so new portfolio entries are available without regenerating embeddings.
+`OPENAI_CHAT_MODEL` is optional and defaults to `gpt-4.1-mini` for responsive portfolio Q&A. The chatbot sends one text-only request containing the profile, education, FAQs and current project/skill/experience JSON. It does not call the embedding API or send photos. The old embedding cache and generator remain available for future retrieval experiments but are not required to serve chat. An explicit Vercel model override takes precedence; update it to use the new default model.
 
 ## Manage
 
