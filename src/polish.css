@@ -30,11 +30,12 @@ h1, h2, h3, h4 { text-transform: none; }
 .section-description { max-width: 58ch; color: #9b9b98; font-size: 1.05rem; line-height: 1.7; margin: 18px 0 0; }
 /* Anchor directly to the viewport without transform-based centering. */
 .navbar { position: fixed; left: 0; right: 0; margin-inline: auto; transform: none; z-index: 2000; top: 24px; width: min(1120px, calc(100% - 64px)); max-width: 1120px; height: 68px; padding: 0 24px; background: #171717db; border-color: #ffffff24; box-shadow: 0 8px 28px #0002; backdrop-filter: blur(20px); }
-.nav-header { display: flex; align-items: center; gap: 9px; color: #eee; mix-blend-mode: lighten; }
+.nav-header { display: flex; align-items: center; gap: 9px; color: #eee; }
 .nav-logo { margin: 0; max-width: 40px; object-fit: contain; filter: grayscale(1) !important; }
-.nav-pixel-runner { display: block; flex: 0 0 46px; width: 46px; height: 46px; background: url('./images/andy-nav-run.png') 0 0 / 200% 100% no-repeat; image-rendering: pixelated; animation: nav-pixel-run .48s steps(1, end) infinite; }
-@keyframes nav-pixel-run { 0%, 100% { background-position: 0% 0%; } 50% { background-position: 100% 0%; } }
-@media (prefers-reduced-motion: reduce) { .nav-pixel-runner { animation: none; } }
+.nav-pixel-runner { display: block; flex: 0 0 46px; width: 46px; height: 46px; overflow: hidden; }
+.nav-run-frames { image-rendering: pixelated; transform-box: fill-box; animation: nav-pixel-run .48s steps(1, end) infinite; }
+@keyframes nav-pixel-run { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .nav-run-frames { animation: none; } }
 .nav-wordmark { font: 700 1.25rem var(--ff-heading); letter-spacing: -.08em; }
 .nav-wordmark > span { color: var(--accent-purple); }
 .nav-link { position: relative; font-size: .85rem; color: #aaa; }

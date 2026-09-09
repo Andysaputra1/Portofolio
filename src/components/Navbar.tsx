@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { pageLinks, socialLinks } from "../data";
 import CVModal from "./CVModal";
+import NavRunner from './NavRunner';
 
 export default function Navbar() {
   const [open, setOpen] = useState(false); // menu mobile
@@ -54,7 +55,7 @@ export default function Navbar() {
         <div className="nav-center">
           {/* Kiri: logo */}
           <a className="nav-header" href="#home" aria-label="Andy Saputra home" onClick={close}>
-            <span className="nav-pixel-runner" aria-hidden="true" />
+            <NavRunner />
             <span className="nav-wordmark">andy<span>.</span></span>
           </a>
 
