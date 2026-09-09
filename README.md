@@ -1,69 +1,30 @@
-# React + TypeScript + Vite
+﻿# Andy Saputra portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + TypeScript + Vite, with an OpenAI career chatbot deployed as a Vercel function.
 
-Currently, two official plugins are available:
+## Development
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Use Node.js 24 or newer. Run `npm install`, copy `.env.example` to `.env`, and set `OPENAI_API_KEY` on the server. Never prefix this key with `VITE_` or put it in frontend code.
 
-## Expanding the ESLint configuration
+Run `npm run dev`. Vite runs `/api/chat` through the same server-only handler used by Vercel. Restart the dev server after changing environment variables. `npm run preview` serves only the static build; it does not run the AI API.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+`OPENAI_CHAT_MODEL` is optional and defaults to `gpt-5.6-sol`. The embedding cache uses `text-embedding-3-large`; changing the embedding model requires rebuilding the cache. The chatbot combines retrieved profile excerpts with the current projects, skills, and experience JSON so new portfolio entries are available without regenerating embeddings.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Manage
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+`/manage` is a browser-session editor. Its existing browser-side access gate is a convenience, not server authentication. It does not write to the deployed site or repository.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- Edit projects, skills, and experiences; upload JPG/PNG/WebP photos up to 20 MB.
+- Photos are decoded, resized to at most 1600 pixels, and embedded in exported JSON.
+- Experience photos support captions and original or landscape proportions.
+- Preview portfolio applies the session data without leaving the editor.
+- Download JSON before refreshing. Import that file to restore the session, or replace the corresponding file under `src/data` and rebuild to publish it. Built-in photo references remain portable across builds.
+- CV replacement is also session-only; save the PDF separately before updating its repository asset.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Validation and deployment
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Run `npm run lint`, `npm test`, and `npm run build`. The automated chat test mocks OpenAI; it makes no network calls and requires no real API key.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+On Vercel, configure `OPENAI_API_KEY` and optionally `OPENAI_CHAT_MODEL` for the appropriate deployment environment, then redeploy. Vercel runs `api/chat.ts`; static hosting alone cannot run the chatbot.
+
+The chatbot validates input length, uses bounded upstream timeouts, avoids logging raw questions or provider errors, and returns generic failures. Its in-memory rate limit is per function instance, not a distributed quota; use deployment-level limits for global abuse protection.

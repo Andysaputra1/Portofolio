@@ -29,8 +29,8 @@ async function embedOne(text: string): Promise<number[] | null> {
   try {
     const e = await openai.embeddings.create({ model: MODEL_EMB, input: text });
     return e.data[0].embedding as number[];
-  } catch (err: any) {
-    console.error(`[embedOne Error] ${err.message}`);
+  } catch (err: unknown) {
+    console.error(`[embedOne Error] ${err instanceof Error ? err.message : 'Unknown error'}`);
     return null; 
   }
 }

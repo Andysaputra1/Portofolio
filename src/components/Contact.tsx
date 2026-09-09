@@ -34,8 +34,9 @@ export default function Contact() {
         <div className="contact-card">
           {/* Left */}
           <div className="contact-left reveal-stagger" ref={leftRef}>
+            <div className="section-kicker">05 / WHAT’S NEXT?</div>
             <h2 id="contact-title" className="reveal" style={si(0)}>
-              Get in Touch
+              Good things start<br />with <span>a conversation.</span>
             </h2>
 
             <p className="reveal" style={si(1)}>
@@ -111,7 +112,7 @@ export default function Contact() {
               </li>
             </ul>
 
-            {copied && <div className="copy-toast">Copied!</div>}
+            <div className="copy-toast" role="status" aria-live="polite">{copied ? "Copied to clipboard!" : ""}</div>
           </div>
         </div>
       </div>
@@ -123,7 +124,7 @@ export default function Contact() {
         <span className="ai-nudge-pill">
           <i className="fa-regular fa-message" />
           <span>
-            Try <strong>Ask AI About Me</strong>—you’ll find it right below! 😉
+            Curious about my work? Try <strong>Ask AI About Me</strong>.
           </span>
         </span>
       </div>

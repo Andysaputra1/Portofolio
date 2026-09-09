@@ -1,11 +1,105 @@
 [
-  { "id": "react", "name": "React.js", "group": "Web Development", "image": "react" },
-  { "id": "html", "name": "HTML", "group": "Web Development", "image": "html" },
-  { "id": "css", "name": "CSS", "group": "Web Development", "image": "css" },
-  { "id": "python", "name": "Python", "group": "Programming Languages & Database", "image": "python" },
-  { "id": "c", "name": "C", "group": "Programming Languages & Database", "image": "c" },
-  { "id": "java", "name": "Java", "group": "Programming Languages & Database", "image": "java" },
-  { "id": "sql", "name": "SQL", "group": "Programming Languages & Database", "image": "sql" },
-  { "id": "javascript", "name": "JavaScript", "group": "Programming Languages & Database", "image": "javascript" },
-  { "id": "typescript", "name": "TypeScript", "group": "Programming Languages & Database", "image": "typescript" }
+  {
+    "id": "javascript",
+    "name": "JavaScript",
+    "group": "Programming Languages",
+    "image": "javascript"
+  },
+  {
+    "id": "typescript",
+    "name": "TypeScript",
+    "group": "Programming Languages",
+    "image": "typescript"
+  },
+  {
+    "id": "python",
+    "name": "Python",
+    "group": "Programming Languages",
+    "image": "python"
+  },
+  {
+    "id": "c",
+    "name": "C",
+    "group": "Programming Languages",
+    "image": "c"
+  },
+  {
+    "id": "java",
+    "name": "Java",
+    "group": "Programming Languages",
+    "image": "java"
+  },
+  {
+    "id": "html-css",
+    "name": "HTML/CSS",
+    "group": "Programming Languages",
+    "image": "html"
+  },
+  {
+    "id": "sql",
+    "name": "SQL",
+    "group": "Programming Languages",
+    "image": "sql"
+  },
+  {
+    "id": "node",
+    "name": "Node.js",
+    "group": "Frameworks & Libraries"
+  },
+  {
+    "id": "react",
+    "name": "React.js",
+    "group": "Frameworks & Libraries",
+    "image": "react"
+  },
+  {
+    "id": "angular",
+    "name": "Angular",
+    "group": "Frameworks & Libraries"
+  },
+  {
+    "id": "express",
+    "name": "Express.js",
+    "group": "Frameworks & Libraries"
+  },
+  {
+    "id": "docker",
+    "name": "Docker",
+    "group": "DevOps & Tools"
+  },
+  {
+    "id": "git",
+    "name": "Git",
+    "group": "DevOps & Tools"
+  },
+  {
+    "id": "rest-api",
+    "name": "RESTful APIs",
+    "group": "DevOps & Tools"
+  },
+  {
+    "id": "llm",
+    "name": "LLM Integration",
+    "group": "Artificial Intelligence"
+  },
+  {
+    "id": "openai",
+    "name": "OpenAI API",
+    "group": "Artificial Intelligence"
+  },
+  {
+    "id": "nlp",
+    "name": "NLP",
+    "group": "Artificial Intelligence"
+  },
+  {
+    "id": "machine-learning",
+    "name": "Machine Learning",
+    "group": "Artificial Intelligence"
+  },
+  {
+    "id": "deep-learning",
+    "name": "Deep Learning",
+    "group": "Artificial Intelligence"
+  }
 ]

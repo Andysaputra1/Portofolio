@@ -1,17 +1,39 @@
 // Navbar.tsx (Sudah Diperbaiki)
 
 import { useEffect, useRef, useState } from "react";
-import logoImg from "../images/logo.png";
 import { pageLinks, socialLinks } from "../data";
 import CVModal from "./CVModal";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false); // menu mobile
   const [cvOpen, setCvOpen] = useState(false); // state untuk CV modal
+  const [activeSection, setActiveSection] = useState("");
   const linksRef = useRef<HTMLUListElement>(null);
+  const navRef = useRef<HTMLElement>(null);
 
   const toggle = () => setOpen((v) => !v);
   const close = () => setOpen(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => { if (entry.isIntersecting) setActiveSection(`#${entry.target.id}`); });
+    }, { rootMargin: "-15% 0px -60% 0px", threshold: 0 });
+    document.querySelectorAll("main > section[id]").forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") { setOpen(false); navRef.current?.querySelector<HTMLButtonElement>(".nav-toggle")?.focus(); }
+    };
+    const onPointer = (event: PointerEvent) => {
+      if (!navRef.current?.contains(event.target as Node)) setOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("pointerdown", onPointer);
+    return () => { document.removeEventListener("keydown", onKey); document.removeEventListener("pointerdown", onPointer); };
+  }, [open]);
 
 
   // Efek untuk auto-close menu di desktop
@@ -28,20 +50,13 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="navbar" role="navigation" aria-label="Main">
+      <nav ref={navRef} className="navbar" role="navigation" aria-label="Main">
         <div className="nav-center">
           {/* Kiri: logo */}
-          <div className="nav-header">
-            <img
-              src={logoImg}
-              className="nav-logo"
-              alt="logo"
-              style={{
-                height: "2.25rem",
-                filter: "drop-shadow(0 4px 6px rgba(0,0,0,.4))",
-              }}
-            />
-          </div>
+          <a className="nav-header" href="#home" aria-label="Andy Saputra home" onClick={close}>
+            <span className="nav-pixel-runner" aria-hidden="true" />
+            <span className="nav-wordmark">andy<span>.</span></span>
+          </a>
 
           {/* Tengah (mobile: dropdown; desktop: inline) */}
           <ul
@@ -52,7 +67,7 @@ export default function Navbar() {
           >
             {pageLinks.map((link) => (
               <li key={link.id}>
-                <a href={link.href} className="nav-link" onClick={close}>
+                <a href={link.href} className={`nav-link ${activeSection === link.href ? "is-active" : ""}`} aria-current={activeSection === link.href ? "location" : undefined} onClick={close}>
                   {link.text}
                 </a>
               </li>

@@ -1,14 +1,19 @@
 import { useCallback, useEffect, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import { createPortal } from "react-dom";
-import type { OrgExp, Project, Skill } from "../types/portfolio";
+import { skillGroups, type OrgExp, type Project, type Skill } from "../types/portfolio";
 import { usePortfolioData } from "../context/PortfolioDataContext";
+import "./PortfolioManager.css";
+import { safeImage, safeLink, validProjects, validOrganizations, validSkills } from '../utils/validatePortfolio';
+import App from '../App';
+import { builtInImages, experienceImages } from '../loaders/portfolioData';
 
 type Tab = "projects" | "organizations" | "skills" | "cv";
 
-const emptyProject = { title: "", tag: "Personal Project", stack: "", link: "", image: "", description: "" };
-const emptyOrganization = { role: "", org: "", location: "", period: "", summary: "", subRole: "", context: "", bullets: "" };
-const emptySkill = { name: "", group: "Web Development" as Skill["group"], image: "" };
-const COMPRESS_THRESHOLD = 50 * 1024 * 1024;
+const emptyProject = { title: "", tag: "Personal Project", stack: "", link: "", image: "", description: "", role: "", status: "" as "" | NonNullable<Project["status"]> };
+const emptyOrganization = { role: "", org: "", location: "", period: "", summary: "", subRole: "", context: "", bullets: "", image: "", imageCaption: "", imageLayout: "original" as NonNullable<OrgExp["imageLayout"]> };
+const emptySkill = { name: "", group: skillGroups[0] as Skill["group"], image: "" };
+const COMPRESS_THRESHOLD = 2 * 1024 * 1024;
+const MAX_PHOTO_SIZE = 20 * 1024 * 1024;
 
 async function compressLargeImage(file: File) {
   const objectUrl = URL.createObjectURL(file);
@@ -21,7 +26,7 @@ async function compressLargeImage(file: File) {
     });
     let width = image.naturalWidth;
     let height = image.naturalHeight;
-    const maxSide = 2560;
+    const maxSide = 1600;
     const initialScale = Math.min(1, maxSide / Math.max(width, height));
     width = Math.max(1, Math.round(width * initialScale));
     height = Math.max(1, Math.round(height * initialScale));
@@ -54,12 +59,14 @@ function safeId(value: string) {
 }
 
 function download(filename: string, contents: string) {
-  const url = URL.createObjectURL(new Blob([contents], { type: "text/typescript;charset=utf-8" }));
+  const url = URL.createObjectURL(new Blob([contents], { type: "application/json;charset=utf-8" }));
   const anchor = document.createElement("a");
   anchor.href = url;
   anchor.download = filename;
+  document.body.appendChild(anchor);
   anchor.click();
-  window.setTimeout(() => URL.revokeObjectURL(url), 0);
+  anchor.remove();
+  window.setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
 function extractItems(raw: string, collection: "projects" | "orgExperiences") {
@@ -76,6 +83,7 @@ function extractItems(raw: string, collection: "projects" | "orgExperiences") {
 export default function PortfolioManager({ standalone = false }: { standalone?: boolean }) {
   const { projects, organizations, skills, addProject, updateProject, removeProject, moveProject, addOrganization, updateOrganization, removeOrganization, moveOrganization, replaceProjects, replaceOrganizations, addSkill, updateSkill, removeSkill, moveSkill, replaceSkills, cvUrl, cvName, replaceCv } = usePortfolioData();
   const [isOpen, setIsOpen] = useState(standalone);
+  const [preview, setPreview] = useState(false);
   const [tab, setTab] = useState<Tab>("projects");
   const [projectForm, setProjectForm] = useState(emptyProject);
   const [organizationForm, setOrganizationForm] = useState(emptyOrganization);
@@ -87,12 +95,13 @@ export default function PortfolioManager({ standalone = false }: { standalone?: 
   const fileInput = useRef<HTMLInputElement>(null);
   const cvInput = useRef<HTMLInputElement>(null);
   const closePanel = useCallback(() => {
+    if (preview) { setPreview(false); return; }
     if (standalone) {
       window.location.assign("/");
       return;
     }
     setIsOpen(false);
-  }, [standalone]);
+  }, [standalone, preview]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -101,39 +110,33 @@ export default function PortfolioManager({ standalone = false }: { standalone?: 
     return () => window.removeEventListener("keydown", closeOnEscape);
   }, [closePanel, isOpen]);
 
-  const onProjectChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const onProjectChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setProjectForm((form) => ({ ...form, [event.target.name]: event.target.value }));
   };
-  const onOrganizationChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const onOrganizationChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setOrganizationForm((form) => ({ ...form, [event.target.name]: event.target.value }));
   };
   const onSkillChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setSkillForm((form) => ({ ...form, [event.target.name]: event.target.value } as typeof emptySkill));
   };
-  const onProjectPhotoChange = async (event: ChangeEvent<HTMLInputElement>) => {
+  const [isUploading, setIsUploading] = useState(false);
+  const onPhotoChange = async (event: ChangeEvent<HTMLInputElement>, target: "project" | "experience") => {
     const photo = event.target.files?.[0];
+    event.target.value = "";
     if (!photo) return;
-    if (!photo.type.startsWith("image/")) {
-      setNotice("Pilih file gambar (JPG, PNG, WebP, dan sejenisnya).");
-      event.target.value = "";
+    if (!["image/jpeg", "image/png", "image/webp"].includes(photo.type) || photo.size > MAX_PHOTO_SIZE) {
+      setNotice("Pilih JPG, PNG, atau WebP maksimal 20 MB.");
       return;
     }
-    if (photo.size > COMPRESS_THRESHOLD) {
-      setNotice("Foto di atas 50 MB sedang dikompres sebelum disimpan…");
-      try {
-        const compressed = await compressLargeImage(photo);
-        setProjectForm((form) => ({ ...form, image: compressed }));
-        setNotice("Foto berhasil dikompres dan siap digunakan.");
-      } catch (error) {
-        setNotice(error instanceof Error ? error.message : "Foto gagal dikompres.");
-      } finally {
-        event.target.value = "";
-      }
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = () => setProjectForm((form) => ({ ...form, image: String(reader.result) }));
-    reader.readAsDataURL(photo);
+    setIsUploading(true);
+    try {
+      const image = await compressLargeImage(photo);
+      if (target === "project") setProjectForm((form) => ({ ...form, image }));
+      else setOrganizationForm((form) => ({ ...form, image }));
+      setNotice("Foto siap. Simpan perubahan untuk menerapkannya ke sesi ini.");
+    } catch {
+      setNotice("Foto tidak dapat dibaca. Coba file JPG, PNG, atau WebP lain.");
+    } finally { setIsUploading(false); }
   };
   const onCvChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -148,13 +151,13 @@ export default function PortfolioManager({ standalone = false }: { standalone?: 
     event.target.value = "";
   };
   const startProjectEdit = (project: Project) => {
-    setProjectForm({ title: project.title, tag: project.tag, stack: project.stack, link: project.link, image: project.image ?? "", description: project.description });
+    setProjectForm({ title: project.title, tag: project.tag, stack: project.stack, link: project.link, image: project.image ?? "", description: project.description, role: project.role ?? "", status: project.status ?? "" });
     setEditingProjectId(project.id);
     setNotice(`Mengedit ${project.title}.`);
   };
   const startOrganizationEdit = (organization: OrgExp) => {
     const subRole = organization.roles?.[0];
-    setOrganizationForm({ role: organization.role ?? "", org: organization.org, location: organization.location ?? "", period: organization.period, summary: organization.summary ?? "", subRole: subRole?.title ?? "", context: subRole?.context ?? "", bullets: subRole?.bullets.join("\n") ?? "" });
+    setOrganizationForm({ role: organization.role ?? "", org: organization.org, location: organization.location ?? "", period: organization.period, summary: organization.summary ?? "", subRole: subRole?.title ?? "", context: subRole?.context ?? "", bullets: subRole?.bullets.join("\n") ?? "", image: organization.image ?? "", imageCaption: organization.imageCaption ?? "", imageLayout: organization.imageLayout ?? "original" });
     setEditingOrganizationId(organization.id);
     setNotice(`Mengedit ${organization.org}.`);
   };
@@ -166,10 +169,12 @@ export default function PortfolioManager({ standalone = false }: { standalone?: 
 
   const submitProject = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!safeLink(projectForm.link) || !safeImage(projectForm.image)) { setNotice('Gunakan link HTTP/HTTPS dan foto JPG, PNG, atau WebP yang valid.'); return; }
     const project: Project = {
+      ...projects.find((item) => item.id === editingProjectId),
       id: editingProjectId ?? safeId(projectForm.title), title: projectForm.title.trim(), tag: projectForm.tag.trim(),
       stack: projectForm.stack.trim(), link: projectForm.link.trim(), image: projectForm.image.trim() || undefined,
-      description: projectForm.description.trim(),
+      description: projectForm.description.trim(), role: projectForm.role.trim() || undefined, status: projectForm.status || undefined,
     };
     if (editingProjectId) updateProject(project); else addProject(project);
     setProjectForm(emptyProject);
@@ -180,11 +185,14 @@ export default function PortfolioManager({ standalone = false }: { standalone?: 
   const submitOrganization = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const bullets = organizationForm.bullets.split("\n").map((item) => item.trim()).filter(Boolean);
+    const previous = organizations.find((item) => item.id === editingOrganizationId);
     const organization: OrgExp = {
+      ...previous,
       id: editingOrganizationId ?? Date.now(), role: organizationForm.role.trim() || undefined, org: organizationForm.org.trim(),
       location: organizationForm.location.trim() || undefined, period: organizationForm.period.trim(),
       summary: organizationForm.summary.trim() || undefined,
-      roles: organizationForm.subRole.trim() ? [{ title: organizationForm.subRole.trim(), context: organizationForm.context.trim() || undefined, bullets }] : undefined,
+      roles: [...(organizationForm.subRole.trim() ? [{ title: organizationForm.subRole.trim(), context: organizationForm.context.trim() || undefined, bullets }] : []), ...(previous?.roles?.slice(1) ?? [])],
+      image: organizationForm.image.trim() || undefined, imageCaption: organizationForm.imageCaption.trim() || undefined, imageLayout: organizationForm.imageLayout,
     };
     if (editingOrganizationId) updateOrganization(organization); else addOrganization(organization);
     setOrganizationForm(emptyOrganization);
@@ -193,6 +201,7 @@ export default function PortfolioManager({ standalone = false }: { standalone?: 
   };
   const submitSkill = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!safeImage(skillForm.image)) { setNotice('URL ikon tidak valid. Gunakan HTTP/HTTPS atau path lokal.'); return; }
     const skill: Skill = { id: editingSkillId ?? safeId(skillForm.name), name: skillForm.name.trim(), group: skillForm.group, image: skillForm.image.trim() || undefined };
     if (editingSkillId) updateSkill(skill); else addSkill(skill);
     setSkillForm(emptySkill);
@@ -206,16 +215,20 @@ export default function PortfolioManager({ standalone = false }: { standalone?: 
     try {
       const raw = await file.text();
       if (tab === "projects") {
-        const items = (raw.trim().startsWith("[") ? JSON.parse(raw) : extractItems(raw, "projects")) as Project[];
-        if (!items.every((item) => item && typeof item.id === "string" && typeof item.title === "string" && typeof item.description === "string")) throw new Error("Format project tidak sesuai.");
+        const parsed = raw.trim().startsWith("[") ? JSON.parse(raw) : extractItems(raw, "projects");
+        if (!Array.isArray(parsed)) throw new Error('Data harus berupa array.');
+        const items = parsed.map((item) => ({ ...item, image: builtInImages[item?.image] ?? item?.image }));
+        if (!validProjects(items)) throw new Error("Format project tidak sesuai.");
         replaceProjects(items);
       } else if (tab === "organizations") {
-        const items = (raw.trim().startsWith("[") ? JSON.parse(raw) : extractItems(raw, "orgExperiences")) as OrgExp[];
-        if (!items.every((item) => item && typeof item.id === "number" && typeof item.org === "string" && typeof item.period === "string")) throw new Error("Format organization tidak sesuai.");
+        const parsed = raw.trim().startsWith("[") ? JSON.parse(raw) : extractItems(raw, "orgExperiences");
+        if (!Array.isArray(parsed)) throw new Error('Data harus berupa array.');
+        const items = parsed.map((item) => ({ ...item, image: experienceImages[item?.image] ?? item?.image }));
+        if (!validOrganizations(items)) throw new Error("Format organization tidak sesuai.");
         replaceOrganizations(items);
       } else {
         const items = JSON.parse(raw) as Skill[];
-        if (!Array.isArray(items) || !items.every((item) => item && typeof item.id === "string" && typeof item.name === "string" && (item.group === "Web Development" || item.group === "Programming Languages & Database"))) throw new Error("Format skills tidak sesuai.");
+        if (!validSkills(items)) throw new Error("Format skills tidak sesuai.");
         replaceSkills(items);
       }
       setNotice(`${file.name} berhasil dimuat.`);
@@ -229,6 +242,13 @@ export default function PortfolioManager({ standalone = false }: { standalone?: 
   const openImport = () => fileInput.current?.click();
   const currentName = tab === "projects" ? "projects.json" : tab === "organizations" ? "organization.json" : "skills.json";
   const currentItems = tab === "projects" ? projects : tab === "organizations" ? organizations : skills;
+  const exportItems = () => {
+    const assets = tab === 'projects' ? builtInImages : tab === 'organizations' ? experienceImages : {};
+    const items = currentItems.map((item) => ({ ...item, image: Object.entries(assets).find(([, url]) => url === item.image)?.[0] ?? item.image }));
+    download(currentName, JSON.stringify(items, null, 2));
+  };
+
+  if (preview) return <><App /><button type="button" className="manager-preview-return" onClick={() => setPreview(false)}>Back to editor</button></>;
 
   return (
     <>
@@ -236,18 +256,18 @@ export default function PortfolioManager({ standalone = false }: { standalone?: 
         <i className="fa-solid fa-pen-to-square" aria-hidden="true" /> <span>Manage</span>
       </button>}
       {isOpen && createPortal(
-        <div className="manager-backdrop" role="presentation" onMouseDown={closePanel}>
+        <div className={`manager-backdrop${standalone ? " manager-standalone" : ""}`} role="presentation" onMouseDown={closePanel}>
           <section className="manager-panel" role="dialog" aria-modal="true" aria-labelledby="manager-title" onMouseDown={(event) => event.stopPropagation()}>
             <header className="manager-header">
               <div><p className="manager-eyebrow">Portfolio editor</p><h2 id="manager-title">Manage your work</h2></div>
-              <button className="manager-close" type="button" onClick={closePanel} aria-label="Close manager"><i className={`fa-solid ${standalone ? "fa-arrow-left" : "fa-xmark"}`} /></button>
+              <div className="manager-header-actions"><button type="button" className="manager-action secondary" onClick={() => setPreview(true)}>Preview portfolio</button><button className="manager-close" type="button" onClick={closePanel} aria-label="Close manager"><i className={`fa-solid ${standalone ? "fa-arrow-left" : "fa-xmark"}`} /></button></div>
             </header>
-            <p className="manager-intro">Data di panel ini hanya aktif selama halaman terbuka. Setelah mengubah data, unduh file JSON dan impor kembali setelah refresh atau ganti file di <code>src/data</code>.</p>
-            <div className="manager-tabs" role="tablist">
-              <button type="button" role="tab" aria-selected={tab === "projects"} className={tab === "projects" ? "is-active" : ""} onClick={() => { setTab("projects"); setNotice(""); }}>Projects <span>{projects.length}</span></button>
-              <button type="button" role="tab" aria-selected={tab === "organizations"} className={tab === "organizations" ? "is-active" : ""} onClick={() => { setTab("organizations"); setNotice(""); }}>Experience <span>{organizations.length}</span></button>
-              <button type="button" role="tab" aria-selected={tab === "skills"} className={tab === "skills" ? "is-active" : ""} onClick={() => { setTab("skills"); setNotice(""); }}>Skills <span>{skills.length}</span></button>
-              <button type="button" role="tab" aria-selected={tab === "cv"} className={tab === "cv" ? "is-active" : ""} onClick={() => { setTab("cv"); setNotice(""); }}>CV</button>
+            <p className="manager-intro"><strong>Session editor</strong> Perubahan belum diterbitkan dan akan hilang setelah refresh. Unduh JSON sebagai cadangan, termasuk foto yang kamu upload.</p>
+            <div className="manager-tabs" aria-label="Editor sections">
+              <button type="button" aria-pressed={tab === "projects"} className={tab === "projects" ? "is-active" : ""} onClick={() => { setTab("projects"); setNotice(""); }}>Projects <span>{projects.length}</span></button>
+              <button type="button" aria-pressed={tab === "organizations"} className={tab === "organizations" ? "is-active" : ""} onClick={() => { setTab("organizations"); setNotice(""); }}>Experience <span>{organizations.length}</span></button>
+              <button type="button" aria-pressed={tab === "skills"} className={tab === "skills" ? "is-active" : ""} onClick={() => { setTab("skills"); setNotice(""); }}>Skills <span>{skills.length}</span></button>
+              <button type="button" aria-pressed={tab === "cv"} className={tab === "cv" ? "is-active" : ""} onClick={() => { setTab("cv"); setNotice(""); }}>CV</button>
             </div>
             {tab === "cv" ? <div className="manager-toolbar">
               <button type="button" className="manager-action" onClick={() => cvInput.current?.click()}><i className="fa-solid fa-file-arrow-up" /> Replace CV PDF</button>
@@ -255,7 +275,7 @@ export default function PortfolioManager({ standalone = false }: { standalone?: 
               <input ref={cvInput} type="file" accept="application/pdf,.pdf" onChange={onCvChange} hidden />
             </div> : <div className="manager-toolbar">
               <button type="button" className="manager-action secondary" onClick={openImport}><i className="fa-solid fa-upload" /> Import {currentName}</button>
-              <button type="button" className="manager-action" onClick={() => download(currentName, JSON.stringify(currentItems, null, 2))}><i className="fa-solid fa-download" /> Download {currentName}</button>
+              <button type="button" className="manager-action" onClick={exportItems}><i className="fa-solid fa-download" /> Download {currentName}</button>
               <input ref={fileInput} type="file" accept=".ts,.json,text/typescript,application/json" onChange={importFile} hidden />
             </div>}
             {notice && <p className="manager-notice" role="status">{notice}</p>}
@@ -266,33 +286,38 @@ export default function PortfolioManager({ standalone = false }: { standalone?: 
                   <label>Project title<input name="title" value={projectForm.title} onChange={onProjectChange} required /></label>
                   <div className="manager-fields"><label>Category<input name="tag" value={projectForm.tag} onChange={onProjectChange} required /></label><label>Tech stack<input name="stack" value={projectForm.stack} onChange={onProjectChange} required /></label></div>
                   <label>Project link<input name="link" type="url" placeholder="https://..." value={projectForm.link} onChange={onProjectChange} required /></label>
-                  <label>Image URL <small>optional</small><input name="image" type="url" placeholder="https://..." value={projectForm.image} onChange={onProjectChange} /></label>
-                  <label>Or upload image <small>tanpa batas · di atas 50 MB dikompres otomatis</small><input className="manager-file" type="file" accept="image/*" onChange={onProjectPhotoChange} /></label>
-                  {projectForm.image && <img className="manager-image-preview" src={projectForm.image} alt="Project preview" />}
+                  <label>Image URL or path <small>optional</small><input name="image" placeholder="https://..." value={projectForm.image} onChange={onProjectChange} /></label>
+                  <label className="manager-upload">Upload project photo <small>JPG, PNG, WebP / max. 20 MB</small><input className="manager-file" type="file" accept="image/jpeg,image/png,image/webp" disabled={isUploading} onChange={(event) => void onPhotoChange(event, "project")} /></label>
+                  {projectForm.image && <div className="manager-photo-preview"><img className="manager-image-preview" src={projectForm.image} alt="Project preview" /><button type="button" className="manager-cancel" onClick={() => setProjectForm((form) => ({ ...form, image: "" }))}>Remove photo</button></div>}
+                  <div className="manager-fields"><label>My role<input name="role" value={projectForm.role} onChange={onProjectChange} /></label><label>Status<select name="status" value={projectForm.status} onChange={onProjectChange}><option value="">No badge</option><option>In progress</option><option>Completed</option></select></label></div>
                   <label>Description<textarea name="description" value={projectForm.description} onChange={onProjectChange} required rows={4} /></label>
-                  <div className="manager-form-actions"><button className="manager-submit" type="submit">{editingProjectId ? "Save project" : "Add project"}</button>{editingProjectId && <button className="manager-cancel" type="button" onClick={() => { setEditingProjectId(null); setProjectForm(emptyProject); }}>Cancel</button>}</div>
+                  <div className="manager-form-actions"><button className="manager-submit" type="submit" disabled={isUploading}>{editingProjectId ? "Save project" : "Add project"}</button>{editingProjectId && <button className="manager-cancel" type="button" onClick={() => { setEditingProjectId(null); setProjectForm(emptyProject); }}>Cancel</button>}</div>
                 </form>
-                <div className="manager-list" aria-label="Project list">{projects.map((item, index) => <article key={item.id} className="manager-item"><div><strong>{item.title}</strong><span>{item.tag} · {item.stack}</span></div><div className="manager-item-actions"><button type="button" onClick={() => startProjectEdit(item)} aria-label={`Edit ${item.title}`}><i className="fa-solid fa-pen" /></button><button type="button" disabled={index === 0} onClick={() => moveProject(item.id, "up")} aria-label={`Move ${item.title} up`}><i className="fa-solid fa-arrow-up" /></button><button type="button" disabled={index === projects.length - 1} onClick={() => moveProject(item.id, "down")} aria-label={`Move ${item.title} down`}><i className="fa-solid fa-arrow-down" /></button><button type="button" className="delete" onClick={() => { removeProject(item.id); setNotice("Project dihapus dari sesi ini."); }} aria-label={`Delete ${item.title}`}><i className="fa-solid fa-trash" /></button></div></article>)}</div>
+                <div className="manager-list" aria-label="Project list">{projects.map((item, index) => <article key={item.id} className="manager-item">{item.image && <img className="manager-item-thumbnail" src={item.image} alt="" />}<div className="manager-item-copy"><strong>{item.title}</strong><span>{item.tag} · {item.stack}</span></div><div className="manager-item-actions"><button type="button" onClick={() => startProjectEdit(item)} aria-label={`Edit ${item.title}`}><i className="fa-solid fa-pen" /></button><button type="button" disabled={index === 0} onClick={() => moveProject(item.id, "up")} aria-label={`Move ${item.title} up`}><i className="fa-solid fa-arrow-up" /></button><button type="button" disabled={index === projects.length - 1} onClick={() => moveProject(item.id, "down")} aria-label={`Move ${item.title} down`}><i className="fa-solid fa-arrow-down" /></button><button type="button" className="delete" onClick={() => { removeProject(item.id); setNotice("Project dihapus dari sesi ini."); }} aria-label={`Delete ${item.title}`}><i className="fa-solid fa-trash" /></button></div></article>)}</div>
               </> : tab === "organizations" ? <>
                 <form className="manager-form" onSubmit={submitOrganization}>
                   <h3>{editingOrganizationId ? "Edit experience" : "Add experience"}</h3>
                   <div className="manager-fields"><label>Organization<input name="org" value={organizationForm.org} onChange={onOrganizationChange} required /></label><label>Period<input name="period" placeholder="Jan 2025 – Present" value={organizationForm.period} onChange={onOrganizationChange} required /></label></div>
                   <div className="manager-fields"><label>Role <small>optional</small><input name="role" value={organizationForm.role} onChange={onOrganizationChange} /></label><label>Location <small>optional</small><input name="location" value={organizationForm.location} onChange={onOrganizationChange} /></label></div>
                   <label>Summary <small>optional</small><textarea name="summary" rows={3} value={organizationForm.summary} onChange={onOrganizationChange} /></label>
+                  <label className="manager-upload">Upload experience photo <small>JPG, PNG, WebP / max. 20 MB</small><input className="manager-file" type="file" accept="image/jpeg,image/png,image/webp" disabled={isUploading} onChange={(event) => void onPhotoChange(event, "experience")} /></label>
+                  {organizationForm.image && <div className="manager-photo-preview"><img className={`manager-image-preview ${organizationForm.imageLayout === "landscape" ? "is-landscape" : ""}`} src={organizationForm.image} alt="Experience preview" /><button type="button" className="manager-cancel" onClick={() => setOrganizationForm((form) => ({ ...form, image: "" }))}>Remove photo</button></div>}
+                  <label>Photo caption<input name="imageCaption" value={organizationForm.imageCaption} onChange={onOrganizationChange} /></label>
+                  <label>Photo layout<select name="imageLayout" value={organizationForm.imageLayout} onChange={onOrganizationChange}><option value="original">Original proportions</option><option value="landscape">Landscape (16:9)</option></select></label>
                   <div className="manager-fields"><label>Sub-role <small>optional</small><input name="subRole" value={organizationForm.subRole} onChange={onOrganizationChange} /></label><label>Context <small>optional</small><input name="context" value={organizationForm.context} onChange={onOrganizationChange} /></label></div>
                   <label>Sub-role bullets <small>one item per line</small><textarea name="bullets" rows={3} value={organizationForm.bullets} onChange={onOrganizationChange} /></label>
-                  <div className="manager-form-actions"><button className="manager-submit" type="submit">{editingOrganizationId ? "Save experience" : "Add experience"}</button>{editingOrganizationId && <button className="manager-cancel" type="button" onClick={() => { setEditingOrganizationId(null); setOrganizationForm(emptyOrganization); }}>Cancel</button>}</div>
+                  <div className="manager-form-actions"><button className="manager-submit" type="submit" disabled={isUploading}>{editingOrganizationId ? "Save experience" : "Add experience"}</button>{editingOrganizationId && <button className="manager-cancel" type="button" onClick={() => { setEditingOrganizationId(null); setOrganizationForm(emptyOrganization); }}>Cancel</button>}</div>
                 </form>
-                <div className="manager-list" aria-label="Experience list">{organizations.map((item, index) => <article key={item.id} className="manager-item"><div><strong>{item.role || item.org}</strong><span>{item.role ? `${item.org} · ` : ""}{item.period}</span></div><div className="manager-item-actions"><button type="button" onClick={() => startOrganizationEdit(item)} aria-label={`Edit ${item.org}`}><i className="fa-solid fa-pen" /></button><button type="button" disabled={index === 0} onClick={() => moveOrganization(item.id, "up")} aria-label={`Move ${item.org} up`}><i className="fa-solid fa-arrow-up" /></button><button type="button" disabled={index === organizations.length - 1} onClick={() => moveOrganization(item.id, "down")} aria-label={`Move ${item.org} down`}><i className="fa-solid fa-arrow-down" /></button><button type="button" className="delete" onClick={() => { removeOrganization(item.id); setNotice("Experience dihapus dari sesi ini."); }} aria-label={`Delete ${item.org}`}><i className="fa-solid fa-trash" /></button></div></article>)}</div>
+                <div className="manager-list" aria-label="Experience list">{organizations.map((item, index) => <article key={item.id} className="manager-item">{item.image && <img className="manager-item-thumbnail" src={item.image} alt="" />}<div className="manager-item-copy"><strong>{item.role || item.org}</strong><span>{item.role ? `${item.org} · ` : ""}{item.period}</span></div><div className="manager-item-actions"><button type="button" onClick={() => startOrganizationEdit(item)} aria-label={`Edit ${item.org}`}><i className="fa-solid fa-pen" /></button><button type="button" disabled={index === 0} onClick={() => moveOrganization(item.id, "up")} aria-label={`Move ${item.org} up`}><i className="fa-solid fa-arrow-up" /></button><button type="button" disabled={index === organizations.length - 1} onClick={() => moveOrganization(item.id, "down")} aria-label={`Move ${item.org} down`}><i className="fa-solid fa-arrow-down" /></button><button type="button" className="delete" onClick={() => { removeOrganization(item.id); setNotice("Experience dihapus dari sesi ini."); }} aria-label={`Delete ${item.org}`}><i className="fa-solid fa-trash" /></button></div></article>)}</div>
               </> : tab === "skills" ? <>
                 <form className="manager-form" onSubmit={submitSkill}>
                   <h3>{editingSkillId ? "Edit skill" : "Add skill"}</h3>
                   <label>Skill name<input name="name" value={skillForm.name} onChange={onSkillChange} required /></label>
-                  <label>Category<select name="group" value={skillForm.group} onChange={onSkillChange}><option>Web Development</option><option>Programming Languages &amp; Database</option></select></label>
-                  <label>Icon image URL <small>optional</small><input name="image" type="url" placeholder="https://..." value={skillForm.image} onChange={onSkillChange} /></label>
-                  <div className="manager-form-actions"><button className="manager-submit" type="submit">{editingSkillId ? "Save skill" : "Add skill"}</button>{editingSkillId && <button className="manager-cancel" type="button" onClick={() => { setEditingSkillId(null); setSkillForm(emptySkill); }}>Cancel</button>}</div>
+                  <label>Category<select name="group" value={skillForm.group} onChange={onSkillChange}>{skillGroups.map((group) => <option key={group}>{group}</option>)}</select></label>
+                  <label>Icon image URL or path <small>optional</small><input name="image" placeholder="https://..." value={skillForm.image} onChange={onSkillChange} /></label>
+                  <div className="manager-form-actions"><button className="manager-submit" type="submit" disabled={isUploading}>{editingSkillId ? "Save skill" : "Add skill"}</button>{editingSkillId && <button className="manager-cancel" type="button" onClick={() => { setEditingSkillId(null); setSkillForm(emptySkill); }}>Cancel</button>}</div>
                 </form>
-                <div className="manager-list" aria-label="Skills list">{skills.map((item, index) => <article key={item.id} className="manager-item"><div><strong>{item.name}</strong><span>{item.group}</span></div><div className="manager-item-actions"><button type="button" onClick={() => startSkillEdit(item)} aria-label={`Edit ${item.name}`}><i className="fa-solid fa-pen" /></button><button type="button" disabled={index === 0} onClick={() => moveSkill(item.id, "up")} aria-label={`Move ${item.name} up`}><i className="fa-solid fa-arrow-up" /></button><button type="button" disabled={index === skills.length - 1} onClick={() => moveSkill(item.id, "down")} aria-label={`Move ${item.name} down`}><i className="fa-solid fa-arrow-down" /></button><button type="button" className="delete" onClick={() => { removeSkill(item.id); setNotice("Skill dihapus dari sesi ini."); }} aria-label={`Delete ${item.name}`}><i className="fa-solid fa-trash" /></button></div></article>)}</div>
+                <div className="manager-list" aria-label="Skills list">{skills.map((item, index) => <article key={item.id} className="manager-item"><div className="manager-item-copy"><strong>{item.name}</strong><span>{item.group}</span></div><div className="manager-item-actions"><button type="button" onClick={() => startSkillEdit(item)} aria-label={`Edit ${item.name}`}><i className="fa-solid fa-pen" /></button><button type="button" disabled={index === 0} onClick={() => moveSkill(item.id, "up")} aria-label={`Move ${item.name} up`}><i className="fa-solid fa-arrow-up" /></button><button type="button" disabled={index === skills.length - 1} onClick={() => moveSkill(item.id, "down")} aria-label={`Move ${item.name} down`}><i className="fa-solid fa-arrow-down" /></button><button type="button" className="delete" onClick={() => { removeSkill(item.id); setNotice("Skill dihapus dari sesi ini."); }} aria-label={`Delete ${item.name}`}><i className="fa-solid fa-trash" /></button></div></article>)}</div>
               </> : <section className="manager-form manager-cv-card">
                 <h3>Active CV</h3>
                 <p>File aktif: <strong>{cvName}</strong></p>

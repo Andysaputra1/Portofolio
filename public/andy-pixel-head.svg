@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges">
+  <title>Pixel Andy</title>
+  <path fill="#171514" d="M11 2h11v2h5v3h3v13h-2v6h-4v3H9v-2H5v-4H2v-7h1V9h3V6h5z"/>
+  <path fill="#ffc990" d="M8 13h17v5h3v5h-3v3h-3v2H11v-2H7v-3H4v-4h4z"/>
+  <path fill="#e9a575" d="M4 19h2v3H4zm20 5h2v2h-4v2h-3v-2h5zM23 12h2v5h-2z"/>
+  <path fill="#49392e" d="M11 3h10v2h5v3h3v8h-3v2h-2v-6h-2v3h-5v2h-4v-2h-3v3H6v-3H4v-5h3V7h4z"/>
+  <path fill="#664c3b" d="M11 5h6v2h-3v3h-4v2H6v-2h2V8h3zm8 3h4v2h4v3h-4v-2h-4zm-4 4h5v2h-5z"/>
+  <path fill="#80604a" d="M12 4h4v2h-4zM8 8h3v2H8zm16 1h2v2h-2z"/>
+  <path fill="#303035" d="M5 18h22v2H5z"/>
+  <path fill="#d9dfe2" d="M7 17h8v7H7zm10 0h8v7h-8z"/>
+  <path fill="#fff5e6" d="M9 19h4v3H9zm10 0h4v3h-4z"/>
+  <path fill="#302923" d="M11 19h2v3h-2zm10 0h2v3h-2z"/>
+  <path fill="#f1f4f3" d="M7 17h8v2H7zm10 0h8v2h-8zm-2 2h2v2h-2z"/>
+  <path fill="#a9432d" d="M13 24h7v2h-2v1h-3v-1h-2z"/>
+  <path fill="#e97951" d="M15 25h3v2h-3z"/>
+</svg>

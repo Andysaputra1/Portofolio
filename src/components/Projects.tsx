@@ -11,6 +11,9 @@ export default function Projects() {
   const { projects } = usePortfolioData();
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<Project | null>(null);
+  const [filter, setFilter] = useState("All projects");
+  const filters = ["All projects", ...new Set(projects.map((p) => p.tag).filter(Boolean))];
+  const visibleProjects = projects.filter((p) => filter === "All projects" || p.tag === filter);
 
   const titleRef = useScrollReveal<HTMLHeadingElement>();
   const gridRef  = useScrollReveal<HTMLDivElement>();
@@ -21,19 +24,25 @@ export default function Projects() {
   return (
     <section id="projects" className="section" aria-labelledby="projects-title">
       <div className="section-title">
+        <p className="section-kicker">04 / SELECTED WORK</p>
         <h2 id="projects-title" className="reveal" ref={titleRef}>
-          My <span>Projects</span>
+          From an idea <span>to something real.</span>
         </h2>
+        <p className="section-description">A collection of experiments, practical solutions, and things I loved building.</p>
+      </div>
+      <div className="project-filters section-center" aria-label="Filter projects">
+        {filters.map((tag) => <button key={tag} type="button" className={filter === tag ? "is-active" : ""} aria-pressed={filter === tag} onClick={() => setFilter(tag)}>{tag}<span>{tag === "All projects" ? projects.length : projects.filter((p) => p.tag === tag).length}</span></button>)}
       </div>
 
       {/* grid diberi reveal-stagger agar kartu animasi berurutan */}
       <div className="proj-grid section-center reveal-stagger" ref={gridRef}>
-        {projects.map((p, idx) => (
+        {visibleProjects.map((p, idx) => (
           <article key={p.id} className="proj-card reveal" style={si(idx)}>
             <div className="proj-media">
               {p.image ? (
                 <img className="proj-img" src={p.image} alt={p.title} loading="lazy" decoding="async" />
               ) : <div className="proj-img-placeholder"><i className="fa-regular fa-image" aria-hidden="true" /></div>}
+              {p.status && <span className="proj-status">{p.status}</span>}
               <span className="proj-number">{String(idx + 1).padStart(2, "0")}</span>
             </div>
 
@@ -52,7 +61,7 @@ export default function Projects() {
                 aria-haspopup="dialog"
                 aria-controls="project-modal"
               >
-                View Detail
+                View project <span aria-hidden="true">↗</span>
               </button>
 
               <a
@@ -62,7 +71,7 @@ export default function Projects() {
                 rel="noreferrer"
                 aria-label={`Visit ${p.title}`}
               >
-                Visit
+                {p.link.startsWith("https://github.com/") ? "Source code" : "Live link"} <span aria-hidden="true">↗</span>
               </a>
             </div>
           </article>

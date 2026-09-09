@@ -46,9 +46,10 @@ useEffect(() => {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ question: userMsg.content }),
+        signal: AbortSignal.timeout(55_000),
       });
       const j: { answer?: string; error?: string } = await r.json().catch(() => ({}));
-      if (!r.ok) throw new Error(j.error || "Layanan AI sedang tidak tersedia.");
+      if (!r.ok || !j.answer?.trim()) throw new Error(j.error || "Layanan AI sedang tidak tersedia.");
       setMsgs((m) => [...m, { role: "assistant", content: j.answer ?? "Maaf, belum ada jawaban." }]);
     } catch (error) {
       const message = error instanceof Error ? error.message : "AI belum bisa merespons saat ini. Silakan coba lagi sebentar lagi.";
@@ -107,6 +108,7 @@ useEffect(() => {
                 onKeyDown={(e) => e.key === "Enter" && void send()}
                 placeholder="Tulis pertanyaanmu…"
                 aria-label="Chat input"
+                maxLength={800}
                 disabled={isSending}
               />
               <button onClick={() => void send()} className="ai-send" aria-label="Send" disabled={isSending || !input.trim()}>

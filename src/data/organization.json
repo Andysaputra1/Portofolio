@@ -1,9 +1,112 @@
 [
-  { "id": 1, "role": "Application Developer Intern", "org": "Jakarta", "period": "February 2026 – January 2027", "summary": "Internship focused on developing and maintaining web applications, collaborating with cross-functional teams to implement features, optimize performance, and ensure a seamless user experience." },
-  { "id": 2, "role": "Freshmen Leader", "org": "Alam Sutera", "period": "Aug 2025 – Sep 2025", "summary": "Guided first-year students to adapt to university life, introducing Binusian values and mentoring with direction, encouragement, and practical advice for a smooth transition." },
-  { "id": 3, "org": "BINUS TV Club – Alam Sutera", "period": "Aug 2023 – Dec 2025", "summary": "Contributed as core activist and lead technical advisor; hands-on in technical direction, cross-functional coordination, and end-to-end post-production for large student initiatives.", "roles": [ { "title": "Technical Advisor – Core Development", "context": "(PSA, Media Journey, Glimpse of BINUSTV Club, Buram EXPO, LDKA)", "bullets": [ "Provided technical mentorship and best practices to new activists.", "Monitored and supported technical execution of internal projects and events." ] }, { "title": "Technical Coordinator", "context": "(Buram EXPO)", "bullets": [ "Managed technical crew for setup and equipment.", "Handled cross-divisional communication and resolved on-site issues." ] }, { "title": "Editor", "context": "(Public Service Announcement, Uni-Verse Diaries)", "bullets": [ "Owned end-to-end visual, audio, and post-production editing." ] } ] },
-  { "id": 4, "org": "Church Community GMS – Alam Sutera", "period": "Dec 2023 – Present", "summary": "Young emerging leader serving as Project Director for youth events and vice leader in a cell group.", "roles": [ { "title": "Project Director", "context": "(Reignate, Impact)", "bullets": [ "Led end-to-end planning and execution.", "Built and guided a cross-functional leadership team." ] } ] },
-  { "id": 5, "org": "BINUSIAN BASKETBALL – Alam Sutera", "period": "Aug 2024 – Dec 2025", "summary": "Creative & Fun Division: focused on digitalization and design; produced program and social-media assets and led creative communication." },
-  { "id": 6, "role": "Volunteer", "org": "Teach For Indonesia – Alam Sutera", "period": "Aug 2023 – Dec 2024", "summary": "Committed to social causes through anti-corruption awareness and marine-environment protection initiatives.", "roles": [ { "title": "Community Programs", "bullets": [ "Raised awareness about anti-corruption in Indonesia.", "Contributed to marine protection through waste-observation activities." ] } ] },
-  { "id": 7, "org": "Student Representative Council (MPK) – Batam", "period": "Aug 2022 – Dec 2022", "role": "Project Director (OSIS Election SMAS Pelita Utama 2022, Christmas Dinner)", "roles": [ { "title": "Event Leadership", "bullets": [ "Planned and executed school election and Christmas Dinner.", "Managed cross-functional teams and timelines." ] } ] }
+  {
+    "id": 1,
+    "role": "Application Developer Intern",
+    "org": "Jakarta",
+    "period": "February 2026 – January 2027",
+    "summary": "Internship focused on developing and maintaining web applications, collaborating with cross-functional teams to implement features, optimize performance, and ensure a seamless user experience.",
+    "image": "polytron",
+    "imageCaption": "A new chapter at Polytron",
+    "imageLayout": "original"
+  },
+  {
+    "id": 2,
+    "role": "Freshmen Leader",
+    "org": "Alam Sutera",
+    "period": "Aug 2025 – Sep 2025",
+    "summary": "Guided first-year students to adapt to university life, introducing Binusian values and mentoring with direction, encouragement, and practical advice for a smooth transition.",
+    "image": "freshmen",
+    "imageCaption": "Welcoming the next generation",
+    "imageLayout": "landscape"
+  },
+  {
+    "id": 3,
+    "org": "BINUS TV Club – Alam Sutera",
+    "period": "Aug 2023 – Dec 2025",
+    "summary": "Contributed as core activist and lead technical advisor; hands-on in technical direction, cross-functional coordination, and end-to-end post-production for large student initiatives.",
+    "roles": [
+      {
+        "title": "Technical Advisor – Core Development",
+        "context": "(PSA, Media Journey, Glimpse of BINUSTV Club, Buram EXPO, LDKA)",
+        "bullets": [
+          "Provided technical mentorship and best practices to new activists.",
+          "Monitored and supported technical execution of internal projects and events."
+        ]
+      },
+      {
+        "title": "Technical Coordinator",
+        "context": "(Buram EXPO)",
+        "bullets": [
+          "Managed technical crew for setup and equipment.",
+          "Handled cross-divisional communication and resolved on-site issues."
+        ]
+      },
+      {
+        "title": "Editor",
+        "context": "(Public Service Announcement, Uni-Verse Diaries)",
+        "bullets": [
+          "Owned end-to-end visual, audio, and post-production editing."
+        ]
+      }
+    ],
+    "image": "binus-tv",
+    "imageCaption": "The team behind the scenes",
+    "imageLayout": "original"
+  },
+  {
+    "id": 4,
+    "org": "Church Community GMS – Alam Sutera",
+    "period": "Dec 2023 – Present",
+    "summary": "Young emerging leader serving as Project Director for youth events and vice leader in a cell group.",
+    "roles": [
+      {
+        "title": "Project Director",
+        "context": "(Reignate, Impact)",
+        "bullets": [
+          "Led end-to-end planning and execution.",
+          "Built and guided a cross-functional leadership team."
+        ]
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "org": "BINUSIAN BASKETBALL – Alam Sutera",
+    "period": "Aug 2024 – Dec 2025",
+    "summary": "Creative & Fun Division: focused on digitalization and design; produced program and social-media assets and led creative communication."
+  },
+  {
+    "id": 6,
+    "role": "Volunteer",
+    "org": "Teach For Indonesia – Alam Sutera",
+    "period": "Aug 2023 – Dec 2024",
+    "summary": "Committed to social causes through anti-corruption awareness and marine-environment protection initiatives.",
+    "roles": [
+      {
+        "title": "Community Programs",
+        "bullets": [
+          "Raised awareness about anti-corruption in Indonesia.",
+          "Contributed to marine protection through waste-observation activities."
+        ]
+      }
+    ],
+    "image": "tfi",
+    "imageCaption": "Learning through giving back",
+    "imageLayout": "original"
+  },
+  {
+    "id": 7,
+    "org": "Student Representative Council (MPK) – Batam",
+    "period": "Aug 2022 – Dec 2022",
+    "role": "Project Director (OSIS Election SMAS Pelita Utama 2022, Christmas Dinner)",
+    "roles": [
+      {
+        "title": "Event Leadership",
+        "bullets": [
+          "Planned and executed school election and Christmas Dinner.",
+          "Managed cross-functional teams and timelines."
+        ]
+      }
+    ]
+  }
 ]

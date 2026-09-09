@@ -16,7 +16,7 @@ export default function useScrollReveal<T extends HTMLElement>(opts: Opts = {}) 
     if (!el) return;
 
     const cls  = opts.toggleClass ?? "is-inview";
-    const once = opts.once ?? false;
+    const once = opts.once ?? true;
 
     const io = new IntersectionObserver(
       (entries) => {
@@ -32,7 +32,7 @@ export default function useScrollReveal<T extends HTMLElement>(opts: Opts = {}) 
         });
       },
       {
-        threshold: opts.threshold ?? 0.12,
+        threshold: opts.threshold ?? 0,
         rootMargin: opts.rootMargin ?? "0px",
       }
     );

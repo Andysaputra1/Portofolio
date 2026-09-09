@@ -1,7 +1,58 @@
 [
-  { "id": "reservasi", "title": "Resevarsi ID", "tag": "Personal Project", "stack": "React.js · SQL", "link": "https://reservasiid.vercel.app/", "image": "reservasi", "description": "reservasi.id is a modern, web-based ferry ticket booking platform built with React.js that serves as a digital aggregator connecting passengers directly with official ticket agents." },
-  { "id": "portfolio", "title": "AndySaputraPortofolio", "tag": "Personal Project", "stack": "React.js · TypeScript · OpenAI API", "link": "https://andysaputraportofolio.vercel.app", "image": "portfolio", "description": "A React-based personal website showcasing profile details, skills, experiences, contact information, and a downloadable CV, with an OpenAI-powered chatbot." },
-  { "id": "exploreid", "title": "Explore ID", "tag": "University Project", "stack": "React.js · SQL", "link": "https://exploreid-one.vercel.app/", "image": "explore", "description": "A travel discovery platform built collaboratively with React.js, SQL integration, and Scrum Agile practices." },
-  { "id": "diabetes", "title": "Diebety AI Predict", "tag": "University Project", "stack": "Machine Learning", "link": "https://kyhr-app.streamlit.app", "image": "diabetes", "description": "An AI diabetes-risk predictor using logistic regression, Random Forest, XGBoost, preprocessing, SHAP feature selection, and Streamlit." },
-  { "id": "scolio", "title": "SkolioCheck", "tag": "University Project", "stack": "Deep Learning · Figma", "link": "https://github.com/Andysaputra1/Scoliovis", "image": "scolio", "description": "A CNN-based VGG16 deep-learning project for scoliosis detection using X-ray images." }
+  {
+    "id": "silent-terror",
+    "title": "Silent Terror",
+    "tag": "University Project",
+    "status": "In progress",
+    "stack": "Angular · Python / FastAPI · MySQL · Docker · SVM · Fuzzy Logic · Ollama",
+    "link": "https://github.com/Andysaputra1/GamesSilentTerror",
+    "image": "silent-terror",
+    "description": "An ongoing university project exploring conversational AI through a social-deduction game prototype. Players exchange alibis and look for a hidden Hitman, while NOX joins the discussion as an AI game character. The current prototype supports login, room creation and joining, and room-based chat.\n\nAs team lead, full-stack developer, and AI researcher, I contribute across project coordination, frontend and backend development, database and Docker setup, and AI research and experimentation.\n\nBuilt with Angular, a Python/FastAPI backend, Socket.IO, MySQL, and Docker. The AI pipeline combines SVM intent classification with fuzzy-logic suspicion scoring to inform contextual bot responses. It supports OpenAI API integration and downloaded Qwen3 models running locally through Ollama.\n\nMy exploration includes Naive Bayes, SVM, TF-IDF, transformers, and fuzzy logic, alongside learning how LLM inference, conversation context, model size, and local CPU/GPU deployment work beyond API calls.\n\nStill in development: the current experience focuses on chat and AI experimentation; the round engine, role actions, voting, and win conditions are not yet active.",
+    "role": "Team Lead · Full-stack Developer · AI Researcher"
+  },
+  {
+    "id": "reservasi",
+    "title": "Resevarsi ID",
+    "tag": "Personal Project",
+    "stack": "React.js · SQL",
+    "link": "https://reservasiid.vercel.app/",
+    "image": "reservasi",
+    "description": "reservasi.id is a modern, web-based ferry ticket booking platform built with React.js that serves as a digital aggregator connecting passengers directly with official ticket agents."
+  },
+  {
+    "id": "portfolio",
+    "title": "AndySaputraPortofolio",
+    "tag": "Personal Project",
+    "stack": "React.js · TypeScript · OpenAI API",
+    "link": "https://andysaputraportofolio.vercel.app",
+    "image": "portfolio",
+    "description": "A React-based personal website showcasing profile details, skills, experiences, contact information, and a downloadable CV, with an OpenAI-powered chatbot."
+  },
+  {
+    "id": "exploreid",
+    "title": "Explore ID",
+    "tag": "University Project",
+    "stack": "React.js · SQL",
+    "link": "https://exploreid-one.vercel.app/",
+    "image": "explore",
+    "description": "A travel discovery platform built collaboratively with React.js, SQL integration, and Scrum Agile practices."
+  },
+  {
+    "id": "diabetes",
+    "title": "Diebety AI Predict",
+    "tag": "University Project",
+    "stack": "Machine Learning",
+    "link": "https://kyhr-app.streamlit.app",
+    "image": "diabetes",
+    "description": "An AI diabetes-risk predictor using logistic regression, Random Forest, XGBoost, preprocessing, SHAP feature selection, and Streamlit."
+  },
+  {
+    "id": "scolio",
+    "title": "SkolioCheck",
+    "tag": "University Project",
+    "stack": "Deep Learning · Figma",
+    "link": "https://github.com/Andysaputra1/Scoliovis",
+    "image": "scolio",
+    "description": "A CNN-based VGG16 deep-learning project for scoliosis detection using X-ray images."
+  }
 ]

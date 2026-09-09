@@ -2,8 +2,21 @@
 import { usePortfolioData } from "../context/PortfolioDataContext";
 import useScrollReveal from "../hook/useScrollReveal.ts";
 import type { CSSProperties } from "react";
+import type { OrgExp } from "../types/portfolio";
 
 const si = (i: number) => ({ "--i": i } as CSSProperties & Record<"--i", number>);
+
+function ExperiencePhoto({ experience }: { experience: OrgExp }) {
+  if (!experience.image) return null;
+  return (
+    <figure className={`exp-photo${experience.imageLayout === 'landscape' ? " exp-photo-freshmen" : ""}`}>
+      <div className="exp-photo-frame">
+        <img src={experience.image} alt={experience.imageCaption || `${experience.role || experience.org} experience`} loading="lazy" decoding="async" />
+      </div>
+      {experience.imageCaption && <figcaption>{experience.imageCaption}</figcaption>}
+    </figure>
+  );
+}
 
 export default function OrganizationExperience() {
   const { organizations } = usePortfolioData();
@@ -15,7 +28,9 @@ export default function OrganizationExperience() {
   return (
     <section id="experience" className="section exp-section">
       <div className="section-title">
-        <h2 className="reveal" ref={titleRef}>Experience</h2>
+        <p className="section-kicker">03 / ALONG THE WAY</p>
+        <h2 className="reveal" ref={titleRef}>Learning by <span>doing.</span></h2>
+        <p className="section-description">The teams, experiences, and responsibilities that shaped how I work.</p>
       </div>
 
       <div className="section-center">
@@ -31,6 +46,7 @@ export default function OrganizationExperience() {
                   <div className="exp-org">{x.org}</div>
                   {x.location && <div className="exp-location">{x.location}</div>}
                   <div className="exp-period">{x.period}</div>
+                  <ExperiencePhoto experience={x} />
                 </div>
                 <div className="exp-details">
                   {x.summary && <p className="exp-summary">{x.summary}</p>}

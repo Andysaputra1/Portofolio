@@ -16,7 +16,7 @@ function getColumnCount() {
 
 function getCellCount(columns: number) {
   return (
-    columns * Math.ceil(window.innerHeight / (window.innerWidth / columns))
+    columns * Math.ceil(Math.max(720, window.innerHeight) / (window.innerWidth / columns))
   );
 }
 
@@ -47,6 +47,7 @@ export default function Hero() {
     Array.from({ length: SNAKE_LENGTH }, (_, index) => SNAKE_LENGTH - index),
   );
   const targetRef = useRef<number | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const updateColumns = () => {
@@ -59,9 +60,14 @@ export default function Hero() {
   }, []);
 
   useEffect(() => {
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let visible = true;
+    const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; });
+    if (sectionRef.current) observer.observe(sectionRef.current);
     const timer = window.setInterval(() => {
+      if (motion.matches || !visible || document.hidden) return;
       setSnake((current) => {
-        const head = current[0];
+        const head = current[0] % cellCount;
         let options = neighbours(head, columns, cellCount).filter(
           (cell) => !current.slice(0, -1).includes(cell),
         );
@@ -85,7 +91,7 @@ export default function Hero() {
         return [next, ...current.slice(0, SNAKE_LENGTH - 1)];
       });
     }, 160);
-    return () => window.clearInterval(timer);
+    return () => { window.clearInterval(timer); observer.disconnect(); };
   }, [cellCount, columns]);
 
   const snakeCells = useMemo(
@@ -95,8 +101,10 @@ export default function Hero() {
 
   return (
     <section
+      ref={sectionRef}
       className="hero-grid"
       id="home"
+      aria-labelledby="hero-title"
       style={
         { "--hero-cols": columns } as CSSProperties &
           Record<"--hero-cols", number>
@@ -106,6 +114,7 @@ export default function Hero() {
         const snakeIndex = snakeCells.get(index);
         return (
           <span
+            aria-hidden="true"
             key={index}
             data-cell={index}
             onPointerEnter={() => {
@@ -120,17 +129,18 @@ export default function Hero() {
         );
       })}
       <div className="hero-text">
-        <h1>ANDY SAPUTRA PORTOFOLIO</h1>
-        <p className="subhead">
-          “Whatever your hand finds to do, do it with your might.”
-        </p>
+        <div className="hero-eyebrow"><span className="status-dot" /> A mind for technology. An eye for possibility.</div>
+        <h1 id="hero-title">Andy<br /><span>Saputra.</span></h1>
+        <p className="hero-description">Turning curiosity into meaningful digital experiences. <br />Computer science, intelligent systems & a little creativity.</p>
         <div className="hero-actions">
-          <a href="#about" className="hero-cta">
-            <span>Explore Portfolio</span>
+          <a href="#projects" className="hero-cta">
+            <span>Explore my work</span>
             <i className="fa-solid fa-arrow-right" aria-hidden="true" />
           </a>
+          <a href="#contact" className="hero-secondary">Let’s connect <span aria-hidden="true">↗</span></a>
         </div>
       </div>
+      <div className="hero-bottom"><span>PORTFOLIO / ANDY SAPUTRA</span><a href="#about">Scroll to discover <span aria-hidden="true">↓</span></a><span className="grid-hint">Move your cursor. Follow the squares.</span></div>
     </section>
   );
 }

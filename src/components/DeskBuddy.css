@@ -1,0 +1,36 @@
+/* A quiet 18-second story: work, think, idea, work, coffee, repeat. */
+.toolkit-groups { position: relative; }
+.desk-buddy { --desk-loop: 18s; position: absolute; width: 116px; height: 130px; right: 24px; top: -114px; pointer-events: none; mix-blend-mode: lighten; }
+.desk-frame { position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; image-rendering: pixelated; opacity: 0; }
+.desk-frame--0 { animation: desk-work var(--desk-loop) steps(1, end) infinite; }
+.desk-frame--1 { animation: desk-blink var(--desk-loop) steps(1, end) infinite; }
+.desk-frame--2 { animation: desk-cup var(--desk-loop) steps(1, end) infinite; }
+.desk-frame--3 { animation: desk-sip var(--desk-loop) steps(1, end) infinite; }
+.desk-thought { position: absolute; width: 50px; height: 46px; right: -16px; top: -22px; opacity: 0; transform-origin: bottom left; animation: desk-think var(--desk-loop) ease-in-out infinite; }
+.desk-lightbulb { opacity: 0; animation: desk-idea var(--desk-loop) ease-in-out infinite; }
+.desk-buddy[data-paused="true"] * { animation-play-state: paused; }
+@keyframes desk-work {
+  0%, 11%, 23%, 35%, 55%, 64%, 92% { opacity: 1; }
+  10%, 22%, 34%, 54%, 63%, 72% { opacity: 0; }
+}
+@keyframes desk-blink {
+  0%, 11%, 23%, 35%, 55%, 64%, 100% { opacity: 0; }
+  10%, 22%, 34%, 54%, 63% { opacity: 1; }
+}
+@keyframes desk-cup { 0%, 78%, 92%, 100% { opacity: 0; } 72%, 86% { opacity: 1; } }
+@keyframes desk-sip { 0%, 86%, 100% { opacity: 0; } 78% { opacity: 1; } }
+@keyframes desk-think {
+  0%, 28%, 53%, 100% { opacity: 0; transform: translateY(3px) scale(.85); }
+  32%, 49% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes desk-idea { 0%, 35%, 53%, 100% { opacity: 0; } 39%, 49% { opacity: 1; } }
+@media (max-width: 700px) {
+  .toolkit-groups { margin-top: 144px; }
+  .desk-buddy { right: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .desk-buddy * { animation: none !important; }
+  .desk-frame--0 { opacity: 1; }
+  .desk-frame--1, .desk-frame--2, .desk-frame--3, .desk-thought { opacity: 0; }
+}
+/* Blend the full mascot outside the cards? reveal stacking contexts. */
