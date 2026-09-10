@@ -5,8 +5,16 @@ import {
   useState,
   type CSSProperties,
 } from "react";
+import HeroSwing from './HeroSwing';
 
 const SNAKE_LENGTH = 18;
+
+function segmentColor(index: number) {
+  const strength = Math.pow(1 - index / (SNAKE_LENGTH - 1), 1.1);
+  const head = [96, 70, 51];
+  const tail = [25, 24, 23];
+  return `rgb(${head.map((value, channel) => Math.round(tail[channel] + (value - tail[channel]) * strength)).join(', ')})`;
+}
 
 function getColumnCount() {
   if (window.innerWidth <= 600) return 5;
@@ -117,13 +125,15 @@ export default function Hero() {
             aria-hidden="true"
             key={index}
             data-cell={index}
+            data-snake-index={snakeIndex}
+            style={snakeIndex === undefined ? undefined : { '--snake-color': segmentColor(snakeIndex) } as CSSProperties}
             onPointerEnter={() => {
               targetRef.current = index;
             }}
             className={
               snakeIndex === undefined
                 ? ""
-                : `is-snake snake-segment-${Math.min(4, Math.floor(snakeIndex / 4))} ${snakeIndex === 0 ? "is-snake-head" : ""}`
+                : `is-snake ${snakeIndex === 0 ? "is-snake-head" : ""}`
             }
           />
         );
@@ -133,13 +143,17 @@ export default function Hero() {
         <h1 id="hero-title">Andy<br /><span>Saputra.</span></h1>
         <p className="hero-description">Turning curiosity into meaningful digital experiences. <br />Computer science, intelligent systems & a little creativity.</p>
         <div className="hero-actions">
+          <div className="hero-swing-cta">
           <a href="#projects" className="hero-cta">
             <span>Explore my work</span>
             <i className="fa-solid fa-arrow-right" aria-hidden="true" />
           </a>
+          <HeroSwing mobile />
+          </div>
           <a href="#contact" className="hero-secondary">Let’s connect <span aria-hidden="true">↗</span></a>
         </div>
       </div>
+      <HeroSwing />
       <div className="hero-bottom"><span>PORTFOLIO / ANDY SAPUTRA</span><a href="#about">Scroll to discover <span aria-hidden="true">↓</span></a><span className="grid-hint">Move your cursor. Follow the squares.</span></div>
     </section>
   );

@@ -1,0 +1,30 @@
+.hero-swing { pointer-events: none; }
+.hero-swing > svg { display: block; width: 100%; height: auto; overflow: visible; }
+.hero-grid .hero-swing-desktop { position: absolute; z-index: 4; width: calc(100vw / 16 * 2); left: calc(100vw / 16 * 10); top: calc(100vw / 16 * 2 - 2px); }
+.hero-grid .hero-swing-mobile { display: none; }
+.swing-andy-frames { image-rendering: pixelated; transform-box: fill-box; animation: swing-wave 12s steps(1, end) infinite; }
+.swing-hello { opacity: 0; animation: swing-hello 12s ease-in-out infinite; }
+.hero-swing[data-paused="true"] * { animation-play-state: paused; }
+@keyframes swing-wave { 0%, 72%, 100% { transform: translateX(0); } 44% { transform: translateX(-50%); } }
+@keyframes swing-hello { 0%, 41%, 77%, 100% { opacity: 0; } 44%, 73% { opacity: 1; } }
+/* On compact screens the button itself is the swing support. */
+.hero-swing-cta { position: relative; }
+@media (max-width: 1024px) {
+  .hero-grid { min-height: 980px; }
+  .hero-grid .hero-text { top: 150px; transform: translateX(-50%); }
+  .hero-grid .hero-swing-desktop { display: none; }
+  .hero-grid .hero-swing-mobile { display: block; position: absolute; width: 180px; left: 50%; top: calc(100% - 2px); transform: translateX(-50%); margin: 0; }
+  .hero-grid .hero-actions { align-items: flex-start; margin-bottom: 200px; }
+  .hero-grid .hero-cta:hover { transform: none; }
+  .hero-grid .hero-secondary { min-height: 48px; align-items: center; }
+  .hero-grid .hero-swing-cta > .hero-cta { min-width: 180px; justify-content: center; }
+}
+@media (max-width: 360px) {
+  .hero-grid .hero-actions { flex-direction: column; align-items: center; margin-bottom: 0; }
+  .hero-grid .hero-swing-cta { margin-bottom: 180px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-swing .swing-rope, .hero-swing .swing-seat, .hero-swing .swing-andy-frames { animation: none; }
+  .hero-swing .swing-hello { animation: none; opacity: 1; }
+}
+
