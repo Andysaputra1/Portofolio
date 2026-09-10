@@ -1,0 +1,22 @@
+.project-collection { display: flex; flex-direction: column; }
+.project-collection > .project-filters, .project-collection > .proj-grid { width: 100%; margin-inline: 0; }
+.project-collection > .project-filters { order: 0; }
+.project-builder-stage { position: relative; z-index: 1; order: 1; width: calc(50% - 14px); margin-left: calc(50% + 14px); height: 0; display: flex; align-items: flex-end; justify-content: center; pointer-events: none; }
+.project-collection > .proj-grid { order: 2; }
+.dino-builder { position: relative; isolation: isolate; width: 240px; max-width: calc(100% - 104px); margin-left: 104px; pointer-events: none; }
+.dino-builder::before { content: ''; position: absolute; z-index: -1; left: 49%; top: 16%; width: 54%; height: 82%; border-radius: 50%; background: radial-gradient(ellipse, #d7e7af38 0%, #a5c58726 30%, #86ae7212 52%, transparent 74%); filter: blur(7px); opacity: 0; transform: scale(.8); }
+.dino-builder[data-pose="3"]::before { animation: dino-complete-glow 3.8s ease-in-out both; }
+.dino-builder[data-paused="true"]::before { animation-play-state: paused; }
+@keyframes dino-complete-glow { 0% { opacity: 0; transform: scale(.8); } 22% { opacity: 1; transform: scale(1.08); } 55% { opacity: .75; transform: scale(1); } 75% { opacity: .9; transform: scale(1.05); } 100% { opacity: 0; transform: scale(.95); } }
+.dino-builder > svg { display: block; width: 100%; overflow: visible; image-rendering: pixelated; }
+.dino-sparkle { opacity: 0; }
+.dino-builder[data-pose="2"] .dino-sparkle { animation: dino-click .7s ease-out both; }
+.dino-builder[data-pose="3"] .dino-pose { animation: dino-proud 1.4s ease-in-out infinite; }
+.dino-builder[data-paused="true"] * { animation-play-state: paused; }
+@keyframes dino-click { 0% { opacity: 0; } 25% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes dino-proud { 50% { translate: 0 -2px; } }
+@media (max-width: 1024px) {
+  .project-builder-stage { order: -1; width: 100%; margin: 0 0 24px; height: 160px; justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) { .dino-builder * { animation: none !important; } }
+@media (prefers-reduced-motion: reduce) { .dino-builder[data-pose="3"]::before { animation: none; opacity: .55; transform: none; } }

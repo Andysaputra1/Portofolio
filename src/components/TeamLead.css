@@ -1,0 +1,32 @@
+.exp-team-stage { position: relative; height: 112px; margin-top: -12px; }
+.team-lead-scene { position: absolute; right: 8px; bottom: 0; width: 400px; max-width: 100%; pointer-events: none; }
+.team-lead-scene > svg { width: 100%; display: block; overflow: visible; }
+.team-person image { image-rendering: pixelated; }
+.team-idea { opacity: 0; }
+.team-lead-scene[data-phase="idea"] .team-idea { opacity: 1; animation: team-light .25s ease-out both, team-idea-float 1.2s .25s ease-in-out infinite; }
+.team-lead-scene[data-phase="idea"] .team-person:not(.team-leader) { animation: team-nod .8s ease-in-out infinite; }
+.team-lead-scene[data-paused="true"] * { animation-play-state: paused; }
+@keyframes team-nod { 50% { translate: 0 1px; } }
+@keyframes team-light { from { opacity: 0; translate: 0 4px; } to { opacity: 1; translate: 0 0; } }
+@media(max-width: 600px) { .exp-team-stage { height: 104px; margin-top: 0; } .team-lead-scene { width: 335px; right: 0; } }
+@media(prefers-reduced-motion: reduce) { .team-lead-scene * { animation: none !important; } }
+
+.exp-team-stage.exp-team-finish { margin-top: 20px; height: 140px; border-bottom: 1px solid var(--line); }
+.team-celebration { opacity: 0; }
+.team-finish-scene[data-phase="celebrate"] .team-celebration { opacity: 1; transition: opacity .3s; }
+.team-finish-scene[data-phase="celebrate"] .team-person { animation: team-hooray 1.1s ease-in-out infinite; }
+.team-finish-scene[data-phase="celebrate"] .team-person:nth-child(2) { animation-delay: .1s; }
+.team-finish-scene[data-phase="celebrate"] .team-person:nth-child(3) { animation-delay: .2s; }
+.team-finish-scene[data-phase="celebrate"] .team-person:nth-child(4) { animation-delay: .3s; }
+.team-finish-scene[data-phase="celebrate"] .team-confetti { animation: team-confetti 1.8s ease-out both; }
+@keyframes team-hooray { 0%, 100% { translate: 0 0; } 40% { translate: 0 -5px; } 65% { translate: 0 0; } }
+@keyframes team-confetti { 0% { opacity: 0; translate: 0 -8px; } 15% { opacity: 1; } 100% { opacity: 0; translate: 7px 48px; } }
+@media (max-width: 600px) { .exp-team-stage.exp-team-finish { height: 120px; } }
+.team-lead-scene.team-finish-scene { left: 0; right: auto; }
+.team-flag-cloth { transform-origin: 2px 0; animation: team-flag-wave 2.4s ease-in-out infinite; }
+.team-finish-scene[data-phase="celebrate"] .team-hooray-popup { animation: team-popup-in .45s cubic-bezier(.2,.8,.3,1.2) both; transform-origin: 210px 20px; }
+@keyframes team-flag-wave { 0%, 100% { transform: skewY(-3deg); } 50% { transform: skewY(3deg); } }
+@keyframes team-popup-in { from { opacity: 0; transform: translateY(5px) scale(.85); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+.team-lead-scene:not(.team-finish-scene)[data-phase="idea"] .team-leader { animation: team-nod 1s ease-in-out infinite reverse; }
+@keyframes team-idea-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -2px; } }

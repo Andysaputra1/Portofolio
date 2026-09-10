@@ -2,6 +2,7 @@
 import { useState, type CSSProperties } from "react";
 import type { Project } from "../types/portfolio";
 import { usePortfolioData } from "../context/PortfolioDataContext";
+import DinoBuilder from "./DinoBuilder";
 import ProjectModal from "./ProjectModal";
 import useScrollReveal from "../hook/useScrollReveal.ts";
 
@@ -30,12 +31,14 @@ export default function Projects() {
         </h2>
         <p className="section-description">A collection of experiments, practical solutions, and things I loved building.</p>
       </div>
-      <div className="project-filters section-center" aria-label="Filter projects">
+      <div className="project-collection section-center">
+      <div className="project-builder-stage"><DinoBuilder /></div>
+      <div className="project-filters" aria-label="Filter projects">
         {filters.map((tag) => <button key={tag} type="button" className={filter === tag ? "is-active" : ""} aria-pressed={filter === tag} onClick={() => setFilter(tag)}>{tag}<span>{tag === "All projects" ? projects.length : projects.filter((p) => p.tag === tag).length}</span></button>)}
       </div>
 
       {/* grid diberi reveal-stagger agar kartu animasi berurutan */}
-      <div className="proj-grid section-center reveal-stagger" ref={gridRef}>
+      <div className="proj-grid reveal-stagger" ref={gridRef}>
         {visibleProjects.map((p, idx) => (
           <article key={p.id} className="proj-card reveal" style={si(idx)}>
             <div className="proj-media">
@@ -78,6 +81,7 @@ export default function Projects() {
         ))}
       </div>
 
+      </div>
       <ProjectModal open={open} onClose={closeModal} project={active} />
     </section>
   );

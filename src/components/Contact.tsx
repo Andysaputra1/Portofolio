@@ -1,5 +1,6 @@
 // src/components/Contact.tsx
 import { useState, type CSSProperties } from "react";
+import CoffeeChat from "./CoffeeChat";
 import CVModal from "./CVModal";
 import useScrollReveal from "../hook/useScrollReveal.ts";
 
@@ -113,6 +114,7 @@ export default function Contact() {
             </ul>
 
             <div className="copy-toast" role="status" aria-live="polite">{copied ? "Copied to clipboard!" : ""}</div>
+            <CoffeeChat />
           </div>
         </div>
       </div>
@@ -124,7 +126,7 @@ export default function Contact() {
         <span className="ai-nudge-pill">
           <i className="fa-regular fa-message" />
           <span>
-            Curious about my work? Try <strong>Ask AI About Me</strong>.
+            Curious about my work? Try <strong>Ask Andy's Assistant</strong>.
           </span>
         </span>
       </div>

@@ -8,7 +8,7 @@ export default function About() {
   return (
     <section id="about" className="intro section" aria-labelledby="about-title">
       <div className="intro-grid">
-        <div className="intro-copy reveal" ref={copyRef}>
+        <div className="intro-copy reveal-stagger" ref={copyRef}>
           <p className="section-kicker">01 / A LITTLE ABOUT ME</p>
           <h2 id="about-title" className="intro-title">Curious mind.<br /><span>Purposeful work.</span></h2>
           <p className="intro-lead">Hi, I'm Andy. A computer science student who sees possibilities beyond the code.</p>

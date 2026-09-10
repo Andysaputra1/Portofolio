@@ -1,4 +1,5 @@
 // src/components/OrganizationExperience.tsx
+import TeamLead from "./TeamLead";
 import { usePortfolioData } from "../context/PortfolioDataContext";
 import useScrollReveal from "../hook/useScrollReveal.ts";
 import type { CSSProperties } from "react";
@@ -22,7 +23,6 @@ export default function OrganizationExperience() {
   const { organizations } = usePortfolioData();
   // reveal refs
   const titleRef = useScrollReveal<HTMLHeadingElement>();
-  const cardRef  = useScrollReveal<HTMLDivElement>();
   const listRef  = useScrollReveal<HTMLUListElement>(); // untuk stagger anak-anaknya
 
   return (
@@ -35,7 +35,8 @@ export default function OrganizationExperience() {
 
       <div className="section-center">
         {/* kartu dibikin reveal juga */}
-        <div className="exp-card reveal" ref={cardRef}>
+        <div className="exp-team-stage"><TeamLead /></div>
+        <div className="exp-card">
           {/* pakai reveal-stagger di UL supaya anak-anaknya animasi berurutan */}
           <ul className="exp-list reveal-stagger" ref={listRef}>
             {organizations.map((x, idx) => (
@@ -63,6 +64,7 @@ export default function OrganizationExperience() {
             ))}
           </ul>
         </div>
+        <div className="exp-team-stage exp-team-finish"><TeamLead finish /></div>
       </div>
     </section>
   );
