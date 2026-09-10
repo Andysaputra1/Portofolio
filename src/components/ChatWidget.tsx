@@ -53,7 +53,11 @@ export default function ChatWidget() {
         inviteSeen.current = true;
         setInvite(true);
         timer = setTimeout(() => setInvite(false), 7000);
-      } else if (!entry.isIntersecting) setInvite(false);
+      } else if (!entry.isIntersecting) {
+        clearTimeout(timer);
+        inviteSeen.current = false;
+        setInvite(false);
+      }
     }, { threshold: .5 });
     observer.observe(contact);
     return () => { observer.disconnect(); clearTimeout(timer); };
@@ -98,7 +102,7 @@ export default function ChatWidget() {
 
   return <>
     <button ref={launcherRef} className={`ai-fab ${open ? "is-hidden" : ""}`} onClick={() => { setOpen(true); setInvite(false); inviteSeen.current = true; }} aria-label="Ask Andy's Assistant about Andy" aria-expanded={open}>
-      {invite && !open && <span className="ai-contact-invite" aria-hidden="true">
+      {!open && <span className="ai-contact-invite" data-active={invite} aria-hidden="true">
         <span className="ai-invite-label">Ask me about Andy!</span>
         <span className="ai-invite-window"><span className="ai-invite-person">
           <InviteAndy />

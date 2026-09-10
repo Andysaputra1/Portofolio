@@ -340,3 +340,13 @@ img.skill-icon { width: 30px; height: 30px; filter: grayscale(1); transition: fi
 }
 
 @media (max-width: 600px) { .intro-photo-card[data-scroll-reveal], .exp-item[data-scroll-reveal] { --enter-x: 0px; } }
+/* Compact, parallel labels for Andy's areas of focus. */
+.about-facts { align-items: flex-start; gap: 28px; }
+.about-facts > div:first-child { flex: 0 0 136px; }
+.about-focus { min-width: 0; flex: 1; }
+.about-focus-tags { display: flex; flex-wrap: wrap; gap: 7px; list-style: none; padding: 0; margin: 0; }
+.about-focus-tags li { padding: 5px 9px; border: 1px solid #b9aecb22; border-radius: 6px; background: #aaa0c20a; color: #c7c3cd; font-size: .73rem; line-height: 1.4; }
+@media (max-width: 640px) {
+  .about-facts { flex-direction: column; gap: 18px; }
+  .about-facts > div:first-child { flex-basis: auto; }
+}

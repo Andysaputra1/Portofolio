@@ -2,49 +2,49 @@
   {
     "id": "javascript",
     "name": "JavaScript",
-    "group": "Programming Languages",
+    "group": "Languages & Web Foundations",
     "image": "javascript"
   },
   {
     "id": "typescript",
     "name": "TypeScript",
-    "group": "Programming Languages",
+    "group": "Languages & Web Foundations",
     "image": "typescript"
   },
   {
     "id": "python",
     "name": "Python",
-    "group": "Programming Languages",
+    "group": "Languages & Web Foundations",
     "image": "python"
   },
   {
     "id": "c",
     "name": "C",
-    "group": "Programming Languages",
+    "group": "Languages & Web Foundations",
     "image": "c"
   },
   {
     "id": "java",
     "name": "Java",
-    "group": "Programming Languages",
+    "group": "Languages & Web Foundations",
     "image": "java"
   },
   {
     "id": "html-css",
     "name": "HTML/CSS",
-    "group": "Programming Languages",
+    "group": "Languages & Web Foundations",
     "image": "html"
   },
   {
     "id": "sql",
     "name": "SQL",
-    "group": "Programming Languages",
+    "group": "Languages & Web Foundations",
     "image": "sql"
   },
   {
     "id": "node",
     "name": "Node.js",
-    "group": "Frameworks & Libraries"
+    "group": "Backend & Developer Tools"
   },
   {
     "id": "react",
@@ -65,41 +65,41 @@
   {
     "id": "docker",
     "name": "Docker",
-    "group": "DevOps & Tools"
+    "group": "Backend & Developer Tools"
   },
   {
     "id": "git",
     "name": "Git",
-    "group": "DevOps & Tools"
+    "group": "Backend & Developer Tools"
   },
   {
     "id": "rest-api",
     "name": "RESTful APIs",
-    "group": "DevOps & Tools"
+    "group": "Backend & Developer Tools"
   },
   {
     "id": "llm",
     "name": "LLM Integration",
-    "group": "Artificial Intelligence"
+    "group": "AI & Machine Learning"
   },
   {
     "id": "openai",
     "name": "OpenAI API",
-    "group": "Artificial Intelligence"
+    "group": "AI & Machine Learning"
   },
   {
     "id": "nlp",
     "name": "NLP",
-    "group": "Artificial Intelligence"
+    "group": "AI & Machine Learning"
   },
   {
     "id": "machine-learning",
     "name": "Machine Learning",
-    "group": "Artificial Intelligence"
+    "group": "AI & Machine Learning"
   },
   {
     "id": "deep-learning",
     "name": "Deep Learning",
-    "group": "Artificial Intelligence"
+    "group": "AI & Machine Learning"
   }
 ]

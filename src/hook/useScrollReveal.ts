@@ -8,7 +8,7 @@ export default function useScrollReveal<T extends HTMLElement>(opts: Opts = {}) 
     const el = ref.current;
     if (!el) return;
     const cls = opts.toggleClass ?? "is-inview";
-    const once = opts.once ?? true;
+    const once = opts.once ?? false;
     const group = el.classList.contains("reveal-stagger");
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const tracked = new Set<HTMLElement>();
@@ -25,26 +25,40 @@ export default function useScrollReveal<T extends HTMLElement>(opts: Opts = {}) 
           target.style.setProperty("--enter-delay", `${Math.min(order++, 3) * 85}ms`);
           show(target);
           if (once) io.unobserve(target);
-        } else if (!once && !motion.matches) {
-          target.dataset.scrollReveal = "pending";
-          target.classList.remove(cls);
         }
       });
     }, { threshold: opts.threshold ?? 0, rootMargin: opts.rootMargin ?? "0px 0px -48px 0px" });
+    // Reset only after the entire item has left the screen, with a buffer.
+    // A separate boundary prevents flicker around the entrance threshold.
+    const exitObserver = new IntersectionObserver((entries) => {
+      if (once || motion.matches) return;
+      entries.forEach((entry) => {
+        const target = entry.target as HTMLElement;
+        if (!entry.isIntersecting && !target.contains(document.activeElement)) {
+          target.dataset.scrollReveal = "pending";
+          target.classList.remove(cls);
+          target.style.setProperty("--enter-delay", "0ms");
+        }
+      });
+    }, { rootMargin: "100px 0px 100px 0px", threshold: 0 });
     const sync = () => {
       const targets = group ? Array.from(el.children).filter((child) => !child.classList.contains("reveal-stagger")) : [el];
       for (const child of targets) {
         if (!(child instanceof HTMLElement) || tracked.has(child)) continue;
         tracked.add(child);
+        exitObserver.observe(child);
         child.dataset.scrollReveal = "pending";
         if (motion.matches) show(child);
         else io.observe(child);
       }
       for (const target of tracked) {
-        if (!el.contains(target)) { io.unobserve(target); tracked.delete(target); }
+        if (!el.contains(target)) { io.unobserve(target); exitObserver.unobserve(target); tracked.delete(target); }
       }
     };
-    const reduce = () => { if (motion.matches) { tracked.forEach(show); io.disconnect(); } };
+    const reduce = () => {
+      if (motion.matches) { tracked.forEach(show); io.disconnect(); }
+      else tracked.forEach((target) => io.observe(target));
+    };
     const focus = (event: FocusEvent) => {
       tracked.forEach((target) => { if (target.contains(event.target as Node)) show(target); });
     };
@@ -55,7 +69,7 @@ export default function useScrollReveal<T extends HTMLElement>(opts: Opts = {}) 
     motion.addEventListener("change", reduce);
     el.addEventListener("focusin", focus);
     return () => {
-      io.disconnect(); changes.disconnect();
+      io.disconnect(); exitObserver.disconnect(); changes.disconnect();
       motion.removeEventListener("change", reduce);
       el.removeEventListener("focusin", focus);
       tracked.forEach((target) => { delete target.dataset.scrollReveal; target.style.removeProperty("--enter-delay"); });
