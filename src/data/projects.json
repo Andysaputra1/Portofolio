@@ -18,6 +18,23 @@
     }
   },
   {
+    "id": "ai-trainer",
+    "title": "AI Trainer",
+    "tag": "AI & Machine Learning",
+    "stack": "Python · TensorFlow / Keras · MediaPipe Pose · FastAPI · React",
+    "link": "https://github.com/Andysaputra1/deeplearning",
+    "image": "ai-trainer",
+    "description": "Exploring exercise-quality assessment from body poses, using autoencoder reconstruction error to detect deviations from correct movement patterns.",
+    "role": "Web Development · Research Report",
+    "ai": {
+      "focus": "Computer Vision · Deep Learning · Anomaly Detection",
+      "models": "Dense autoencoder · 64–32–16–32–64 architecture · Pose-derived features",
+      "approach": "Summarize joint angles by mean, standard deviation, minimum, maximum, and range. Train a separate TensorFlow/Keras autoencoder for each exercise on correct movements; higher reconstruction error indicates greater deviation. The report uses MediaPipe Pose; the API accepts MoveNet-style keypoints.",
+      "output": "Exercise-quality scores for push-ups, pull-ups, squats, and planks, derived from reconstruction error.",
+      "evaluation": "Reported reconstruction MSE: approximately 0.03–0.05, with more stable training for push-up and plank. Viewpoint, data diversity, and scoring thresholds remain limitations. The frontend demo is not yet connected to the AI scoring API."
+    }
+  },
+  {
     "id": "reservasi",
     "title": "Reservasi ID",
     "tag": "Web Development",
