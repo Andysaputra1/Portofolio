@@ -36,6 +36,15 @@
     }
   },
   {
+    "id": "my-invitation",
+    "title": "My Invitation",
+    "tag": "Web Development",
+    "stack": "Node.js",
+    "link": "https://www.myinvitation.cards/",
+    "image": "my-invitation",
+    "description": "A digital wedding-invitation website built with Node.js, presenting personalized invitation concepts through an editorial visual experience.\n\nVisitors can explore themed design collections, compare illustrative packages, and start a consultation about their event. The current site is a studio preview, with sample designs, features, and pricing."
+  },
+  {
     "id": "reservasi",
     "title": "Reservasi ID",
     "tag": "Web Development",

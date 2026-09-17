@@ -8,6 +8,7 @@ import imgReservasi from "../images/projectPhotos/reservasi-id.png";
 import imgMushroom from "../images/projectPhotos/mushroom-vision.png";
 import imgSilentTerror from "../images/projectPhotos/SilentTerror.png";
 import imgAiTrainer from "../images/projectPhotos/ai-trainer.png";
+import imgMyInvitation from "../images/projectPhotos/myinivtation.png";
 import polytronPhoto from "../images/experience/polytron_applicationDeveloper.png";
 import freshmenPhoto from "../images/experience/freshman_leader.png";
 import binusTvPhoto from "../images/experience/binus_tv_club.png";
@@ -17,6 +18,7 @@ import type { OrgExp, Project } from "../types/portfolio";
 export const builtInImages: Record<string, string> = {
   "silent-terror": imgSilentTerror,
   "ai-trainer": imgAiTrainer,
+  "my-invitation": imgMyInvitation,
   portfolio: imgPortfolio,
   explore: imgExplore,
   diabetes: imgDiabetes,
