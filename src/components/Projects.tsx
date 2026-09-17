@@ -1,6 +1,6 @@
 // src/components/Projects.tsx
 import { useState, type CSSProperties } from "react";
-import type { Project } from "../types/portfolio";
+import { projectCategories, type Project } from "../types/portfolio";
 import { usePortfolioData } from "../context/PortfolioDataContext";
 import DinoBuilder from "./DinoBuilder";
 import ProjectModal from "./ProjectModal";
@@ -13,8 +13,8 @@ export default function Projects() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<Project | null>(null);
   const [filter, setFilter] = useState("All projects");
-  const filters = ["All projects", ...new Set(projects.map((p) => p.tag).filter(Boolean))];
-  const visibleProjects = projects.filter((p) => filter === "All projects" || p.tag === filter);
+  const filters = ["All projects", ...new Set(projects.flatMap(projectCategories))];
+  const visibleProjects = projects.filter((p) => filter === "All projects" || projectCategories(p).includes(filter));
 
   const titleRef = useScrollReveal<HTMLHeadingElement>();
   const gridRef  = useScrollReveal<HTMLDivElement>();
@@ -34,7 +34,7 @@ export default function Projects() {
       <div className="project-collection section-center">
       <div className="project-builder-stage"><DinoBuilder /></div>
       <div className="project-filters" aria-label="Filter projects">
-        {filters.map((tag) => <button key={tag} type="button" className={filter === tag ? "is-active" : ""} aria-pressed={filter === tag} onClick={() => setFilter(tag)}>{tag}<span>{tag === "All projects" ? projects.length : projects.filter((p) => p.tag === tag).length}</span></button>)}
+        {filters.map((tag) => <button key={tag} type="button" className={filter === tag ? "is-active" : ""} aria-pressed={filter === tag} onClick={() => setFilter(tag)}>{tag}<span>{tag === "All projects" ? projects.length : projects.filter((p) => projectCategories(p).includes(tag)).length}</span></button>)}
       </div>
 
       {/* grid diberi reveal-stagger agar kartu animasi berurutan */}
@@ -51,14 +51,9 @@ export default function Projects() {
 
             <div className="proj-body">
               <h3 className="proj-title">{p.title}</h3>
-              <div className="proj-chip" aria-label="Project category">{p.tag}</div>
-              {p.ai ? (
-                <dl className="proj-ai-highlights">
-                  <div><dt>Research focus</dt><dd>{p.ai.focus}</dd></div>
-                  <div><dt>Models & methods</dt><dd>{p.ai.models}</dd></div>
-                  <div><dt>Output</dt><dd>{p.ai.output}</dd></div>
-                </dl>
-              ) : <><div className="proj-stack-mini">{p.stack}</div><p className="proj-summary">{p.description}</p></>}
+              <div className="proj-categories" aria-label="Project categories">{projectCategories(p).map((category) => <span className="proj-chip" key={category}>{category}</span>)}</div>
+              <p className="proj-summary">{p.description}</p>
+              <p className="proj-card-method"><span>{p.ai ? "MODEL / METHOD" : "BUILT WITH"}</span>{p.ai?.models ?? p.stack}</p>
             </div>
 
             <div className="proj-actions">

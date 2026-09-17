@@ -9,7 +9,7 @@ import { builtInImages, experienceImages } from '../loaders/portfolioData';
 
 type Tab = "projects" | "organizations" | "skills" | "cv";
 
-const emptyProject = { title: "", tag: "Web Development", stack: "", link: "", image: "", description: "", role: "", aiFocus: "", aiModels: "", aiApproach: "", aiOutput: "", aiEvaluation: "", status: "" as "" | NonNullable<Project["status"]> };
+const emptyProject = { title: "", tag: "Web Development", categories: "", stack: "", link: "", image: "", description: "", role: "", aiFocus: "", aiModels: "", aiApproach: "", aiOutput: "", aiEvaluation: "", status: "" as "" | NonNullable<Project["status"]> };
 const emptyOrganization = { role: "", org: "", location: "", period: "", summary: "", subRole: "", context: "", bullets: "", image: "", imageCaption: "", imageLayout: "original" as NonNullable<OrgExp["imageLayout"]> };
 const emptySkill = { name: "", group: skillGroups[0] as Skill["group"], image: "" };
 const COMPRESS_THRESHOLD = 2 * 1024 * 1024;
@@ -151,7 +151,7 @@ export default function PortfolioManager({ standalone = false }: { standalone?: 
     event.target.value = "";
   };
   const startProjectEdit = (project: Project) => {
-    setProjectForm({ title: project.title, tag: project.tag, stack: project.stack, link: project.link, image: project.image ?? "", description: project.description, role: project.role ?? "", aiFocus: project.ai?.focus ?? "", aiModels: project.ai?.models ?? "", aiApproach: project.ai?.approach ?? "", aiOutput: project.ai?.output ?? "", aiEvaluation: project.ai?.evaluation ?? "", status: project.status ?? "" });
+    setProjectForm({ title: project.title, tag: project.tag, categories: (project.categories ?? []).join(", "), stack: project.stack, link: project.link, image: project.image ?? "", description: project.description, role: project.role ?? "", aiFocus: project.ai?.focus ?? "", aiModels: project.ai?.models ?? "", aiApproach: project.ai?.approach ?? "", aiOutput: project.ai?.output ?? "", aiEvaluation: project.ai?.evaluation ?? "", status: project.status ?? "" });
     setEditingProjectId(project.id);
     setNotice(`Mengedit ${project.title}.`);
   };
@@ -172,7 +172,7 @@ export default function PortfolioManager({ standalone = false }: { standalone?: 
     if (!safeLink(projectForm.link) || !safeImage(projectForm.image)) { setNotice('Gunakan link HTTP/HTTPS dan foto JPG, PNG, atau WebP yang valid.'); return; }
     const project: Project = {
       ...projects.find((item) => item.id === editingProjectId),
-      id: editingProjectId ?? safeId(projectForm.title), title: projectForm.title.trim(), tag: projectForm.tag.trim(),
+      id: editingProjectId ?? safeId(projectForm.title), title: projectForm.title.trim(), tag: projectForm.tag.trim(), categories: projectForm.categories.split(",").map((value) => value.trim()).filter(Boolean),
       stack: projectForm.stack.trim(), link: projectForm.link.trim(), image: projectForm.image.trim() || undefined,
       ai: [projectForm.aiFocus, projectForm.aiModels, projectForm.aiApproach, projectForm.aiOutput, projectForm.aiEvaluation].some((value) => value.trim()) ? {
         focus: projectForm.aiFocus.trim(), models: projectForm.aiModels.trim(), approach: projectForm.aiApproach.trim(), output: projectForm.aiOutput.trim(), evaluation: projectForm.aiEvaluation.trim(),
@@ -288,6 +288,7 @@ export default function PortfolioManager({ standalone = false }: { standalone?: 
                   <h3>{editingProjectId ? "Edit project" : "Add project"}</h3>
                   <label>Project title<input name="title" value={projectForm.title} onChange={onProjectChange} required /></label>
                   <div className="manager-fields"><label>Category<input name="tag" list="project-categories" value={projectForm.tag} onChange={onProjectChange} required /><datalist id="project-categories"><option value="AI & Machine Learning" /><option value="Web Development" /></datalist></label><label>Tech stack<input name="stack" value={projectForm.stack} onChange={onProjectChange} required /></label></div>
+                  <label>Additional categories <small>comma-separated, optional</small><input name="categories" value={projectForm.categories} onChange={onProjectChange} placeholder="Web Development" /></label>
                   <label>Project link<input name="link" type="url" placeholder="https://..." value={projectForm.link} onChange={onProjectChange} required /></label>
                   <label>Image URL or path <small>optional</small><input name="image" placeholder="https://..." value={projectForm.image} onChange={onProjectChange} /></label>
                   <label className="manager-upload">Upload project photo <small>JPG, PNG, WebP / max. 20 MB</small><input className="manager-file" type="file" accept="image/jpeg,image/png,image/webp" disabled={isUploading} onChange={(event) => void onPhotoChange(event, "project")} /></label>

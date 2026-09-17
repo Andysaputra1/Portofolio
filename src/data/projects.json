@@ -3,6 +3,7 @@
     "id": "silent-terror",
     "title": "Silent Terror",
     "tag": "AI & Machine Learning",
+    "categories": ["Web Development"],
     "status": "In progress",
     "stack": "Angular · Python / FastAPI · MySQL · Docker · SVM · Fuzzy Logic · Ollama",
     "link": "https://github.com/Andysaputra1/GamesSilentTerror",

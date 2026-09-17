@@ -1,7 +1,7 @@
 ﻿import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { FiArrowUpRight, FiGithub, FiX } from "react-icons/fi";
-import type { Project } from "../types/portfolio";
+import { projectCategories, type Project } from "../types/portfolio";
 import { lockScroll, unlockScroll } from "../utils/scrollLock";
 import "./ProjectModal.css";
 
@@ -49,7 +49,7 @@ export default function ProjectModal({ open, onClose, project }: Props) {
           <div>
             <p className="project-dialog-eyebrow"><span /> SELECTED WORK / PROJECT DETAILS</p>
             <h2 id="project-dialog-title" ref={titleRef} tabIndex={-1}>{project.title}</h2>
-            <div className="project-dialog-badges"><span className="project-dialog-category">{project.tag}</span>{project.status && <span className="proj-status">{project.status}</span>}</div>
+            <div className="project-dialog-badges">{projectCategories(project).map((category) => <span className="project-dialog-category" key={category}>{category}</span>)}{project.status && <span className="proj-status">{project.status}</span>}</div>
           </div>
           <button className="project-dialog-close" type="button" onClick={onClose} aria-label="Close project details"><FiX aria-hidden="true" /></button>
         </header>

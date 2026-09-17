@@ -1,0 +1,44 @@
+﻿/* Match the portfolio's charcoal surfaces and restrained accent colors. */
+.cv-sheet { width: min(1080px, calc(100vw - 48px)); max-width: none; height: min(900px, calc(100dvh - 48px)); max-height: calc(100dvh - 48px); padding: 0; margin: auto; border: 1px solid var(--line, #ffffff1c); border-radius: 18px; background: var(--surface, #191919); color: var(--text-main, #f2f2ef); box-shadow: 0 40px 120px #000a; overflow: hidden; }
+.cv-sheet::backdrop { background: #080808d4; backdrop-filter: blur(10px); }
+.cv-sheet[open] { animation: cv-sheet-enter .22s ease-out; }
+.cv-sheet-panel { height: 100%; display: flex; flex-direction: column; }
+.cv-sheet-header { display: flex; flex-shrink: 0; align-items: center; justify-content: space-between; gap: 18px; padding: 22px 26px; border-bottom: 1px solid #ffffff10; background: #ffffff02; }
+.cv-sheet-heading { display: flex; align-items: center; gap: 15px; min-width: 0; }
+.cv-sheet-icon { display: grid; place-items: center; flex: 0 0 46px; height: 46px; border: 1px solid #c0acf025; border-radius: 12px; background: #c0acf008; color: var(--accent-purple, #c0acf0); font-size: 1.35rem; }
+.cv-sheet-kicker { margin: 0 0 6px; color: #9b9bab; font-size: .58rem; letter-spacing: .14em; }
+.cv-sheet-heading h2 { display: flex; align-items: baseline; flex-wrap: wrap; gap: 12px; margin: 0; font-size: 1.6rem; line-height: 1.2; letter-spacing: -.04em; text-transform: none; }
+.cv-sheet-heading h2 span { color: #94949f; font: 400 .83rem/1.4 var(--ff-body); letter-spacing: 0; }
+.cv-sheet-close { display: grid; place-items: center; flex: 0 0 42px; height: 42px; border: 1px solid #ffffff20; border-radius: 50%; background: #242424; color: #d4d4d8; font-size: 1.2rem; cursor: pointer; }
+.cv-sheet-close:hover { color: #fff; background: #303033; }
+.cv-sheet-toolbar { display: flex; flex-shrink: 0; justify-content: space-between; align-items: center; gap: 12px; padding: 11px 26px; color: #a5a5af; font-size: .75rem; }
+.cv-sheet-format { color: var(--accent-purple, #c0acf0); font-size: .55rem; letter-spacing: .1em; }
+.cv-sheet-preview { flex: 1; min-height: 0; margin: 0 18px; border: 1px solid #ffffff12; border-radius: 8px; overflow: hidden; background: #262626; }
+.cv-sheet-preview iframe { display: block; width: 100%; height: 100%; border: 0; }
+.cv-sheet-footer { display: flex; flex-shrink: 0; justify-content: space-between; align-items: center; gap: 20px; padding: 18px 26px; }
+.cv-sheet-footer p { margin: 0; color: #c0c0c8; font-size: .8rem; line-height: 1.6; }
+.cv-sheet-footer p span { display: block; color: #8f8f9b; font-size: .7rem; }
+.cv-sheet-actions { display: flex; gap: 10px; }
+.cv-sheet-actions a { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 44px; padding: 10px 16px; border-radius: 8px; font-size: .8rem; white-space: nowrap; }
+.cv-sheet-open { border: 1px solid #ffffff20; color: #c5c5ce; background: transparent; }
+.cv-sheet-open:hover { background: #ffffff08; }
+.cv-sheet-download { border: 1px solid #e7e7e0; background: #e7e7e0; color: #191919; font-weight: 600; }
+.cv-sheet-download:hover { background: #ceddff; border-color: #ceddff; }
+.cv-sheet :is(button, a):focus-visible { outline: 2px solid var(--accent-blue, #a6c5ff); outline-offset: 4px; }
+@keyframes cv-sheet-enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 700px) {
+  .cv-sheet { width: calc(100vw - 20px); height: calc(100dvh - 20px); max-height: calc(100dvh - 20px); border-radius: 14px; }
+  .cv-sheet-header { padding: 16px; }
+  .cv-sheet-heading { gap: 10px; }
+  .cv-sheet-icon { display: none; }
+  .cv-sheet-heading h2 { font-size: 1.4rem; gap: 8px; }
+  .cv-sheet-kicker { font-size: .5rem; }
+  .cv-sheet-toolbar { padding: 10px 16px; font-size: .66rem; }
+  .cv-sheet-format { display: none; }
+  .cv-sheet-preview { margin: 0 10px; }
+  .cv-sheet-footer { flex-direction: column; align-items: stretch; gap: 10px; padding: 14px 16px max(14px, env(safe-area-inset-bottom)); }
+  .cv-sheet-footer p { font-size: .72rem; }
+  .cv-sheet-actions a { flex: 1; padding-inline: 10px; }
+}
+@media (max-height: 500px) and (orientation: landscape) { .cv-sheet-header { padding: 10px 18px; } .cv-sheet-toolbar, .cv-sheet-footer p, .cv-sheet-kicker { display: none; } .cv-sheet-footer { padding: 10px 18px; } .cv-sheet-preview { margin-top: 8px; } }
+@media (prefers-reduced-motion: reduce) { .cv-sheet[open] { animation: none; } }

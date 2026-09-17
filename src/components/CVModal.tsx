@@ -1,63 +1,55 @@
-import { createPortal } from "react-dom";
-import { useEffect, useCallback } from "react";
+﻿import { createPortal } from "react-dom";
+import { useEffect, useRef } from "react";
+import { FiArrowUpRight, FiDownload, FiFileText, FiX } from "react-icons/fi";
 import { lockScroll, unlockScroll } from "../utils/scrollLock";
 import { usePortfolioData } from "../context/PortfolioDataContext";
+import "./CVModal.css";
 
 type Props = { open: boolean; onClose: () => void };
 
 export default function CVModal({ open, onClose }: Props) {
   const { cvUrl, cvName } = usePortfolioData();
-  const handleClose = useCallback(() => onClose(), [onClose]);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    if (!open) return;
+    const dialog = dialogRef.current;
+    if (!open || !dialog) return;
+    const trigger = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    dialog.showModal();
     lockScroll();
-    const closeOnEscape = (event: KeyboardEvent) => event.key === "Escape" && handleClose();
-    window.addEventListener("keydown", closeOnEscape);
+    closeRef.current?.focus({ preventScroll: true });
     return () => {
-      window.removeEventListener("keydown", closeOnEscape);
+      dialog.close();
       unlockScroll();
+      trigger?.focus({ preventScroll: true });
     };
-  }, [handleClose, open]);
+  }, [open]);
 
   if (!open) return null;
 
-  const modal = (
-    <div
-      className="cv-backdrop"
-      onClick={handleClose}
-      role="dialog"
-      aria-modal="true"
-      aria-label="My CV"
-    >
-      <div className="cv-modal" onClick={(e) => e.stopPropagation()}>
-        {/* ... sisa kode modal Anda (header, body, footer) ... */}
-        <div className="cv-header">
-          <h3>My CV</h3>
-          <button className="cv-close" aria-label="Close" onClick={handleClose}>
-            <i className="fa-solid fa-xmark" />
-          </button>
-        </div>
-
-        <div className="cv-body">
-          <iframe className="cv-frame" src={cvUrl} title="CV Preview" />
-          <p className="cv-hint">
-            Jika preview tidak tampil atau hanya 1 halaman, silakan&nbsp;
-            <a href={cvUrl} target="_blank" rel="noreferrer">
-              buka CV di tab baru.
-            </a>
-            .
-          </p>
-        </div>
-
-        <div className="cv-footer">
-          <a className="cv-download" href={cvUrl} download={cvName}>
-            <i className="fa-solid fa-download" /> Download CV
-          </a>
-        </div>
+  return createPortal(
+    <dialog ref={dialogRef} className="cv-sheet" aria-labelledby="cv-sheet-title"
+      onCancel={(event) => { event.preventDefault(); onClose(); }}
+      onClick={(event) => { if (event.target === event.currentTarget) onClose(); }}>
+      <div className="cv-sheet-panel">
+        <header className="cv-sheet-header">
+          <div className="cv-sheet-heading">
+            <span className="cv-sheet-icon"><FiFileText aria-hidden="true" /></span>
+            <div><p className="cv-sheet-kicker">PROFILE / CURRICULUM VITAE</p><h2 id="cv-sheet-title">My CV<span>Andy Saputra</span></h2></div>
+          </div>
+          <button ref={closeRef} className="cv-sheet-close" type="button" aria-label="Close CV" onClick={onClose}><FiX aria-hidden="true" /></button>
+        </header>
+        <div className="cv-sheet-toolbar"><span>Experience, skills & selected work</span><span className="cv-sheet-format">PDF DOCUMENT</span></div>
+        <div className="cv-sheet-preview"><iframe src={cvUrl} title="Andy Saputra CV preview" /></div>
+        <footer className="cv-sheet-footer">
+          <p>Keep a copy for a closer look.<span>Preview unavailable? Open the PDF in a new tab.</span></p>
+          <div className="cv-sheet-actions">
+            <a className="cv-sheet-open" href={cvUrl} target="_blank" rel="noreferrer">Open PDF<FiArrowUpRight aria-hidden="true" /></a>
+            <a className="cv-sheet-download" href={cvUrl} download={cvName}><FiDownload aria-hidden="true" />Download CV</a>
+          </div>
+        </footer>
       </div>
-    </div>
+    </dialog>, document.body,
   );
-
-  return createPortal(modal, document.body);
 }
