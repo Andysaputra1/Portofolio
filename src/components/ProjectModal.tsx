@@ -28,6 +28,8 @@ export default function ProjectModal({ open, onClose, project }: Props) {
   if (!open || !project) return null;
   const isRepository = project.link.startsWith("https://github.com/");
   const technologies = project.stack.split(/\s*[·•]\s*/).filter(Boolean);
+  const models = project.ai?.models.split(/\s*[·•]\s*/).filter(Boolean) ?? [];
+  const approachSteps = project.ai?.approach.split(/\n+|(?<=[.!?])\s+(?=[A-Z])/).map((step) => step.trim()).filter(Boolean) ?? [];
 
   return createPortal(
     <dialog id="project-modal" ref={dialogRef} className="project-dialog" aria-labelledby="project-dialog-title"
@@ -57,18 +59,20 @@ export default function ProjectModal({ open, onClose, project }: Props) {
         <div className="project-dialog-body">
           <aside className="project-dialog-visual" aria-label="Project preview and contribution">
             {project.image && <figure className="project-dialog-media"><div className="project-dialog-preview-bar" aria-hidden="true"><span className="project-dialog-window-dots"><i /><i /><i /></span><span>PROJECT PREVIEW</span><FiArrowUpRight /></div><img src={project.image} alt={project.title + " interface preview"} /></figure>}
+            {project.ai && <div className="project-dialog-models"><h3>Research focus</h3><p className="project-dialog-focus">{project.ai.focus}</p><h3>Models & methods</h3><ul className="project-dialog-technologies">{models.map((model) => <li key={model}>{model}</li>)}</ul></div>}
             {project.role && <p className="project-dialog-role"><span>My contribution</span>{project.role}</p>}
             {!project.ai && <ul className="project-dialog-technologies" aria-label="Built with">{technologies.map((technology, index) => <li key={index}>{technology}</li>)}</ul>}
           </aside>
           <section className="project-dialog-content" aria-label={project.ai ? "AI research details" : "About the project"}>
             {project.ai ? <>
-              <p className="project-dialog-focus">{project.ai.focus}</p>
+              <p className="project-dialog-section-label">THE IDEA</p>
               <p className="project-dialog-intro">{project.description.split(/\n\s*\n/)[0]}</p>
-              <dl className="project-dialog-research">
-                <div><dt>01 / Models & methods</dt><dd>{project.ai.models}</dd></div>
-                <div><dt>02 / Approach</dt><dd>{project.ai.approach}</dd></div>
-                <div className="project-dialog-result"><dt>03 / Result & evaluation</dt><dd>{project.ai.output}</dd><dd className="project-dialog-evaluation">{project.ai.evaluation}</dd></div>
-              </dl>
+              <section className="project-dialog-process" aria-labelledby="project-process-title">
+                <h3 id="project-process-title">How it works</h3>
+                <ol>{approachSteps.map((step, index) => <li key={index}><span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span><p>{step}</p></li>)}</ol>
+              </section>
+              <section className="project-dialog-result" aria-labelledby="project-result-title"><h3 id="project-result-title">Result / output</h3><p>{project.ai.output}</p></section>
+              <p className="project-dialog-evaluation"><span>Research note</span>{project.ai.evaluation}</p>
             </> : <>
               <p className="project-dialog-focus">ABOUT THE PROJECT</p>
               {project.description.split(/\n\s*\n/).filter(Boolean).map((paragraph, index) => <p className="project-dialog-intro" key={index}>{paragraph}</p>)}

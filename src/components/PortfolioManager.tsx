@@ -299,7 +299,7 @@ export default function PortfolioManager({ standalone = false }: { standalone?: 
                     <summary>AI technical highlights (optional)</summary>
                     <label>Research focus<input name="aiFocus" value={projectForm.aiFocus} onChange={onProjectChange} placeholder="Computer Vision · Deep Learning" /></label>
                     <label>Models & methods<input name="aiModels" value={projectForm.aiModels} onChange={onProjectChange} placeholder="VGG16 · CNN" /></label>
-                    <label>Approach<textarea name="aiApproach" value={projectForm.aiApproach} onChange={onProjectChange} rows={3} /></label>
+                    <label>Approach <small>one step per line</small><textarea name="aiApproach" value={projectForm.aiApproach} onChange={onProjectChange} rows={3} /></label>
                     <label>Result / output<textarea name="aiOutput" value={projectForm.aiOutput} onChange={onProjectChange} rows={2} /></label>
                     <label>Evaluation & current limits<textarea name="aiEvaluation" value={projectForm.aiEvaluation} onChange={onProjectChange} rows={3} /></label>
                   </details>

@@ -3,7 +3,9 @@
     "id": "silent-terror",
     "title": "Silent Terror",
     "tag": "AI & Machine Learning",
-    "categories": ["Web Development"],
+    "categories": [
+      "Web Development"
+    ],
     "status": "In progress",
     "stack": "Angular · Python / FastAPI · MySQL · Docker · SVM · Fuzzy Logic · Ollama",
     "link": "https://github.com/Andysaputra1/GamesSilentTerror",
@@ -13,9 +15,9 @@
     "ai": {
       "focus": "Natural Language Processing · Conversational AI",
       "models": "SVM · Fuzzy Logic · Qwen3 8B / 14B (Ollama)",
-      "approach": "SVM identifies chat intent; fuzzy logic estimates suspicion; Qwen3 uses these signals and role context to generate dialogue. Experiments cover local CPU/GPU inference and an OpenAI API option.",
+      "approach": "Classify chat intent with SVM.\nEstimate suspicion with fuzzy logic.\nGenerate role-aware replies with Qwen3, using the intent and suspicion signals.",
       "output": "NOX bot dialogue informed by chat intent, suspicion scores, and game context.",
-      "evaluation": "Ongoing research prototype with pipeline tracing. Game actions use rules; the fuzzy silence input is currently fixed."
+      "evaluation": "Ongoing prototype: local CPU/GPU and API experiments. Game actions are rule-based; the silence input is fixed."
     }
   },
   {
@@ -30,9 +32,9 @@
     "ai": {
       "focus": "Computer Vision · Deep Learning · Anomaly Detection",
       "models": "Dense autoencoder · 64–32–16–32–64 architecture · Pose-derived features",
-      "approach": "Summarize joint angles by mean, standard deviation, minimum, maximum, and range. Train a separate TensorFlow/Keras autoencoder for each exercise on correct movements; higher reconstruction error indicates greater deviation. The report uses MediaPipe Pose; the API accepts MoveNet-style keypoints.",
+      "approach": "Extract joint angles and summarize five movement statistics.\nTrain one autoencoder per exercise on correct movements.\nConvert reconstruction error into an exercise-quality score.",
       "output": "Exercise-quality scores for push-ups, pull-ups, squats, and planks, derived from reconstruction error.",
-      "evaluation": "Reported reconstruction MSE: approximately 0.03–0.05, with more stable training for push-up and plank. Viewpoint, data diversity, and scoring thresholds remain limitations. The frontend demo is not yet connected to the AI scoring API."
+      "evaluation": "Reported MSE: 0.03-0.05, not classification accuracy. Viewpoint and data diversity affect results. MediaPipe in research; MoveNet-style API input. Frontend integration is pending."
     }
   },
   {
@@ -65,9 +67,9 @@
     "ai": {
       "focus": "Computer Vision · Deep Learning",
       "models": "CNN (TensorFlow / Keras) · Handcrafted image features",
-      "approach": "Resize to 128 x 128, extract HSV, GLCM, Hu moments, HOG, LBP, and FAST features, then scale the feature vector for CNN inference. The model learns from these features rather than raw pixels.",
+      "approach": "Resize mushroom photos to 128 x 128.\nExtract color, texture, shape, and keypoint features.\nScale the feature vector and classify it with a CNN.",
       "output": "Predicted mushroom class, per-image confidence score, and descriptive metadata.",
-      "evaluation": "Multiple experiment iterations; no benchmark reported in the README. Per-image confidence is not overall accuracy."
+      "evaluation": "Uses HSV, GLCM, Hu, HOG, LBP, and FAST features. Confidence is per prediction; no overall benchmark is reported."
     }
   },
   {
@@ -99,9 +101,9 @@
     "ai": {
       "focus": "Supervised Machine Learning · Explainable AI",
       "models": "Logistic Regression · Random Forest · XGBoost",
-      "approach": "Preprocess tabular data and explore Logistic Regression, Random Forest, and XGBoost. Use SHAP to examine how input features contribute to predictions.",
+      "approach": "Preprocess tabular health data.\nExplore Logistic Regression, Random Forest, and XGBoost.\nExplain feature contributions with SHAP.",
       "output": "Diabetes-risk predictions from user inputs, delivered through a Streamlit demo.",
-      "evaluation": "Approximately 90% accuracy reported in the project profile; the evaluation split and per-model scores are not documented there."
+      "evaluation": "About 90% accuracy reported in the profile; the evaluation split and per-model scores are unspecified."
     }
   },
   {
@@ -115,9 +117,9 @@
     "ai": {
       "focus": "Computer Vision · Deep Learning · Medical Imaging",
       "models": "VGG16 · Convolutional Neural Network",
-      "approach": "Convert X-rays to RGB, resize to 224 x 224, and normalize pixels to 0-1. Run VGG16-based CNN inference and apply a 0.6 classification threshold.",
+      "approach": "Convert X-rays to RGB and resize to 224 x 224.\nNormalize pixels to 0-1 and run the VGG16-based CNN.\nApply a 0.6 threshold to classify the image.",
       "output": "An X-ray classification result: Normal Detected or Scoliosis Detected.",
-      "evaluation": "Research prototype; verified accuracy, sensitivity, and specificity are not available in the reviewed documentation."
+      "evaluation": "Research prototype; verified accuracy, sensitivity, and specificity are not reported."
     }
   }
 ]
