@@ -9,7 +9,7 @@ import { builtInImages, experienceImages } from '../loaders/portfolioData';
 
 type Tab = "projects" | "organizations" | "skills" | "cv";
 
-const emptyProject = { title: "", tag: "Personal Project", stack: "", link: "", image: "", description: "", role: "", status: "" as "" | NonNullable<Project["status"]> };
+const emptyProject = { title: "", tag: "Web Development", stack: "", link: "", image: "", description: "", role: "", aiFocus: "", aiModels: "", aiApproach: "", aiOutput: "", aiEvaluation: "", status: "" as "" | NonNullable<Project["status"]> };
 const emptyOrganization = { role: "", org: "", location: "", period: "", summary: "", subRole: "", context: "", bullets: "", image: "", imageCaption: "", imageLayout: "original" as NonNullable<OrgExp["imageLayout"]> };
 const emptySkill = { name: "", group: skillGroups[0] as Skill["group"], image: "" };
 const COMPRESS_THRESHOLD = 2 * 1024 * 1024;
@@ -151,7 +151,7 @@ export default function PortfolioManager({ standalone = false }: { standalone?: 
     event.target.value = "";
   };
   const startProjectEdit = (project: Project) => {
-    setProjectForm({ title: project.title, tag: project.tag, stack: project.stack, link: project.link, image: project.image ?? "", description: project.description, role: project.role ?? "", status: project.status ?? "" });
+    setProjectForm({ title: project.title, tag: project.tag, stack: project.stack, link: project.link, image: project.image ?? "", description: project.description, role: project.role ?? "", aiFocus: project.ai?.focus ?? "", aiModels: project.ai?.models ?? "", aiApproach: project.ai?.approach ?? "", aiOutput: project.ai?.output ?? "", aiEvaluation: project.ai?.evaluation ?? "", status: project.status ?? "" });
     setEditingProjectId(project.id);
     setNotice(`Mengedit ${project.title}.`);
   };
@@ -174,6 +174,9 @@ export default function PortfolioManager({ standalone = false }: { standalone?: 
       ...projects.find((item) => item.id === editingProjectId),
       id: editingProjectId ?? safeId(projectForm.title), title: projectForm.title.trim(), tag: projectForm.tag.trim(),
       stack: projectForm.stack.trim(), link: projectForm.link.trim(), image: projectForm.image.trim() || undefined,
+      ai: [projectForm.aiFocus, projectForm.aiModels, projectForm.aiApproach, projectForm.aiOutput, projectForm.aiEvaluation].some((value) => value.trim()) ? {
+        focus: projectForm.aiFocus.trim(), models: projectForm.aiModels.trim(), approach: projectForm.aiApproach.trim(), output: projectForm.aiOutput.trim(), evaluation: projectForm.aiEvaluation.trim(),
+      } : undefined,
       description: projectForm.description.trim(), role: projectForm.role.trim() || undefined, status: projectForm.status || undefined,
     };
     if (editingProjectId) updateProject(project); else addProject(project);
@@ -284,13 +287,21 @@ export default function PortfolioManager({ standalone = false }: { standalone?: 
                 <form className="manager-form" onSubmit={submitProject}>
                   <h3>{editingProjectId ? "Edit project" : "Add project"}</h3>
                   <label>Project title<input name="title" value={projectForm.title} onChange={onProjectChange} required /></label>
-                  <div className="manager-fields"><label>Category<input name="tag" value={projectForm.tag} onChange={onProjectChange} required /></label><label>Tech stack<input name="stack" value={projectForm.stack} onChange={onProjectChange} required /></label></div>
+                  <div className="manager-fields"><label>Category<input name="tag" list="project-categories" value={projectForm.tag} onChange={onProjectChange} required /><datalist id="project-categories"><option value="AI & Machine Learning" /><option value="Web Development" /></datalist></label><label>Tech stack<input name="stack" value={projectForm.stack} onChange={onProjectChange} required /></label></div>
                   <label>Project link<input name="link" type="url" placeholder="https://..." value={projectForm.link} onChange={onProjectChange} required /></label>
                   <label>Image URL or path <small>optional</small><input name="image" placeholder="https://..." value={projectForm.image} onChange={onProjectChange} /></label>
                   <label className="manager-upload">Upload project photo <small>JPG, PNG, WebP / max. 20 MB</small><input className="manager-file" type="file" accept="image/jpeg,image/png,image/webp" disabled={isUploading} onChange={(event) => void onPhotoChange(event, "project")} /></label>
                   {projectForm.image && <div className="manager-photo-preview"><img className="manager-image-preview" src={projectForm.image} alt="Project preview" /><button type="button" className="manager-cancel" onClick={() => setProjectForm((form) => ({ ...form, image: "" }))}>Remove photo</button></div>}
                   <div className="manager-fields"><label>My role<input name="role" value={projectForm.role} onChange={onProjectChange} /></label><label>Status<select name="status" value={projectForm.status} onChange={onProjectChange}><option value="">No badge</option><option>In progress</option><option>Completed</option></select></label></div>
                   <label>Description<textarea name="description" value={projectForm.description} onChange={onProjectChange} required rows={4} /></label>
+                  <details className="manager-ai-fields">
+                    <summary>AI technical highlights (optional)</summary>
+                    <label>Research focus<input name="aiFocus" value={projectForm.aiFocus} onChange={onProjectChange} placeholder="Computer Vision · Deep Learning" /></label>
+                    <label>Models & methods<input name="aiModels" value={projectForm.aiModels} onChange={onProjectChange} placeholder="VGG16 · CNN" /></label>
+                    <label>Approach<textarea name="aiApproach" value={projectForm.aiApproach} onChange={onProjectChange} rows={3} /></label>
+                    <label>Result / output<textarea name="aiOutput" value={projectForm.aiOutput} onChange={onProjectChange} rows={2} /></label>
+                    <label>Evaluation & current limits<textarea name="aiEvaluation" value={projectForm.aiEvaluation} onChange={onProjectChange} rows={3} /></label>
+                  </details>
                   <div className="manager-form-actions"><button className="manager-submit" type="submit" disabled={isUploading}>{editingProjectId ? "Save project" : "Add project"}</button>{editingProjectId && <button className="manager-cancel" type="button" onClick={() => { setEditingProjectId(null); setProjectForm(emptyProject); }}>Cancel</button>}</div>
                 </form>
                 <div className="manager-list" aria-label="Project list">{projects.map((item, index) => <article key={item.id} className="manager-item">{item.image && <img className="manager-item-thumbnail" src={item.image} alt="" />}<div className="manager-item-copy"><strong>{item.title}</strong><span>{item.tag} · {item.stack}</span></div><div className="manager-item-actions"><button type="button" onClick={() => startProjectEdit(item)} aria-label={`Edit ${item.title}`}><i className="fa-solid fa-pen" /></button><button type="button" disabled={index === 0} onClick={() => moveProject(item.id, "up")} aria-label={`Move ${item.title} up`}><i className="fa-solid fa-arrow-up" /></button><button type="button" disabled={index === projects.length - 1} onClick={() => moveProject(item.id, "down")} aria-label={`Move ${item.title} down`}><i className="fa-solid fa-arrow-down" /></button><button type="button" className="delete" onClick={() => { removeProject(item.id); setNotice("Project dihapus dari sesi ini."); }} aria-label={`Delete ${item.title}`}><i className="fa-solid fa-trash" /></button></div></article>)}</div>

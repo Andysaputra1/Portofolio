@@ -47,21 +47,33 @@ export default function ProjectModal({ open, onClose, project }: Props) {
       <div className="project-dialog-panel">
         <header className="project-dialog-header">
           <div>
-            <p className="project-dialog-eyebrow">PROJECT DETAILS</p>
+            <p className="project-dialog-eyebrow"><span /> SELECTED WORK / PROJECT DETAILS</p>
             <h2 id="project-dialog-title" ref={titleRef} tabIndex={-1}>{project.title}</h2>
+            <div className="project-dialog-badges"><span className="project-dialog-category">{project.tag}</span>{project.status && <span className="proj-status">{project.status}</span>}</div>
           </div>
           <button className="project-dialog-close" type="button" onClick={onClose} aria-label="Close project details"><FiX aria-hidden="true" /></button>
         </header>
 
         <div className="project-dialog-body">
-          <div className="project-dialog-badges"><span className="project-dialog-category">{project.tag}</span>{project.status && <span className="proj-status">{project.status}</span>}</div>
-          {project.image && <figure className="project-dialog-media"><img src={project.image} alt={`${project.title} interface preview`} /></figure>}
+          {project.ai && (
+            <section className="project-ai-details" aria-label="AI research highlights">
+              <p className="project-ai-kicker">AI / TECHNICAL HIGHLIGHTS</p>
+              <dl>
+                <div><dt>Research focus</dt><dd>{project.ai.focus}</dd></div>
+                <div><dt>Models & methods</dt><dd>{project.ai.models}</dd></div>
+                <div className="project-ai-wide"><dt>Approach</dt><dd>{project.ai.approach}</dd></div>
+                <div className="project-ai-wide project-ai-output"><dt>Result / output</dt><dd>{project.ai.output}</dd></div>
+                <div className="project-ai-wide project-ai-evaluation"><dt>Evaluation & current limits</dt><dd>{project.ai.evaluation}</dd></div>
+              </dl>
+            </section>
+          )}
+          {project.image && <figure className="project-dialog-media"><div className="project-dialog-preview-bar" aria-hidden="true"><span className="project-dialog-window-dots"><i /><i /><i /></span><span>PROJECT PREVIEW</span><FiArrowUpRight /></div><img src={project.image} alt={`${project.title} interface preview`} /></figure>}
           <div className="project-dialog-layout">
+            <section className="project-dialog-overview"><h3><span>01</span> About the project</h3>{project.description.split(/\n\s*\n/).filter(Boolean).map((paragraph, index) => <p key={index}>{paragraph}</p>)}</section>
             <aside className="project-dialog-facts" aria-label="Project information">
               {project.role && <section className="project-dialog-fact"><h3>My role</h3><p>{project.role}</p></section>}
               <section className="project-dialog-fact"><h3>Built with</h3><ul className="project-dialog-technologies">{technologies.map((technology, index) => <li key={`${technology}-${index}`}>{technology}</li>)}</ul></section>
             </aside>
-            <section className="project-dialog-overview"><h3>About the project</h3>{project.description.split(/\n\s*\n/).filter(Boolean).map((paragraph, index) => <p key={index}>{paragraph}</p>)}</section>
           </div>
         </div>
 

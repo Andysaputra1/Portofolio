@@ -350,3 +350,10 @@ img.skill-icon { width: 30px; height: 30px; filter: grayscale(1); transition: fi
   .about-facts { flex-direction: column; gap: 18px; }
   .about-facts > div:first-child { flex-basis: auto; }
 }
+
+/* Technical summaries remain visible without opening the project. */
+.proj-ai-highlights { display: grid; gap: 14px; margin: 20px 0 0; padding-top: 17px; border-top: 1px solid #ffffff10; }
+.proj-ai-highlights > div { display: grid; gap: 4px; }
+.proj-ai-highlights dt { color: #a6bce0; font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; }
+.proj-ai-highlights dd { margin: 0; color: #c7ccd7; font-size: .86rem; line-height: 1.65; overflow-wrap: anywhere; }
+.proj-ai-highlights > div:last-child dd { color: #aeb8ca; }

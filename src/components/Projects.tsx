@@ -29,7 +29,7 @@ export default function Projects() {
         <h2 id="projects-title" className="reveal" ref={titleRef}>
           From an idea <span>to something real.</span>
         </h2>
-        <p className="section-description">A collection of experiments, practical solutions, and things I loved building.</p>
+        <p className="section-description">Exploring intelligent systems and building useful web experiences. From models and experiments to working applications.</p>
       </div>
       <div className="project-collection section-center">
       <div className="project-builder-stage"><DinoBuilder /></div>
@@ -51,9 +51,14 @@ export default function Projects() {
 
             <div className="proj-body">
               <h3 className="proj-title">{p.title}</h3>
-              <div className="proj-chip" aria-label="Project type/tag">{p.tag}</div>
-              <div className="proj-stack-mini">{p.stack}</div>
-              <p className="proj-summary">{p.description}</p>
+              <div className="proj-chip" aria-label="Project category">{p.tag}</div>
+              {p.ai ? (
+                <dl className="proj-ai-highlights">
+                  <div><dt>Research focus</dt><dd>{p.ai.focus}</dd></div>
+                  <div><dt>Models & methods</dt><dd>{p.ai.models}</dd></div>
+                  <div><dt>Output</dt><dd>{p.ai.output}</dd></div>
+                </dl>
+              ) : <><div className="proj-stack-mini">{p.stack}</div><p className="proj-summary">{p.description}</p></>}
             </div>
 
             <div className="proj-actions">

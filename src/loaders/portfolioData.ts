@@ -4,7 +4,8 @@ import imgPortfolio from "../images/projectPhotos/AndySaputraPortofolio.png";
 import imgExplore from "../images/projectPhotos/ExploreId.png";
 import imgDiabetes from "../images/projectPhotos/DiebetyAi.png";
 import imgScolio from "../images/projectPhotos/ScolioCheck.png";
-import imgReservasi from "../images/projectPhotos/image.png";
+import imgReservasi from "../images/projectPhotos/reservasi-id.png";
+import imgMushroom from "../images/projectPhotos/mushroom-vision.png";
 import imgSilentTerror from "../images/projectPhotos/SilentTerror.png";
 import polytronPhoto from "../images/experience/polytron_applicationDeveloper.png";
 import freshmenPhoto from "../images/experience/freshman_leader.png";
@@ -19,6 +20,7 @@ export const builtInImages: Record<string, string> = {
   diabetes: imgDiabetes,
   scolio: imgScolio,
   reservasi: imgReservasi,
+  "mushroom-vision": imgMushroom,
 };
 
 export const projects: Project[] = (rawProjects as Project[]).map((project) => ({

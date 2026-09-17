@@ -72,3 +72,8 @@
   .manager-form input, .manager-form textarea, .manager-form select { font-size: 16px; }
   .manager-item .manager-item-actions button { width: 44px; height: 44px; flex-basis: 44px; }
 }
+
+.manager-ai-fields { padding: 14px; border: 1px solid #a6c5ff26; border-radius: 8px; }
+.manager-ai-fields summary { color: #b9cef0; cursor: pointer; }
+.manager-ai-fields[open] summary { margin-bottom: 14px; }
+.manager-ai-fields label + label { margin-top: 12px; }
