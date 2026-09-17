@@ -63,8 +63,9 @@ export default function Projects() {
                 onClick={() => openModal(p)}
                 aria-haspopup="dialog"
                 aria-controls="project-modal"
+                aria-label={`Project details: ${p.title}`}
               >
-                View project <span aria-hidden="true">↗</span>
+                Project details <span aria-hidden="true">→</span>
               </button>
 
               <a
@@ -72,9 +73,9 @@ export default function Projects() {
                 href={p.link}
                 target="_blank"
                 rel="noreferrer"
-                aria-label={`Visit ${p.title}`}
+                aria-label={`${p.link.startsWith("https://github.com/") ? "Source code" : "Live website"}: ${p.title} (opens in a new tab)`}
               >
-                {p.link.startsWith("https://github.com/") ? "Source code" : "Live link"} <span aria-hidden="true">↗</span>
+                {p.link.startsWith("https://github.com/") ? "Source code" : "Live website"} <span aria-hidden="true">↗</span>
               </a>
             </div>
           </article>
