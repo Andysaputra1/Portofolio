@@ -357,3 +357,12 @@ img.skill-icon { width: 30px; height: 30px; filter: grayscale(1); transition: fi
 .proj-ai-highlights dt { color: #a6bce0; font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; }
 .proj-ai-highlights dd { margin: 0; color: #c7ccd7; font-size: .86rem; line-height: 1.65; overflow-wrap: anywhere; }
 .proj-ai-highlights > div:last-child dd { color: #aeb8ca; }
+
+@media (min-width: 1200px) {
+  .proj-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .proj-media { padding: 18px; }
+  .proj-body { padding: 22px 20px 0; }
+  .proj-actions { padding: 20px; gap: 10px; }
+  .proj-actions .btn { gap: 8px; font-size: .76rem; }
+  .project-builder-stage { width: calc((100% - 48px) / 3); margin-left: calc((100% + 24px) * 2 / 3); }
+}

@@ -14,14 +14,14 @@
       "description": "I created a personal portfolio website that integrates an OpenAI-powered chatbot, providing real-time Q&A about my experience and skills[cite: 17]. This project demonstrates the use of AI for interactive web engagement, enabling dynamic, conversational access to professional information[cite: 18].",
       "impact": "This project demonstrates the use of AI for interactive web engagement, enabling dynamic, conversational access to professional information[cite: 18].",
       "tech_stack": ["React.js", "TypeScript", "OpenAi API"],
-      "repo_url": "https://andysaputraportofolio.vercel.app [cite: 16]"
+      "repo_url": "https://andylabs.site/ [cite: 16]"
     },
     {
       "name": "Explore ID",
       "description": "I built a travel discovery web platform using React.js and SQL database integration, developed collaboratively under Scrum Agile methodology with clear task divisions across sprints and weekly stand-up reviews[cite: 20]. This iterative workflow enhanced team efficiency, ensured continuous feature testing, and yielded optimized search performance and a responsive UI/UX design[cite: 21]. The platform enables users to explore destinations easily while promoting local tourism engagement and showcasing practical teamwork and adaptability in real-world project execution[cite: 22].",
       "impact": "ExploreID berpotensi mendorong ekonomi pariwisata dan UMKM melalui rekomendasi personal yang menaikkan belanja wisatawan dan memeratakan kunjungan ke kota non-mainstream, sekaligus membuka lapangan kerja inklusif bagi pemandu lokal (termasuk kelompok rentan) lewat sistem matching, rating, dan micro-credential; di sisi pengguna, itinerary otomatis yang memperhitungkan preferensi, anggaran, mobilitas, dan keamanan meningkatkan kualitas pengalaman (NPS/CSAT, waktu perencanaan lebih singkat) serta menurunkan refund/complaint; dari aspek keberlanjutan, rute efisien dan opsi transport rendah emisi membantu menekan jejak karbon serta mengurangi kepadatan destinasi melalui penyebaran kunjungan; sementara data agregat (heatmap demand, konversi tiket, tren minat) memberi intelijen bagi DMO/pemerintah untuk kampanye yang lebih tepat sasaran; keberhasilan dapat dipantau lewat KPI seperti % transaksi ke UMKM/guide lokal, itinerary completion rate, LOS kota sekunder, adopsi transport publik/EV, dan peningkatan pendapatan median pemandu—sehingga tercapai pariwisata Indonesia yang lebih inklusif, aman, dan berkelanjutan.",
       "tech_stack": ["React.js", "SQL"],
-      "repo_url": "https://exploreid-one.vercel.app/ [cite: 20]"
+      "repo_url": "https://exploreid.andylabs.site/ [cite: 20]"
     },
     {
       "name": "Diebety AI Predict",

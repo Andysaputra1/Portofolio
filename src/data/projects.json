@@ -22,7 +22,7 @@
     "title": "Reservasi ID",
     "tag": "Web Development",
     "stack": "React.js · SQL",
-    "link": "https://reservasiid.vercel.app/",
+    "link": "https://reservasi-id.andylabs.site",
     "image": "reservasi",
     "description": "reservasi.id is a modern, web-based ferry ticket booking platform built with React.js that serves as a digital aggregator connecting passengers directly with official ticket agents."
   },
@@ -48,7 +48,7 @@
     "title": "AndySaputraPortofolio",
     "tag": "Web Development",
     "stack": "React.js · TypeScript · OpenAI API",
-    "link": "https://andysaputraportofolio.vercel.app",
+    "link": "https://andylabs.site/",
     "image": "portfolio",
     "description": "A React-based personal website showcasing profile details, skills, experiences, contact information, and a downloadable CV, with an OpenAI-powered chatbot."
   },
@@ -57,7 +57,7 @@
     "title": "Explore ID",
     "tag": "Web Development",
     "stack": "React.js · SQL",
-    "link": "https://exploreid-one.vercel.app/",
+    "link": "https://exploreid.andylabs.site/",
     "image": "explore",
     "description": "A travel discovery platform built collaboratively with React.js, SQL integration, and Scrum Agile practices."
   },

@@ -1,6 +1,6 @@
 import rawOrganizations from "../data/organization.json";
 import rawProjects from "../data/projects.json";
-import imgPortfolio from "../images/projectPhotos/AndySaputraPortofolio.png";
+import imgPortfolio from "../images/projectPhotos/portofolio.png";
 import imgExplore from "../images/projectPhotos/ExploreId.png";
 import imgDiabetes from "../images/projectPhotos/DiebetyAi.png";
 import imgScolio from "../images/projectPhotos/ScolioCheck.png";
