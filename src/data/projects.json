@@ -7,14 +7,14 @@
     "stack": "Angular · Python / FastAPI · MySQL · Docker · SVM · Fuzzy Logic · Ollama",
     "link": "https://github.com/Andysaputra1/GamesSilentTerror",
     "image": "silent-terror",
-    "description": "An ongoing social-deduction game project exploring how intent classification, fuzzy reasoning, and language models can work together to generate contextual AI dialogue.\n\nAs team lead, full-stack developer, and AI researcher, I contribute to project coordination, application development, database and Docker setup, and AI experimentation.\n\nThe current repository documents room-based multiplayer, role actions, timed phases, voting, and win conditions. The game engine controls the rules, while the AI pipeline supports NOX conversation.",
+    "description": "Exploring hybrid conversational AI for a social-deduction game, combining intent classification, fuzzy reasoning, and LLM dialogue.",
     "role": "Team Lead · Full-stack Developer · AI Researcher",
     "ai": {
       "focus": "Natural Language Processing · Conversational AI",
       "models": "SVM · Fuzzy Logic · Qwen3 8B / 14B (Ollama)",
-      "approach": "Classify chat intent with SVM, convert behavioral signals into fuzzy suspicion scores, then pass that context to an LLM for role-aware dialogue. Explore local CPU/GPU inference alongside an OpenAI API option.",
+      "approach": "SVM identifies chat intent; fuzzy logic estimates suspicion; Qwen3 uses these signals and role context to generate dialogue. Experiments cover local CPU/GPU inference and an OpenAI API option.",
       "output": "NOX bot dialogue informed by chat intent, suspicion scores, and game context.",
-      "evaluation": "Ongoing prototype: inspect each stage through pipeline traces. Bot actions and votes use rules; the LLM generates dialogue. The fuzzy silence input is currently fixed rather than measured."
+      "evaluation": "Ongoing research prototype with pipeline tracing. Game actions use rules; the fuzzy silence input is currently fixed."
     }
   },
   {
@@ -34,13 +34,13 @@
     "link": "https://github.com/Andysaputra1/CVCode",
     "image": "mushroom-vision",
     "role": "Frontend Developer",
-    "description": "A computer vision course project that classifies mushroom photos through an interactive React interface. Upload an image to receive a predicted class, confidence score, and descriptive information.\n\nThe Flask API extracts color, texture, shape, and keypoint features with OpenCV and scikit-image, scales them, and passes them to a trained TensorFlow/Keras CNN. The model works with extracted features rather than raw image pixels.\n\nI built the frontend for this collaborative university project, connecting the image-upload and analysis experience to the prediction API.",
+    "description": "Exploring mushroom image classification with handcrafted visual features and a convolutional neural network.",
     "ai": {
       "focus": "Computer Vision · Deep Learning",
       "models": "CNN (TensorFlow / Keras) · Handcrafted image features",
-      "approach": "Resize images to 128 x 128 and extract HSV color histograms, GLCM, Hu moments, HOG, LBP, and FAST statistics. Scale the resulting feature vector before CNN inference; the CNN receives features rather than raw pixels.",
+      "approach": "Resize to 128 x 128, extract HSV, GLCM, Hu moments, HOG, LBP, and FAST features, then scale the feature vector for CNN inference. The model learns from these features rather than raw pixels.",
       "output": "Predicted mushroom class, per-image confidence score, and descriptive metadata.",
-      "evaluation": "The confidence score describes an individual prediction, not overall accuracy. The repository documents multiple experiment iterations but its README does not report a benchmark score."
+      "evaluation": "Multiple experiment iterations; no benchmark reported in the README. Per-image confidence is not overall accuracy."
     }
   },
   {
@@ -68,13 +68,13 @@
     "stack": "Python · scikit-learn · XGBoost · SHAP · Streamlit",
     "link": "https://kyhr-app.streamlit.app",
     "image": "diabetes",
-    "description": "An AI diabetes-risk predictor using logistic regression, Random Forest, XGBoost, preprocessing, SHAP feature selection, and Streamlit.",
+    "description": "Exploring diabetes-risk prediction from tabular data, with interpretable machine learning and SHAP feature analysis.",
     "ai": {
       "focus": "Supervised Machine Learning · Explainable AI",
       "models": "Logistic Regression · Random Forest · XGBoost",
-      "approach": "Explore tabular diabetes-risk classification with data preprocessing and multiple supervised learning models, using SHAP-based feature analysis to examine the contribution of input features.",
-      "output": "A Streamlit application that returns a diabetes-risk prediction from user inputs.",
-      "evaluation": "The project profile reports approximately 90% classification accuracy. The available summary does not identify the winning model, evaluation split, or per-model scores."
+      "approach": "Preprocess tabular data and explore Logistic Regression, Random Forest, and XGBoost. Use SHAP to examine how input features contribute to predictions.",
+      "output": "Diabetes-risk predictions from user inputs, delivered through a Streamlit demo.",
+      "evaluation": "Approximately 90% accuracy reported in the project profile; the evaluation split and per-model scores are not documented there."
     }
   },
   {
@@ -84,13 +84,13 @@
     "stack": "Python / Flask · TensorFlow / Keras · VGG16",
     "link": "https://github.com/Andysaputra1/Scoliovis",
     "image": "scolio",
-    "description": "A CNN-based VGG16 deep-learning project for scoliosis detection using X-ray images.",
+    "description": "Exploring VGG16-based deep learning for scoliosis classification from X-ray images.",
     "ai": {
       "focus": "Computer Vision · Deep Learning · Medical Imaging",
       "models": "VGG16 · Convolutional Neural Network",
-      "approach": "Apply a VGG16-based CNN to X-ray classification. The Flask inference app converts uploads to RGB, resizes them to 224 x 224, normalizes pixels to 0-1, and applies a 0.6 threshold to the model output.",
+      "approach": "Convert X-rays to RGB, resize to 224 x 224, and normalize pixels to 0-1. Run VGG16-based CNN inference and apply a 0.6 classification threshold.",
       "output": "An X-ray classification result: Normal Detected or Scoliosis Detected.",
-      "evaluation": "A research prototype. No verified accuracy, sensitivity, or specificity figures are included in the available project documentation."
+      "evaluation": "Research prototype; verified accuracy, sensitivity, and specificity are not available in the reviewed documentation."
     }
   }
 ]

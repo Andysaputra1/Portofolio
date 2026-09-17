@@ -55,26 +55,25 @@ export default function ProjectModal({ open, onClose, project }: Props) {
         </header>
 
         <div className="project-dialog-body">
-          {project.ai && (
-            <section className="project-ai-details" aria-label="AI research highlights">
-              <p className="project-ai-kicker">AI / TECHNICAL HIGHLIGHTS</p>
-              <dl>
-                <div><dt>Research focus</dt><dd>{project.ai.focus}</dd></div>
-                <div><dt>Models & methods</dt><dd>{project.ai.models}</dd></div>
-                <div className="project-ai-wide"><dt>Approach</dt><dd>{project.ai.approach}</dd></div>
-                <div className="project-ai-wide project-ai-output"><dt>Result / output</dt><dd>{project.ai.output}</dd></div>
-                <div className="project-ai-wide project-ai-evaluation"><dt>Evaluation & current limits</dt><dd>{project.ai.evaluation}</dd></div>
+          <aside className="project-dialog-visual" aria-label="Project preview and contribution">
+            {project.image && <figure className="project-dialog-media"><div className="project-dialog-preview-bar" aria-hidden="true"><span className="project-dialog-window-dots"><i /><i /><i /></span><span>PROJECT PREVIEW</span><FiArrowUpRight /></div><img src={project.image} alt={project.title + " interface preview"} /></figure>}
+            {project.role && <p className="project-dialog-role"><span>My contribution</span>{project.role}</p>}
+            {!project.ai && <ul className="project-dialog-technologies" aria-label="Built with">{technologies.map((technology, index) => <li key={index}>{technology}</li>)}</ul>}
+          </aside>
+          <section className="project-dialog-content" aria-label={project.ai ? "AI research details" : "About the project"}>
+            {project.ai ? <>
+              <p className="project-dialog-focus">{project.ai.focus}</p>
+              <p className="project-dialog-intro">{project.description.split(/\n\s*\n/)[0]}</p>
+              <dl className="project-dialog-research">
+                <div><dt>01 / Models & methods</dt><dd>{project.ai.models}</dd></div>
+                <div><dt>02 / Approach</dt><dd>{project.ai.approach}</dd></div>
+                <div className="project-dialog-result"><dt>03 / Result & evaluation</dt><dd>{project.ai.output}</dd><dd className="project-dialog-evaluation">{project.ai.evaluation}</dd></div>
               </dl>
-            </section>
-          )}
-          {project.image && <figure className="project-dialog-media"><div className="project-dialog-preview-bar" aria-hidden="true"><span className="project-dialog-window-dots"><i /><i /><i /></span><span>PROJECT PREVIEW</span><FiArrowUpRight /></div><img src={project.image} alt={`${project.title} interface preview`} /></figure>}
-          <div className="project-dialog-layout">
-            <section className="project-dialog-overview"><h3><span>01</span> About the project</h3>{project.description.split(/\n\s*\n/).filter(Boolean).map((paragraph, index) => <p key={index}>{paragraph}</p>)}</section>
-            <aside className="project-dialog-facts" aria-label="Project information">
-              {project.role && <section className="project-dialog-fact"><h3>My role</h3><p>{project.role}</p></section>}
-              <section className="project-dialog-fact"><h3>Built with</h3><ul className="project-dialog-technologies">{technologies.map((technology, index) => <li key={`${technology}-${index}`}>{technology}</li>)}</ul></section>
-            </aside>
-          </div>
+            </> : <>
+              <p className="project-dialog-focus">ABOUT THE PROJECT</p>
+              {project.description.split(/\n\s*\n/).filter(Boolean).map((paragraph, index) => <p className="project-dialog-intro" key={index}>{paragraph}</p>)}
+            </>}
+          </section>
         </div>
 
         <footer className="project-dialog-footer">
