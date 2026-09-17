@@ -1,8 +1,11 @@
 import { useEffect, useId, useRef, useState } from "react";
 import "./ChatWidget.css";
 import andySprite from "../images/andy-pixel-sprites.png";
+import { usePortfolioData } from "../context/PortfolioDataContext";
+import { referencedProjects } from "../utils/chatProjects";
+import type { Project } from "../types/portfolio";
 
-type Msg = { role: "user" | "assistant"; content: string };
+type Msg = { role: "user" | "assistant"; content: string; projects?: Project[] };
 function AndyAvatar({ thinking = false }: { thinking?: boolean }) {
   const id = useId();
   return <span className={`ai-avatar ${thinking ? "is-thinking" : ""}`} aria-hidden="true">
@@ -34,6 +37,7 @@ function InviteAndy() {
 }
 
 export default function ChatWidget() {
+  const { projects } = usePortfolioData();
   const [invite, setInvite] = useState(false);
   const inviteSeen = useRef(false);
   const [open, setOpen] = useState(false);
@@ -69,7 +73,7 @@ export default function ChatWidget() {
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") { setOpen(false); requestAnimationFrame(() => launcherRef.current?.focus()); }
       if (e.key === "Tab") {
-        const items = panelRef.current?.querySelectorAll<HTMLElement>('button:not(:disabled), input:not(:disabled)');
+        const items = panelRef.current?.querySelectorAll<HTMLElement>('button:not(:disabled), input:not(:disabled), a[href]');
         if (!items?.length) return;
         const first = items[0], last = items[items.length - 1];
         if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
@@ -94,7 +98,8 @@ export default function ChatWidget() {
       });
       const j: { answer?: string } = await r.json().catch(() => ({}));
       if (!r.ok || !j.answer?.trim()) throw new Error("unavailable");
-      setMsgs((m) => [...m, { role: "assistant", content: j.answer! }]);
+      const answer = j.answer;
+      setMsgs((m) => [...m, { role: "assistant", content: answer, projects: referencedProjects(answer, projects) }]);
     } catch {
       setMsgs((m) => [...m, { role: "assistant", content: "Sorry, I couldn't get an answer just now. Please try again in a moment." }]);
     } finally { setIsSending(false); inputRef.current?.focus(); }
@@ -121,7 +126,17 @@ export default function ChatWidget() {
           {msgs.length === 0 && <div className="ai-suggestions">{["What does Andy build?", "Tell me about his AI projects"].map(q => <button key={q} onClick={() => void send(q)}>{q}<span aria-hidden="true"> {"\u2197"}</span></button>)}</div>}
           {msgs.map((m, i) => <div key={i} className={`ai-message ${m.role}`}>
             {m.role === "assistant" && <AndyAvatar />}
-            <div className={`ai-bubble ${m.role}`}><span className="ai-sr-only">{m.role === "user" ? "You: " : "Andy's assistant: "}</span>{m.content}</div>
+            <div className={`ai-bubble ${m.role}`}><span className="ai-sr-only">{m.role === "user" ? "You: " : "Andy's assistant: "}</span>{m.content}
+              {!!m.projects?.length && <ul className="ai-project-previews" aria-label="Projects mentioned in this answer">
+                {m.projects.map((project) => <li key={project.id}>
+                  <a className="ai-project-preview" href={project.link} target="_blank" rel="noreferrer" aria-label={`${project.title} (opens in a new tab)`}>
+                    {project.image && <img src={project.image} alt="" width={64} height={48} loading="lazy" decoding="async" onError={(event) => { event.currentTarget.hidden = true; }} />}
+                    <span><strong>{project.title}</strong><small>{project.link.startsWith('https://github.com/') ? 'Source code' : 'Live website'}</small></span>
+                    <span className="ai-project-arrow" aria-hidden="true">↗</span>
+                  </a>
+                </li>)}
+              </ul>}
+            </div>
           </div>)}
           {isSending && <div className="ai-processing" role="status" aria-label="Andy's assistant is thinking">
             <div className="ai-message assistant"><AndyAvatar thinking /><div className="ai-bubble assistant ai-typing" aria-hidden="true">Thinking<span className="ai-typing-dots"><span>.</span><span>.</span><span>.</span></span></div></div>

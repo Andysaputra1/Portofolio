@@ -62,3 +62,14 @@
 .ai-contact-invite[data-active="true"] .ai-invite-label { opacity: 1; transform: translateY(0); transition-delay: .2s; }
 .ai-contact-invite[data-active="false"] .ai-invite-sprite { animation-play-state: paused; }
 @media (prefers-reduced-motion: reduce) { .ai-contact-invite, .ai-contact-invite * { transition: none !important; } }
+
+.ai-project-previews { display: grid; gap: 7px; margin: 12px 0 0; padding: 12px 0 0; border-top: 1px solid #ffffff10; list-style: none; }
+.ai-project-preview { display: flex; align-items: center; gap: 10px; min-height: 62px; padding: 7px; border: 1px solid #ffffff12; border-radius: 9px; background: #ffffff04; color: #e0dfe5; text-decoration: none; }
+.ai-project-preview:hover { border-color: #c0acf04a; background: #c0acf00a; }
+.ai-project-preview:focus-visible { outline: 2px solid var(--accent-blue, #a6c5ff); outline-offset: 2px; }
+.ai-card .ai-project-preview img { flex: 0 0 64px; width: 64px; height: 48px; object-fit: cover; object-position: top; border-radius: 5px; background: #191919; }
+.ai-card .ai-project-preview img[hidden] { display: none; }
+.ai-project-preview > span:not(.ai-project-arrow) { flex: 1; min-width: 0; }
+.ai-project-preview strong { display: block; color: #e0dfe5; font-size: .74rem; font-weight: 500; line-height: 1.45; }
+.ai-project-preview small { display: block; margin-top: 3px; color: #a6a1b3; font-size: .63rem; line-height: 1.4; }
+.ai-project-arrow { flex: 0 0 auto; color: var(--accent-purple, #c0acf0); font-size: .9rem; }
