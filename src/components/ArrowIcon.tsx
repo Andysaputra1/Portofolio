@@ -1,6 +1,6 @@
-import { FiArrowDown, FiArrowLeft, FiArrowRight, FiArrowUpRight } from "react-icons/fi";
+import { FiArrowDown, FiArrowLeft, FiArrowRight, FiArrowUp, FiArrowUpRight } from "react-icons/fi";
 
-const icons = { "up-right": FiArrowUpRight, down: FiArrowDown, left: FiArrowLeft, right: FiArrowRight };
+const icons = { "up-right": FiArrowUpRight, up: FiArrowUp, down: FiArrowDown, left: FiArrowLeft, right: FiArrowRight };
 
 // SVG keeps arrows independent of the device's font and emoji rendering.
 export default function ArrowIcon({ direction = "up-right" }: { direction?: keyof typeof icons }) {

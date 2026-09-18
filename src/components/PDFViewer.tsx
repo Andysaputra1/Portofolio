@@ -118,7 +118,7 @@ function PDFViewerDocument({ url, title }: { url: string; title: string }) {
     <div className="pdf-viewer-toolbar">
       <span role="status">{pdf ? `${pdf.numPages} pages · Scroll to read` : "PDF preview"}</span>
       <div className="pdf-viewer-zoom">
-        <button type="button" aria-label="Zoom out" disabled={zoom <= 1} onClick={() => setZoom((value) => Math.max(1, value - 0.25))}>−</button>
+        <button type="button" aria-label="Zoom out" disabled={zoom <= 0.5} onClick={() => setZoom((value) => Math.max(0.5, value - 0.25))}>−</button>
         <button type="button" aria-label="Fit PDF to width" onClick={() => setZoom(1)}>{Math.round(zoom * 100)}%</button>
         <button type="button" aria-label="Zoom in" disabled={zoom >= 2.5} onClick={() => setZoom((value) => Math.min(2.5, value + 0.25))}>+</button>
       </div>

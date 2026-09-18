@@ -124,7 +124,7 @@ export default function ChatWidget() {
         </div>
         <div className="ai-messages" ref={messagesRef} role="log" aria-label="Conversation" aria-live="polite" aria-relevant="additions">
           <div className="ai-message assistant"><AndyAvatar /><div className="ai-bubble assistant">Hi there! I'm Andy's AI assistant. Ask me anything about his skills, projects, experience, or how to get in touch.</div></div>
-          {msgs.length === 0 && <div className="ai-suggestions">{["What does Andy build?", "Tell me about his AI projects"].map(q => <button key={q} onClick={() => void send(q)}>{q}<span aria-hidden="true"> {"\u2197"}</span></button>)}</div>}
+          {msgs.length === 0 && <div className="ai-suggestions">{["What does Andy build?", "Tell me about his AI projects"].map(q => <button key={q} onClick={() => void send(q)}>{q} <ArrowIcon /></button>)}</div>}
           {msgs.map((m, i) => <div key={i} className={`ai-message ${m.role}`}>
             {m.role === "assistant" && <AndyAvatar />}
             <div className={`ai-bubble ${m.role}`}><span className="ai-sr-only">{m.role === "user" ? "You: " : "Andy's assistant: "}</span>{m.content}
@@ -145,7 +145,7 @@ export default function ChatWidget() {
         </div>
         <form className="ai-input" onSubmit={e => { e.preventDefault(); void send(); }}>
           <input ref={inputRef} value={input} onChange={e => setInput(e.target.value)} placeholder="Ask anything about Andy..." aria-label="Your question about Andy" maxLength={800} />
-          <button type="submit" className="ai-send" aria-label="Send message" disabled={isSending || !input.trim()}><i className="fa-solid fa-arrow-up" aria-hidden="true" /></button>
+          <button type="submit" className="ai-send" aria-label="Send message" disabled={isSending || !input.trim()}><ArrowIcon direction="up" /></button>
         </form>
         <p className="ai-footnote">Powered by AI. A little help getting to know Andy.</p>
       </div>
