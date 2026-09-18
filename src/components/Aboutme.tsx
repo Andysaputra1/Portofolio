@@ -1,6 +1,7 @@
 ﻿import meImg from "../images/Photo1.jpg";
 import useScrollReveal from "../hook/useScrollReveal.ts";
 import PixelBuddy from "./PixelBuddy";
+import ArrowIcon from "./ArrowIcon";
 
 export default function About() {
   const copyRef = useScrollReveal<HTMLDivElement>();
@@ -22,13 +23,13 @@ export default function About() {
               </ul>
             </div>
           </div>
-          <a href="#experience" className="text-link">A little more about my journey <span aria-hidden="true">↗</span></a>
+          <a href="#experience" className="text-link">A little more about my journey <span aria-hidden="true"><ArrowIcon /></span></a>
           <PixelBuddy />
         </div>
         <div className="intro-photo-card reveal" ref={photoRef}>
           <img className="intro-photo" src={meImg} alt="Andy Saputra" loading="lazy" />
           <div className="photo-caption"><span>THE PERSON BEHIND THE PIXELS</span><strong>Always learning.<br />Always building.</strong></div>
-          <span className="photo-corner" aria-hidden="true">↗</span>
+          <span className="photo-corner" aria-hidden="true"><ArrowIcon /></span>
         </div>
       </div>
     </section>

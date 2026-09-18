@@ -6,6 +6,7 @@ import "./PortfolioManager.css";
 import { safeImage, safeLink, validProjects, validOrganizations, validSkills } from '../utils/validatePortfolio';
 import App from '../App';
 import { builtInImages, experienceImages } from '../loaders/portfolioData';
+import PDFViewer from './PDFViewer';
 
 type Tab = "projects" | "organizations" | "skills" | "cv";
 
@@ -333,7 +334,7 @@ export default function PortfolioManager({ standalone = false }: { standalone?: 
               </> : <section className="manager-form manager-cv-card">
                 <h3>Active CV</h3>
                 <p>File aktif: <strong>{cvName}</strong></p>
-                <iframe className="manager-cv-preview" src={cvUrl} title="Active CV preview" />
+                <div className="manager-cv-preview"><PDFViewer url={cvUrl} title="Active CV preview" /></div>
                 <p className="manager-cv-note">Setelah memilih PDF baru, gunakan tombol download lalu gantikan file CV di folder <code>src/assets</code> sebelum deploy.</p>
               </section>}
             </div>

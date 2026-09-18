@@ -6,6 +6,7 @@ import {
   type CSSProperties,
 } from "react";
 import HeroSwing from './HeroSwing';
+import ArrowIcon from './ArrowIcon';
 
 const SNAKE_LENGTH = 18;
 
@@ -150,11 +151,11 @@ export default function Hero() {
           </a>
           <HeroSwing mobile />
           </div>
-          <a href="#contact" className="hero-secondary">Let’s connect <span aria-hidden="true">↗</span></a>
+          <a href="#contact" className="hero-secondary">Let’s connect <span aria-hidden="true"><ArrowIcon /></span></a>
         </div>
       </div>
       <HeroSwing />
-      <div className="hero-bottom"><span>PORTFOLIO / ANDY SAPUTRA</span><a href="#about">Scroll to discover <span aria-hidden="true">↓</span></a><span className="grid-hint">Move your cursor. Follow the squares.</span></div>
+      <div className="hero-bottom"><span>PORTFOLIO / ANDY SAPUTRA</span><a href="#about">Scroll to discover <span aria-hidden="true"><ArrowIcon direction="down" /></span></a><span className="grid-hint">Move your cursor. Follow the squares.</span></div>
     </section>
   );
 }

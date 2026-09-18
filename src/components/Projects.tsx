@@ -4,6 +4,7 @@ import { projectCategories, type Project } from "../types/portfolio";
 import { usePortfolioData } from "../context/PortfolioDataContext";
 import DinoBuilder from "./DinoBuilder";
 import ProjectModal from "./ProjectModal";
+import ArrowIcon from "./ArrowIcon";
 import useScrollReveal from "../hook/useScrollReveal.ts";
 
 const si = (i: number) => ({ "--i": i } as CSSProperties & Record<"--i", number>);
@@ -65,7 +66,7 @@ export default function Projects() {
                 aria-controls="project-modal"
                 aria-label={`Project details: ${p.title}`}
               >
-                Project details <span aria-hidden="true">→</span>
+                Project details <span aria-hidden="true"><ArrowIcon direction="right" /></span>
               </button>
 
               <a
@@ -75,7 +76,7 @@ export default function Projects() {
                 rel="noreferrer"
                 aria-label={`${p.link.startsWith("https://github.com/") ? "Source code" : "Live website"}: ${p.title} (opens in a new tab)`}
               >
-                {p.link.startsWith("https://github.com/") ? "Source code" : "Live website"} <span aria-hidden="true">↗</span>
+                {p.link.startsWith("https://github.com/") ? "Source code" : "Live website"} <span aria-hidden="true"><ArrowIcon /></span>
               </a>
             </div>
           </article>

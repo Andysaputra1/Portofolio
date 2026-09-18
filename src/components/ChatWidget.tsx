@@ -4,6 +4,7 @@ import andySprite from "../images/andy-pixel-sprites.png";
 import { usePortfolioData } from "../context/PortfolioDataContext";
 import { referencedProjects } from "../utils/chatProjects";
 import type { Project } from "../types/portfolio";
+import ArrowIcon from "./ArrowIcon";
 
 type Msg = { role: "user" | "assistant"; content: string; projects?: Project[] };
 function AndyAvatar({ thinking = false }: { thinking?: boolean }) {
@@ -132,7 +133,7 @@ export default function ChatWidget() {
                   <a className="ai-project-preview" href={project.link} target="_blank" rel="noreferrer" aria-label={`${project.title} (opens in a new tab)`}>
                     {project.image && <img src={project.image} alt="" width={64} height={48} loading="lazy" decoding="async" onError={(event) => { event.currentTarget.hidden = true; }} />}
                     <span><strong>{project.title}</strong><small>{project.link.startsWith('https://github.com/') ? 'Source code' : 'Live website'}</small></span>
-                    <span className="ai-project-arrow" aria-hidden="true">↗</span>
+                    <span className="ai-project-arrow" aria-hidden="true"><ArrowIcon /></span>
                   </a>
                 </li>)}
               </ul>}

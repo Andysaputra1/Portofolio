@@ -7,6 +7,7 @@ import Projects from "./components/Projects.tsx";
 import Contact from "./components/Contact.tsx";
 import OrganizationExperience from "./components/OrganizationExperience.tsx";
 import "./polish.css";
+import ArrowIcon from "./components/ArrowIcon";
 export default function App() {
   return (
     <>
@@ -24,7 +25,7 @@ export default function App() {
     <footer className="site-footer">
       <a href="#home" className="footer-signature">Andy Saputra.</a>
       <span>Built with curiosity. Crafted with purpose.</span>
-      <a href="#home">Back to top <span aria-hidden="true">↗</span></a>
+      <a href="#home">Back to top <span aria-hidden="true"><ArrowIcon /></span></a>
     </footer>
     </>
   )

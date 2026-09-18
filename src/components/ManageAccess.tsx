@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react";
 import PortfolioManager from "./PortfolioManager";
+import ArrowIcon from "./ArrowIcon";
 
 const SESSION_KEY = "portfolio-manage-access";
 const ADMIN_USERNAME = "administrator";
@@ -35,7 +36,7 @@ export default function ManageAccess() {
         <label>Password<input type="password" value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="current-password" required /></label>
         {error && <p className="manage-login-error" role="alert">{error}</p>}
         <button type="submit">Sign in <i className="fa-solid fa-arrow-right" aria-hidden="true" /></button>
-        <a href="/">← Back to portfolio</a>
+        <a href="/"><ArrowIcon direction="left" /> Back to portfolio</a>
       </form>
     </main>
   );
