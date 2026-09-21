@@ -2,12 +2,108 @@
   {
     "id": 1,
     "role": "Application Developer Intern",
-    "org": "Jakarta",
+    "org": "Polytron",
     "period": "February 2026 – January 2027",
-    "summary": "Internship focused on developing and maintaining web applications, collaborating with cross-functional teams to implement features, optimize performance, and ensure a seamless user experience.",
+    "summary": "Develop and maintain internal applications for employee services, supply chain insights, operational displays, and recruitment. All four projects use Node.js and are containerized with Docker.",
     "image": "polytron",
     "imageCaption": "A new chapter at Polytron",
-    "imageLayout": "original"
+    "imageLayout": "original",
+    "location": "Jakarta",
+    "stack": [
+      "Node.js",
+      "Docker"
+    ],
+    "projects": [
+      {
+        "id": "ess",
+        "title": "ESS",
+        "subtitle": "Employee self-service",
+        "image": "ess-polytron",
+        "description": "Develop a progressive web app for employee requests, including letters and meeting-room bookings, attendance checks, and company announcements. Integrate Firebase notifications to keep employees updated.",
+        "stack": [
+          "Node.js",
+          "Docker",
+          "PWA",
+          "Firebase"
+        ]
+      },
+      {
+        "id": "scm",
+        "title": "SCM",
+        "subtitle": "Supply chain AI assistant",
+        "image": "scm-polytron",
+        "description": "Build an LLM assistant that reads warehouse inventory and bill of materials files, answers stock questions, and helps users explore production combinations to make better use of available materials.",
+        "stack": [
+          "Node.js",
+          "Docker",
+          "Python",
+          "LLM"
+        ]
+      },
+      {
+        "id": "qms",
+        "title": "QMS",
+        "subtitle": "Cross-device display & Android app",
+        "image": "qms-polytron",
+        "description": "Maintain and adapt the frontend for TVs and other screen sizes. Package the web application as an Android WebView app using Android Studio.",
+        "stack": [
+          "Node.js",
+          "Docker",
+          "Android Studio",
+          "WebView"
+        ]
+      },
+      {
+        "id": "ats",
+        "title": "ATS",
+        "subtitle": "AI-assisted CV screening",
+        "image": "ats-polytron",
+        "description": "Develop CV analysis using SVM and LLMs to evaluate candidates against HR criteria, score CVs, and assess how their skills match role requirements.",
+        "stack": [
+          "Node.js",
+          "Docker",
+          "Python",
+          "SVM",
+          "LLM"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "role": "Full Stack Developer (Freelance)",
+    "org": "Qreed AI",
+    "period": "September 2026 – Present",
+    "summary": "Build and maintain the Qreed AI website using Next.js, React, and Docker. Develop the landing page and generation page, and deliver ongoing improvements and new features based on client requests.",
+    "stack": [
+      "Next.js",
+      "React",
+      "Docker"
+    ],
+    "projects": [
+      {
+        "id": "qreed-landing",
+        "title": "Landing page",
+        "subtitle": "Qreed AI website",
+        "image": "landingpage-qreedai",
+        "description": "Build the landing page and refine its layout and content as client requirements evolve.",
+        "stack": [
+          "Next.js",
+          "React"
+        ]
+      },
+      {
+        "id": "qreed-generate",
+        "title": "Generation page",
+        "subtitle": "Qreed AI product",
+        "image": "generate-qreedai",
+        "description": "Build the generation page, maintain its interface, and add features requested by the client.",
+        "stack": [
+          "Next.js",
+          "React"
+        ]
+      }
+    ]
   },
   {
     "id": 2,

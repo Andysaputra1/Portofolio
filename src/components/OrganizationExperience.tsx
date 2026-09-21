@@ -1,4 +1,5 @@
 // src/components/OrganizationExperience.tsx
+import ExperienceProjects from "./ExperienceProjects";
 import TeamLead from "./TeamLead";
 import { usePortfolioData } from "../context/PortfolioDataContext";
 import useScrollReveal from "../hook/useScrollReveal.ts";
@@ -41,7 +42,7 @@ export default function OrganizationExperience() {
           <ul className="exp-list reveal-stagger" ref={listRef}>
             {organizations.map((x, idx) => (
               // tiap item ikut delay berdasarkan --i
-              <li key={x.id} className="exp-item" style={si(idx)}>
+              <li key={x.id} className={"exp-item" + (x.projects?.length ? " exp-item-with-projects" : "")} style={si(idx)}>
                 <div className="exp-meta">
                   {x.role && <div className="exp-role">{x.role}</div>}
                   <div className="exp-org">{x.org}</div>
@@ -51,6 +52,8 @@ export default function OrganizationExperience() {
                 </div>
                 <div className="exp-details">
                   {x.summary && <p className="exp-summary">{x.summary}</p>}
+                  {!!x.stack?.length && <ul className="exp-tech-tags" aria-label="Technologies">{x.stack.map((technology) => <li key={technology}>{technology}</li>)}</ul>}
+                  {!!x.projects?.length && <ExperienceProjects projects={x.projects} organization={x.org} />}
                   {x.roles?.map((r, i2) => (
                     <div key={r.title + (r.context || "")} className="exp-subrole" style={si(idx + i2 + 1)}>
                       <div className="exp-subtitle">
