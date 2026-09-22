@@ -5,7 +5,7 @@ import { orgExperiences, projects } from "../loaders/portfolioData";
 import type { OrgExp, Project } from "../types/portfolio";
 import rawSkills from "../data/skills.json";
 import type { Skill } from "../types/portfolio";
-import defaultCvUrl from "../assets/Andy Saputra_CV3 NewVersion.pdf";
+import defaultCvUrl from "../assets/cv_sementara.pdf";
 
 type PortfolioData = {
   projects: Project[];
@@ -38,7 +38,7 @@ export function PortfolioDataProvider({ children }: { children: ReactNode }) {
   const [currentOrganizations, setCurrentOrganizations] = useState<OrgExp[]>(orgExperiences);
   const [currentSkills, setCurrentSkills] = useState<Skill[]>(rawSkills as Skill[]);
   const [cvUrl, setCvUrl] = useState(defaultCvUrl);
-  const [cvName, setCvName] = useState("Andy Saputra_CV3 NewVersion.pdf");
+  const [cvName, setCvName] = useState("cv_sementara.pdf");
 
   const moveItem = <T extends { id: string | number }>(items: T[], id: T["id"], direction: "up" | "down") => {
     const from = items.findIndex((item) => item.id === id);
