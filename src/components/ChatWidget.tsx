@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from "react";
 import "./ChatWidget.css";
-import andySprite from "../images/andy-pixel-sprites.png";
+import andySprite from "../images/andy-pixel-sprites.webp";
 import { usePortfolioData } from "../context/PortfolioDataContext";
 import { referencedProjects } from "../utils/chatProjects";
 import type { Project } from "../types/portfolio";
@@ -17,7 +17,7 @@ function AndyAvatar({ thinking = false }: { thinking?: boolean }) {
         <feMorphology operator="dilate" radius="6" result="mask" />
         <feComposite in="SourceGraphic" in2="mask" operator="in" />
       </filter></defs>
-      <image href="/andy-pixel-head.png" width="1280" height="1280" filter={`url(#${id})`} />
+      <image href="/andy-pixel-head.webp" width="1280" height="1280" filter={`url(#${id})`} />
       {thinking && <g><path d="M465 890H670V1030H465Z" fill="#efb689" /><path d="M505 952H620" stroke="#79503c" strokeWidth="24" /><path d="M352 730H432M726 714H797" stroke="#4a3028" strokeWidth="24" /></g>}
     </svg>
     {thinking && <span className="ai-thought"><span /></span>}

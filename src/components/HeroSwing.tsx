@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState } from 'react';
-import swingAtlas from '../images/andy-swing-sprites.png';
+import swingAtlas from '../images/andy-swing-sprites.webp';
 import './HeroSwing.css';
 
 export default function HeroSwing({ mobile = false }: { mobile?: boolean }) {

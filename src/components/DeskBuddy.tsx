@@ -1,5 +1,5 @@
 ﻿import { useEffect, useRef, useState } from "react";
-import deskSprites from "../images/andy-laptop-sprites.png";
+import deskSprites from "../images/andy-laptop-sprites.webp";
 import "./DeskBuddy.css";
 
 // Registered viewports keep the character seated in one place across all poses.

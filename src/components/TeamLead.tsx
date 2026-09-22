@@ -1,7 +1,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import "./TeamLead.css";
-import finishSprite from "../images/andy-team-finish.png";
-import teamSprite from "../images/andy-team-sprites.png";
+import finishSprite from "../images/andy-team-finish.webp";
+import teamSprite from "../images/andy-team-sprites.webp";
 
 function Teammate({ index, pose, maskId, finish }: { index: number; pose: number; maskId: string; finish: boolean }) {
   // Each pose uses its own baseline so feet stay on the section divider.

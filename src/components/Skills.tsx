@@ -7,15 +7,15 @@ import type { IconType } from "react-icons";
 import { SiNodedotjs, SiAngular, SiExpress, SiDocker, SiGit, SiOpenai, SiC, SiPython } from "react-icons/si";
 import { FaBrain, FaRobot, FaNetworkWired, FaCode, FaCommentDots } from "react-icons/fa";
 
-import reactImg from "../images/logoLanguage/react.png";
-import htmlImg from "../images/logoLanguage/html.png";
-import cssImg from "../images/logoLanguage/css.png";
-import jsImg from "../images/logoLanguage/javascript.png";
-import pythonImg from "../images/logoLanguage/python.png";
-import cImg from "../images/logoLanguage/c.png";
-import javaImg from "../images/logoLanguage/java.png";
-import sqlImg from "../images/logoLanguage/sql.png";
-import tsImg from "../images/logoLanguage/typescript.png";
+import reactImg from "../images/logoLanguage/react.webp";
+import htmlImg from "../images/logoLanguage/html.webp";
+import cssImg from "../images/logoLanguage/css.webp";
+import jsImg from "../images/logoLanguage/javascript.webp";
+import pythonImg from "../images/logoLanguage/python.webp";
+import cImg from "../images/logoLanguage/c.webp";
+import javaImg from "../images/logoLanguage/java.webp";
+import sqlImg from "../images/logoLanguage/sql.webp";
+import tsImg from "../images/logoLanguage/typescript.webp";
 
 const imageMap: Record<string, string> = { react: reactImg, html: htmlImg, css: cssImg, javascript: jsImg, python: pythonImg, c: cImg, java: javaImg, sql: sqlImg, typescript: tsImg };
 

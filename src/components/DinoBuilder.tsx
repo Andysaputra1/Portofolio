@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState } from "react";
-import atlas from "../images/andy-dino-build.png";
+import atlas from "../images/andy-dino-build.webp";
 import "./DinoBuilder.css";
 
 export default function DinoBuilder() {

@@ -1,4 +1,4 @@
-﻿import meImg from "../images/Photo1.jpg";
+﻿import meImg from "../images/Photo1.webp";
 import useScrollReveal from "../hook/useScrollReveal.ts";
 import PixelBuddy from "./PixelBuddy";
 import ArrowIcon from "./ArrowIcon";

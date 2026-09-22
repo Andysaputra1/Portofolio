@@ -1,7 +1,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import "./PixelBuddy.css";
-import runSprite from "../images/andy-nav-run.png";
-import actionSprite from "../images/andy-pixel-sprites.png";
+import runSprite from "../images/andy-nav-run.webp";
+import actionSprite from "../images/andy-pixel-sprites.webp";
 
 /** Six reference-based frames share a 12-second run, wave, and mining loop. */
 export default function PixelBuddy() {

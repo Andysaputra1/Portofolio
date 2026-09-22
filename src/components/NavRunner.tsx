@@ -1,5 +1,5 @@
 import { useId } from 'react';
-import runSprite from '../images/andy-nav-run.png';
+import runSprite from '../images/andy-nav-run.webp';
 
 /** Remove the atlas's dark matte at render time, retaining the pixel outline. */
 export default function NavRunner() {

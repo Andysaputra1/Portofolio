@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState } from "react";
-import atlas from "../images/andy-coffee-chat.png";
+import atlas from "../images/andy-coffee-chat.webp";
 import "./CoffeeChat.css";
 
 export default function CoffeeChat() {
