@@ -9,7 +9,8 @@ export default function ExperienceProjects({ projects, organization }: { project
   if (!active) return null;
   const move = (offset: number) => setSelectedId(projects[(index + offset + projects.length) % projects.length].id);
 
-  return <section className="exp-showcase" aria-label={organization + ' projects'} aria-roledescription="carousel">
+  return <section className="exp-showcase" aria-label={organization + ' selected projects'} aria-roledescription="carousel">
+    <p className="exp-showcase-label">Selected projects</p>
     <div className="exp-showcase-nav">
       <div className="exp-project-picker" aria-label="Choose a project">
         {projects.map((project) => <button type="button" key={project.id} aria-pressed={project.id === active.id} onClick={() => setSelectedId(project.id)}>{project.title}</button>)}

@@ -4,14 +4,22 @@
     "role": "Application Developer Intern",
     "org": "Polytron",
     "period": "February 2026 – January 2027",
-    "summary": "Develop and maintain internal applications for employee services, supply chain insights, operational displays, and recruitment. All four projects use Node.js and are containerized with Docker.",
+    "summary": "Develop and maintain internal applications that support employee services, business operations, and data-driven decision-making. Translate user requirements into practical features, manage SQL databases to support application data and workflows, improve usability across devices, and integrate AI capabilities where needed. Apply Docker containerization to keep application environments consistent, with attention to security, reliability, and ongoing maintenance.",
     "image": "polytron",
     "imageCaption": "A new chapter at Polytron",
     "imageLayout": "original",
     "location": "Jakarta",
     "stack": [
       "Node.js",
-      "Docker"
+      "Docker",
+      "Python",
+      "Redis",
+      "PWA",
+      "Firebase",
+      "Android Studio",
+      "LLM",
+      "NLP",
+      "SQL"
     ],
     "projects": [
       {
@@ -24,7 +32,8 @@
           "Node.js",
           "Docker",
           "PWA",
-          "Firebase"
+          "Firebase",
+          "Redis"
         ]
       },
       {
@@ -74,7 +83,7 @@
     "role": "Full Stack Developer (Freelance)",
     "org": "Qreed AI",
     "period": "September 2026 – Present",
-    "summary": "Build and maintain the Qreed AI website using Next.js, React, and Docker. Develop the landing page and generation page, and deliver ongoing improvements and new features based on client requests.",
+    "summary": "Develop and maintain the Qreed AI website as a freelance full stack developer, translating client requirements into new pages, features, and ongoing improvements. Work across multiple areas of the website, including the landing page and generation page shown below as selected examples. Use Docker containerization to keep application environments consistent and support ongoing maintenance as client needs evolve.",
     "stack": [
       "Next.js",
       "React",

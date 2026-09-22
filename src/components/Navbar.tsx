@@ -6,8 +6,8 @@ import CVModal from "./CVModal";
 import NavRunner from './NavRunner';
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false); // menu mobile
-  const [cvOpen, setCvOpen] = useState(false); // state untuk CV modal
+  const [open, setOpen] = useState(false); 
+  const [cvOpen, setCvOpen] = useState(false); 
   const [activeSection, setActiveSection] = useState("");
   const linksRef = useRef<HTMLUListElement>(null);
   const navRef = useRef<HTMLElement>(null);
