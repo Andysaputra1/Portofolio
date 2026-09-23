@@ -52,17 +52,17 @@
 
 /* Give the idea, method, and outcome distinct visual weight. */
 .project-dialog-models { margin-top: 24px; }
-.project-dialog-models h3, .project-dialog-section-label { margin: 0 0 10px; color: #92929e; font: 500 .62rem/1.5 var(--ff-body); text-transform: uppercase; letter-spacing: .12em; }
+.project-dialog-models h3, .project-dialog-section-label { margin: 0 0 10px; color: #92929e; font: 700 .62rem/1.5 var(--ff-heading); text-transform: uppercase; letter-spacing: .12em; }
 .project-dialog-models .project-dialog-focus { margin-bottom: 22px; font-size: .82rem; line-height: 1.7; }
 .project-dialog-models .project-dialog-technologies { margin: 0; gap: 8px; }
 .project-dialog-models .project-dialog-technologies li { padding: 7px 10px; border-radius: 7px; color: #c7c7d1; border-color: #ffffff14; background: #ffffff04; font-size: .76rem; }
-.project-dialog-process h3 { margin: 0 0 16px; color: #e2e2e6; font: 500 .95rem/1.5 var(--ff-body); letter-spacing: 0; }
+.project-dialog-process h3 { margin: 0 0 16px; color: #e2e2e6; font: 700 .95rem/1.5 var(--ff-heading); letter-spacing: 0; }
 .project-dialog-process ol { display: grid; gap: 15px; list-style: none; margin: 0; padding: 0; }
 .project-dialog-process li { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 13px; align-items: start; }
 .project-dialog-process li > span { display: grid; place-items: center; height: 27px; border: 1px solid #c0acf021; border-radius: 7px; background: #c0acf007; color: var(--accent-purple, #c0acf0); font: 400 .65rem/1 monospace; }
 .project-dialog-process li p { margin: 1px 0 0; color: #b9b9c3; font-size: .88rem; line-height: 1.7; overflow-wrap: anywhere; }
 .project-dialog-result { margin-top: 26px; padding: 18px 20px; border: 1px solid #a6c5ff22; border-radius: 10px; background: linear-gradient(110deg, #a6c5ff09, #c0acf004); }
-.project-dialog-result h3 { margin: 0 0 8px; color: var(--accent-blue, #a6c5ff); font: 500 .62rem/1.5 var(--ff-body); letter-spacing: .12em; text-transform: uppercase; }
+.project-dialog-result h3 { margin: 0 0 8px; color: var(--accent-blue, #a6c5ff); font: 700 .62rem/1.5 var(--ff-heading); letter-spacing: .12em; text-transform: uppercase; }
 .project-dialog-result p { margin: 0; color: #d8d8e0; font-size: .93rem; line-height: 1.7; overflow-wrap: anywhere; }
 .project-dialog-evaluation { margin: 16px 0 0; color: #9696a1; font-size: .77rem; line-height: 1.75; overflow-wrap: anywhere; }
 .project-dialog-evaluation > span { color: #b7b7c1; margin-right: 7px; font-weight: 600; }

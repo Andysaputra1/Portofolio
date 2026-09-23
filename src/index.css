@@ -31,7 +31,6 @@ Variables
   --clr-grey-9: hsl(212, 33%, 89%);
   --clr-grey-10: hsl(210, 36%, 96%);
   --clr-white: #fff;
-  --ff-primary: 'Lato', sans-serif;
   --transition: all 0.3s linear;
   --spacing: 0.25rem;
   --radius: 0.5rem;
@@ -106,7 +105,9 @@ img:not(.nav-logo) {
 h1,
 h2,
 h3,
-h4 {
+h4,
+h5,
+h6 {
   font-family: var(--ff-heading);
   letter-spacing: 0.01em;
   text-transform: capitalize;
