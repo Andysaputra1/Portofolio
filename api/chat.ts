@@ -48,7 +48,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const question = typeof req.body?.question === "string" ? req.body.question.trim() : "";
     if (!question) return res.status(400).json({ error: "Pertanyaan wajib diisi." });
     if (question.length > MAX_QUESTION_LENGTH) return res.status(400).json({ error: "Pertanyaan maksimal 800 karakter." });
-    if (!process.env.OPENAI_API_KEY) return res.status(503).json({ error: "Layanan AI belum dikonfigurasi." });
+    const apiKey = process.env.OPEN_ROUTER?.trim();
+    if (!apiKey) return res.status(503).json({ error: "Layanan AI belum dikonfigurasi." });
 
     const address = (req.headers["x-forwarded-for"] ?? req.socket?.remoteAddress ?? "unknown").toString().split(",")[0].trim();
     const now = Date.now();
@@ -64,22 +65,27 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     requests.push(now);
     recentRequests.set(address, requests);
 
-    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY, timeout: 25_000, maxRetries: 0 });
+    const openrouter = new OpenAI({ apiKey, baseURL: 'https://openrouter.ai/api/v1', timeout: 25_000, maxRetries: 0 });
     const context = `SOURCE: current-portfolio\n${currentContext}`;
-    const model = process.env.OPENAI_CHAT_MODEL || 'gpt-4.1-mini';
-    const response = await openai.responses.create({
+    const model = process.env.OPEN_ROUTER_MODEL?.trim() || 'openrouter/free';
+    const response = await openrouter.chat.completions.create({
       model,
-      instructions: SYSTEM_PROMPT,
-      input: `Context:\n${context}\n\nQuestion:\n${question}\n\nAnswer based only on the context provided, citing with tags.`,
-      ...(/^(gpt-5|o[134])/.test(model) ? { reasoning: { effort: 'low' as const } } : {}),
-      max_output_tokens: 700,
-      store: false,
+      messages: [
+        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'user', content: `Context:\n${context}\n\nQuestion:\n${question}\n\nAnswer based only on the context provided, citing with tags.` },
+      ],
+      max_tokens: 700,
     });
 
-    if (!response.output_text?.trim()) return res.status(502).json({ error: "AI belum menghasilkan jawaban. Silakan coba lagi." });
-    return res.status(200).json({ answer: response.output_text });
+    const answer = response.choices?.[0]?.message?.content?.trim();
+    if (!answer) return res.status(502).json({ error: "AI belum menghasilkan jawaban. Silakan coba lagi." });
+    return res.status(200).json({ answer });
   } catch (e: unknown) {
     console.error('Chat request failed', e instanceof OpenAI.APIError ? { status: e.status, code: e.code } : { type: e instanceof Error ? e.name : 'unknown' });
+    if (e instanceof OpenAI.APIError && e.status === 429) {
+      res.setHeader('Retry-After', '60');
+      return res.status(429).json({ error: "Kuota AI sementara tercapai. Silakan coba lagi nanti." });
+    }
     return res.status(500).json({ error: "Terjadi gangguan pada layanan AI. Coba lagi nanti." });
   }
 }
