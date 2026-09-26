@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createRequire } from "node:module";
+import { checkBotId } from "botid/server";
 import OpenAI from "openai";
 
 const MAX_QUESTION_LENGTH = 800;
@@ -65,6 +66,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     requests.push(now);
     recentRequests.set(address, requests);
 
+    // BotID classifies deployed traffic only; in development it always reports a human.
+    if (process.env.NODE_ENV === 'production' && (await checkBotId()).isBot) {
+      return res.status(403).json({ error: "Permintaan ditolak." });
+    }
+
     // Amazon Bedrock (Mantle) exposes its models through an OpenAI-compatible Chat Completions endpoint.
     // AWS_REGION is reserved on Vercel, so the region uses its own variable.
     const region = process.env.AMAZON_REGION?.trim() || 'us-east-1';
@@ -84,7 +90,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!answer) return res.status(502).json({ error: "AI belum menghasilkan jawaban. Silakan coba lagi." });
     return res.status(200).json({ answer });
   } catch (e: unknown) {
-    console.error('Chat request failed', e instanceof OpenAI.APIError ? { status: e.status, code: e.code } : { type: e instanceof Error ? e.name : 'unknown' });
+    // Non-provider errors (such as a BotID misconfiguration) carry no provider response body, so their message is safe to log.
+    console.error('Chat request failed', e instanceof OpenAI.APIError ? { status: e.status, code: e.code } : e instanceof Error ? { type: e.name, message: e.message } : { type: 'unknown' });
     if (e instanceof OpenAI.APIError && e.status === 429) {
       res.setHeader('Retry-After', '60');
       return res.status(429).json({ error: "Kuota AI sementara tercapai. Silakan coba lagi nanti." });

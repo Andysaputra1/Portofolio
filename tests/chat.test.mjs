@@ -55,3 +55,32 @@ test('chat validates requests, handles provider failures, and limits repeated ca
     if(originalRegion===undefined)delete process.env.AMAZON_REGION;else process.env.AMAZON_REGION=originalRegion;
   }
 });
+
+test('chat asks BotID in production and rejects bots before calling the model', async () => {
+  const originalKey=process.env.AMAZON_API_KEY;
+  const originalNodeEnv=process.env.NODE_ENV;
+  const context=Symbol.for('@vercel/request-context');
+  process.env.AMAZON_API_KEY='test-placeholder';
+  process.env.NODE_ENV='production';
+  // On Vercel the platform provides the request headers and OIDC token through this context.
+  globalThis[context]={get:()=>({url:'https://portfolio.test/api/chat',headers:{host:'portfolio.test','x-is-human':'{}','x-vercel-oidc-token':'test-oidc'},mutateResponseHeadersBeforeFlush(){}})};
+  let bot=true;let botChecks=0;let modelCalls=0;
+  const mocked=mock.method(globalThis,'fetch',async (url,init)=>{
+    if(String(url).startsWith('https://api.vercel.com/bot-protection/v1/is-bot')){
+      botChecks++;
+      assert.equal(new Headers(init.headers).get('x-vercel-oidc-token'),'test-oidc');
+      return new Response(JSON.stringify({isBot:bot,isVerifiedBot:false,bypassed:false}),{headers:{'content-type':'application/json'}});
+    }
+    modelCalls++;
+    return new Response(JSON.stringify({id:'test',object:'chat.completion',choices:[{index:0,message:{role:'assistant',content:'Human answer'},finish_reason:'stop'}]}),{headers:{'content-type':'application/json'}});
+  });
+  try {
+    const blocked=await call('spam',{ip:'bot'});assert.equal(blocked.code,403);assert.equal(botChecks,1);assert.equal(modelCalls,0);
+    bot=false;const allowed=await call('hello',{ip:'human'});assert.equal(allowed.code,200);assert.equal(allowed.body.answer,'Human answer');assert.equal(botChecks,2);assert.equal(modelCalls,1);
+  } finally {
+    mocked.mock.restore();
+    delete globalThis[context];
+    if(originalNodeEnv===undefined)delete process.env.NODE_ENV;else process.env.NODE_ENV=originalNodeEnv;
+    if(originalKey===undefined)delete process.env.AMAZON_API_KEY;else process.env.AMAZON_API_KEY=originalKey;
+  }
+});

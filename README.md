@@ -28,3 +28,9 @@ Run `npm run lint`, `npm test`, and `npm run build`. The automated chat test moc
 On Vercel, configure `AMAZON_API_KEY` and optionally `AMAZON_MODEL` and `AMAZON_REGION` for the appropriate deployment environment, then redeploy. Your local `.env` is ignored by Git and is not uploaded by a push. Vercel runs `api/chat.ts`; static hosting alone cannot run the chatbot.
 
 The chatbot validates input length, uses bounded upstream timeouts, avoids logging raw questions or provider errors, and returns generic failures. Its in-memory rate limit is per function instance, not a distributed quota; use deployment-level limits for global abuse protection.
+
+Spam protection has three layers:
+
+- Vercel BotID (Basic, free on all plans) runs an invisible challenge on `POST /api/chat`. The client initializes it in production builds, `vercel.json` proxies its challenge script, and the function rejects bots with 403 before calling Bedrock. Requests from `curl` or other scripts are blocked in production; test from the deployed page instead. BotID needs the project's OIDC token, which Vercel enables by default. Locally the check is skipped.
+- A Vercel WAF rate-limit rule (Firewall → Configure → New Rule; Hobby includes one): if Request Path equals `/api/chat`, then Rate Limit with a fixed 60-second window, 10 requests, keyed by IP, returning 429. Unlike the in-memory limit, it applies across all function instances and blocks traffic before the function runs.
+- An AWS Budgets alert on the Bedrock account caps the surprise if anything gets through.
