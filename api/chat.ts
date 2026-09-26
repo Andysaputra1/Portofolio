@@ -48,7 +48,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const question = typeof req.body?.question === "string" ? req.body.question.trim() : "";
     if (!question) return res.status(400).json({ error: "Pertanyaan wajib diisi." });
     if (question.length > MAX_QUESTION_LENGTH) return res.status(400).json({ error: "Pertanyaan maksimal 800 karakter." });
-    const apiKey = process.env.OPEN_ROUTER?.trim();
+    const apiKey = process.env.GEMINI_API_KEY?.trim();
     if (!apiKey) return res.status(503).json({ error: "Layanan AI belum dikonfigurasi." });
 
     const address = (req.headers["x-forwarded-for"] ?? req.socket?.remoteAddress ?? "unknown").toString().split(",")[0].trim();
@@ -65,10 +65,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     requests.push(now);
     recentRequests.set(address, requests);
 
-    const openrouter = new OpenAI({ apiKey, baseURL: 'https://openrouter.ai/api/v1', timeout: 25_000, maxRetries: 0 });
+    // Google AI Studio exposes Gemini through an OpenAI-compatible Chat Completions endpoint.
+    const gemini = new OpenAI({ apiKey, baseURL: 'https://generativelanguage.googleapis.com/v1beta/openai/', timeout: 25_000, maxRetries: 0 });
     const context = `SOURCE: current-portfolio\n${currentContext}`;
-    const model = process.env.OPEN_ROUTER_MODEL?.trim() || 'openrouter/free';
-    const response = await openrouter.chat.completions.create({
+    const model = process.env.GEMINI_MODEL?.trim() || 'gemini-flash-latest';
+    const response = await gemini.chat.completions.create({
       model,
       messages: [
         { role: 'system', content: SYSTEM_PROMPT },
