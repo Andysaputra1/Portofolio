@@ -1,14 +1,14 @@
 # Andy Saputra portfolio
 
-React + TypeScript + Vite, with a Gemini career chatbot deployed as a Vercel function.
+React + TypeScript + Vite, with an Amazon Bedrock career chatbot deployed as a Vercel function.
 
 ## Development
 
-Use Node.js 24 or newer. Run `npm install`, copy `.env.example` to `.env`, and set `GEMINI_API_KEY` to your Google AI Studio API key on the server. Never prefix this key with `VITE_` or put it in frontend code.
+Use Node.js 24 or newer. Run `npm install`, copy `.env.example` to `.env`, and set `AMAZON_API_KEY` to a long-term Amazon Bedrock API key on the server. Never prefix this key with `VITE_` or put it in frontend code.
 
 Run `npm run dev`. Vite runs `/api/chat` through the same server-only handler used by Vercel. Restart the dev server after changing environment variables. `npm run preview` serves only the static build; it does not run the AI API.
 
-`GEMINI_MODEL` is optional and defaults to `gemini-flash-latest`, an alias Google keeps pointed at the newest Gemini Flash model. The Gemini API free tier has per-minute and per-day rate limits, and Gemini can briefly return 503 when a model is overloaded; the chatbot reports both as a generic retry message. The chatbot sends one text-only request containing the profile, education, FAQs and current project/skill/experience JSON through Gemini's OpenAI-compatible Chat Completions endpoint, using the existing OpenAI SDK. It does not call the embedding API or send photos. The old embedding cache generator is unused by chat and still requires its own `OPENAI_API_KEY` if run manually. Old `OPEN_ROUTER`, `OPEN_ROUTER_MODEL`, `OPENAI_API_KEY` and `OPENAI_CHAT_MODEL` settings do not configure the chatbot anymore.
+`AMAZON_MODEL` is optional and defaults to `qwen.qwen3-235b-a22b-2507`, which answered the portfolio questions fastest and most consistently in plain text among the models this account can invoke. `AMAZON_REGION` is optional and defaults to `us-east-1`; `AWS_REGION` is not used because Vercel reserves it. Bedrock bills every request per token, with no free tier. Some catalog models (including Claude and GPT-5.x) can return `not available for this account` until access is enabled for the AWS account. The chatbot sends one text-only request containing the profile, education, FAQs and current project/skill/experience JSON through Bedrock's OpenAI-compatible Chat Completions endpoint (`https://bedrock-mantle.<region>.api.aws/v1`), using the existing OpenAI SDK. It does not call the embedding API or send photos. The old embedding cache generator is unused by chat and still requires its own `OPENAI_API_KEY` if run manually. Old `GEMINI_API_KEY`, `GEMINI_MODEL`, `OPEN_ROUTER`, `OPEN_ROUTER_MODEL`, `OPENAI_API_KEY` and `OPENAI_CHAT_MODEL` settings do not configure the chatbot anymore.
 
 ## Manage
 
@@ -23,8 +23,8 @@ Run `npm run dev`. Vite runs `/api/chat` through the same server-only handler us
 
 ## Validation and deployment
 
-Run `npm run lint`, `npm test`, and `npm run build`. The automated chat test mocks Gemini; it makes no network calls and requires no real API key.
+Run `npm run lint`, `npm test`, and `npm run build`. The automated chat test mocks Amazon Bedrock; it makes no network calls and requires no real API key.
 
-On Vercel, configure `GEMINI_API_KEY` and optionally `GEMINI_MODEL` for the appropriate deployment environment, then redeploy. Your local `.env` is ignored by Git and is not uploaded by a push. Vercel runs `api/chat.ts`; static hosting alone cannot run the chatbot.
+On Vercel, configure `AMAZON_API_KEY` and optionally `AMAZON_MODEL` and `AMAZON_REGION` for the appropriate deployment environment, then redeploy. Your local `.env` is ignored by Git and is not uploaded by a push. Vercel runs `api/chat.ts`; static hosting alone cannot run the chatbot.
 
 The chatbot validates input length, uses bounded upstream timeouts, avoids logging raw questions or provider errors, and returns generic failures. Its in-memory rate limit is per function instance, not a distributed quota; use deployment-level limits for global abuse protection.

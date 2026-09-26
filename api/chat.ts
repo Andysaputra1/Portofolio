@@ -25,7 +25,7 @@ const currentContext = JSON.stringify({
 
 const SYSTEM_PROMPT = `
 You are the candidate’s public career chatbot. Audience: HR and general public.
-Tone: professional, concise, friendly. Mirror Indonesian/English automatically. Answer in 2-4 short sentences unless the visitor asks for details. Use plain text, not markdown headings.
+Tone: professional, concise, friendly. Mirror Indonesian/English automatically. Answer in 2-4 short sentences unless the visitor asks for details. The chat shows raw text, so write plain prose with no markdown: no headings, bullet lists, **bold** or *italics*.
 
 ## Core Rules:
 1.  **Strictly Adhere to Context:** Answer ONLY from the provided context sections.
@@ -48,7 +48,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const question = typeof req.body?.question === "string" ? req.body.question.trim() : "";
     if (!question) return res.status(400).json({ error: "Pertanyaan wajib diisi." });
     if (question.length > MAX_QUESTION_LENGTH) return res.status(400).json({ error: "Pertanyaan maksimal 800 karakter." });
-    const apiKey = process.env.GEMINI_API_KEY?.trim();
+    const apiKey = process.env.AMAZON_API_KEY?.trim();
     if (!apiKey) return res.status(503).json({ error: "Layanan AI belum dikonfigurasi." });
 
     const address = (req.headers["x-forwarded-for"] ?? req.socket?.remoteAddress ?? "unknown").toString().split(",")[0].trim();
@@ -65,11 +65,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     requests.push(now);
     recentRequests.set(address, requests);
 
-    // Google AI Studio exposes Gemini through an OpenAI-compatible Chat Completions endpoint.
-    const gemini = new OpenAI({ apiKey, baseURL: 'https://generativelanguage.googleapis.com/v1beta/openai/', timeout: 25_000, maxRetries: 0 });
+    // Amazon Bedrock (Mantle) exposes its models through an OpenAI-compatible Chat Completions endpoint.
+    // AWS_REGION is reserved on Vercel, so the region uses its own variable.
+    const region = process.env.AMAZON_REGION?.trim() || 'us-east-1';
+    const bedrock = new OpenAI({ apiKey, baseURL: `https://bedrock-mantle.${region}.api.aws/v1`, timeout: 25_000, maxRetries: 0 });
     const context = `SOURCE: current-portfolio\n${currentContext}`;
-    const model = process.env.GEMINI_MODEL?.trim() || 'gemini-flash-latest';
-    const response = await gemini.chat.completions.create({
+    const model = process.env.AMAZON_MODEL?.trim() || 'qwen.qwen3-235b-a22b-2507';
+    const response = await bedrock.chat.completions.create({
       model,
       messages: [
         { role: 'system', content: SYSTEM_PROMPT },
