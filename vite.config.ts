@@ -4,8 +4,8 @@ import { localChatApi } from './scripts/local-chat-api'
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), 'AMAZON_');
-  for (const name of ['AMAZON_API_KEY', 'AMAZON_MODEL', 'AMAZON_REGION']) {
+  const env = loadEnv(mode, process.cwd(), 'OPEN_ROUTER');
+  for (const name of ['OPEN_ROUTER', 'OPEN_ROUTER_MODEL']) {
     if (!process.env[name] && env[name]) process.env[name] = env[name];
   }
   return { plugins: [react(), localChatApi()] };
