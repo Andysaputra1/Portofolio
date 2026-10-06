@@ -407,8 +407,7 @@ img.skill-icon { width: 30px; height: 30px; filter: grayscale(1); transition: fi
 .exp-project-picker button[aria-pressed="true"] .exp-project-picker-index { color: var(--project-accent); opacity: 1; }
 .exp-project-picker-bar { position: absolute; left: 10px; right: 10px; bottom: 5px; height: 2px; border-radius: 2px; background: #ffffff12; overflow: hidden; }
 .exp-project-picker-bar i { position: absolute; inset: 0; background: var(--project-accent); transform: scaleX(0); transform-origin: left; transition: transform .35s ease; }
-.exp-project-picker [data-state="done"] .exp-project-picker-bar i, .exp-showcase[data-scroll="false"] [data-state="active"] .exp-project-picker-bar i { transform: scaleX(1); }
-.exp-showcase[data-scroll="true"] [data-state="active"] .exp-project-picker-bar i { transform: scaleX(var(--segment-progress, 0)); transition: none; }
+.exp-project-picker [data-state="done"] .exp-project-picker-bar i, .exp-project-picker [data-state="active"] .exp-project-picker-bar i { transform: scaleX(1); }
 .exp-project-controls { position: absolute; inset: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between; padding: 7px; pointer-events: none; }
 .exp-project-controls button { display: grid; place-items: center; flex: 0 0 40px; width: 40px; height: 40px; border: 1px solid #ffffff45; border-radius: 50%; background: #22232de8; color: #fff; box-shadow: 0 2px 8px #0003; cursor: pointer; pointer-events: auto; transition: opacity .25s; }
 .exp-project-controls button:hover { background: #40374f; color: #fff; }

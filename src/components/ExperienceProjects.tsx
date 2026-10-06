@@ -2,8 +2,9 @@ import { useCallback, useEffect, useRef, useState, type CSSProperties } from "re
 import type { ExperienceProject } from "../types/portfolio";
 import ArrowIcon from "./ArrowIcon";
 
-// On desktop the page scrolls normally and the box steps through its projects as it rises through the
-// viewport; smaller screens keep the tap carousel.
+// On desktop the page scrolls normally and the box steps forward through its projects as it rises through
+// the viewport. Scrolling back up leaves the current project in place (playing it backwards felt odd);
+// the sequence rewinds once the box has dropped out of view below. Smaller screens keep the tap carousel.
 const SCROLL_QUERY = "(min-width: 901px)";
 // Stepping starts once this share of the box is visible and finishes when its top reaches END_TOP of the
 // viewport, so the last project is already showing before the box gets to the top of the screen.
@@ -26,10 +27,10 @@ function useMediaQuery(query: string) {
 }
 
 export default function ExperienceProjects({ projects, organization }: { projects: ExperienceProject[]; organization: string }) {
-  const sectionRef = useRef<HTMLElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const scrollDriven = useMediaQuery(SCROLL_QUERY) && projects.length > 1;
   const [index, setIndex] = useState(0);
+  const lastStep = useRef(0);
 
   // Viewport positions of the box's top where stepping starts and ends.
   const measure = useCallback(() => {
@@ -48,10 +49,11 @@ export default function ExperienceProjects({ projects, organization }: { project
       frame = 0;
       const m = measure();
       if (!m) return;
-      const progress = Math.min(Math.max((m.start - m.top) / (m.start - m.end), 0), 0.9999) * projects.length;
-      const next = Math.floor(progress);
-      sectionRef.current?.style.setProperty("--segment-progress", String(progress - next));
-      setIndex(next);
+      if (m.top >= window.innerHeight) { lastStep.current = 0; setIndex(0); return; }
+      const step = Math.floor(Math.min(Math.max((m.start - m.top) / (m.start - m.end), 0), 0.9999) * projects.length);
+      // Only crossing into a later step moves forward, which also keeps a project picked by hand until then.
+      if (step > lastStep.current) setIndex((current) => Math.max(current, step));
+      lastStep.current = step;
     };
     const schedule = () => { if (!frame) frame = requestAnimationFrame(sync); };
     sync();
@@ -67,17 +69,9 @@ export default function ExperienceProjects({ projects, organization }: { project
   const active = projects[index] ?? projects[0];
   if (!active) return null;
 
-  const go = (target: number) => {
-    const m = scrollDriven ? measure() : null;
-    if (!m) { setIndex((target + projects.length) % projects.length); return; }
-    const clamped = Math.min(Math.max(target, 0), projects.length - 1);
-    // Scroll until the box sits in the middle of that project's stretch.
-    const top = m.start - (m.start - m.end) * ((clamped + 0.5) / projects.length);
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    window.scrollTo({ top: window.scrollY + m.top - top, behavior: reduced ? "instant" : "smooth" });
-  };
+  const go = (target: number) => setIndex(scrollDriven ? Math.min(Math.max(target, 0), projects.length - 1) : (target + projects.length) % projects.length);
 
-  return <section className="exp-showcase" ref={sectionRef} data-scroll={scrollDriven} style={{ ...accentStyle(active.accent), "--project-count": projects.length } as CSSProperties} aria-label={organization + ' selected projects'} aria-roledescription="carousel">
+  return <section className="exp-showcase" data-scroll={scrollDriven} style={{ ...accentStyle(active.accent), "--project-count": projects.length } as CSSProperties} aria-label={organization + ' selected projects'} aria-roledescription="carousel">
     <div className="exp-showcase-panel" ref={panelRef}>
       <div className="exp-showcase-nav">
         <p className="exp-showcase-label">Selected projects</p>
