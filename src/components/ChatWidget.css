@@ -72,4 +72,11 @@
 .ai-project-preview > span:not(.ai-project-arrow) { flex: 1; min-width: 0; }
 .ai-project-preview strong { display: block; color: #e0dfe5; font-size: .74rem; font-weight: 500; line-height: 1.45; }
 .ai-project-preview small { display: block; margin-top: 3px; color: #a6a1b3; font-size: .63rem; line-height: 1.4; }
+.ai-cv-attachment { margin-top: 12px; }
+.ai-project-preview > span.ai-cv-icon { display: grid; place-items: center; flex: 0 0 48px; width: 48px; height: 48px; border-radius: 7px; background: #ffffff0c; color: #e0dfe5; font-size: 1.15rem; }
+.ai-contact-links { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 0; padding: 0; list-style: none; }
+.ai-contact-links a { display: inline-flex; align-items: center; gap: 7px; min-height: 36px; padding: 6px 10px; border: 1px solid #ffffff14; border-radius: 8px; background: #ffffff05; color: #e0dfe5; font-size: .7rem; text-decoration: none; }
+.ai-contact-links a:hover { border-color: #ffffff30; background: #ffffff0c; }
+.ai-contact-links a:focus-visible { outline: 2px solid var(--accent-blue, #a6c5ff); outline-offset: 2px; }
+.ai-contact-links small { color: #a6a1b3; font-size: .62rem; }
 .ai-project-arrow { flex: 0 0 auto; color: var(--accent-purple, #c0acf0); font-size: .9rem; }

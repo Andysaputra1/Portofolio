@@ -3,10 +3,12 @@ import "./ChatWidget.css";
 import andySprite from "../images/andy-pixel-sprites.webp";
 import { usePortfolioData } from "../context/PortfolioDataContext";
 import { referencedProjects } from "../utils/chatProjects";
+import { asksForCv, mentionedContacts, type ContactLink } from "../utils/chatAttachments";
 import type { Project } from "../types/portfolio";
 import ArrowIcon from "./ArrowIcon";
 
-type Msg = { role: "user" | "assistant"; content: string; projects?: Project[] };
+type Msg = { role: "user" | "assistant"; content: string; projects?: Project[]; cv?: boolean; contacts?: ContactLink[] };
+const contactIcons: Record<ContactLink["id"], string> = { linkedin: "fa-brands fa-linkedin", email: "fa-solid fa-envelope", phone: "fa-solid fa-phone", instagram: "fa-brands fa-instagram" };
 function AndyAvatar({ thinking = false }: { thinking?: boolean }) {
   const id = useId();
   return <span className={`ai-avatar ${thinking ? "is-thinking" : ""}`} aria-hidden="true">
@@ -38,7 +40,7 @@ function InviteAndy() {
 }
 
 export default function ChatWidget() {
-  const { projects } = usePortfolioData();
+  const { projects, cvUrl } = usePortfolioData();
   const [invite, setInvite] = useState(false);
   const inviteSeen = useRef(false);
   const [open, setOpen] = useState(false);
@@ -100,7 +102,7 @@ export default function ChatWidget() {
       const j: { answer?: string } = await r.json().catch(() => ({}));
       if (!r.ok || !j.answer?.trim()) throw new Error("unavailable");
       const answer = j.answer;
-      setMsgs((m) => [...m, { role: "assistant", content: answer, projects: referencedProjects(answer, projects) }]);
+      setMsgs((m) => [...m, { role: "assistant", content: answer, projects: referencedProjects(answer, projects), cv: asksForCv(userMsg.content), contacts: mentionedContacts(answer) }]);
     } catch {
       setMsgs((m) => [...m, { role: "assistant", content: "Sorry, I couldn't get an answer just now. Please try again in a moment." }]);
     } finally { setIsSending(false); inputRef.current?.focus(); }
@@ -136,6 +138,14 @@ export default function ChatWidget() {
                     <span className="ai-project-arrow" aria-hidden="true"><ArrowIcon /></span>
                   </a>
                 </li>)}
+              </ul>}
+              {m.cv && <a className="ai-project-preview ai-cv-attachment" href={cvUrl} target="_blank" rel="noreferrer" aria-label="Andy Saputra's CV, PDF (opens in a new tab)">
+                <span className="ai-cv-icon" aria-hidden="true"><i className="fa-regular fa-file-lines" /></span>
+                <span><strong>Andy Saputra — CV</strong><small>PDF · Opens in a new tab</small></span>
+                <span className="ai-project-arrow" aria-hidden="true"><ArrowIcon /></span>
+              </a>}
+              {!!m.contacts?.length && <ul className="ai-contact-links" aria-label="Contact links in this answer">
+                {m.contacts.map((link) => <li key={link.id}><a href={link.href} target={link.id === "linkedin" || link.id === "instagram" ? "_blank" : undefined} rel="noreferrer"><i className={contactIcons[link.id]} aria-hidden="true" /><span>{link.label}</span><small>{link.value}</small></a></li>)}
               </ul>}
             </div>
           </div>)}

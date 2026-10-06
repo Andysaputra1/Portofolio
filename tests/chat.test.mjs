@@ -35,6 +35,8 @@ test('chat validates requests, handles provider failures, and limits repeated ca
     assert.ok(!input.includes('data:image/'));
     assert.ok(input.includes('Silent Terror'));
     assert.ok(input.includes('Team Lead'));
+    assert.ok(input.includes('linkedin.com/in/andy-saputra-586b22247'));
+    assert.ok(input.includes('SOURCE: cv') && input.includes('GPA: 3.77'));
     return new Response(JSON.stringify({id:'test',object:'chat.completion',choices:empty?[]:[{index:0,message:{role:'assistant',content:'Test answer [current-portfolio]'},finish_reason:'stop'}]}),{headers:{'content-type':'application/json'}});
   });
   try {

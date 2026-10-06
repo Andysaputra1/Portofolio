@@ -21,3 +21,21 @@ test('chat previews stay compact and do not attach unrelated or invented project
   const result = referencedProjects('AI Trainer', projects);
   assert.equal(result[0], projects.find(project => project.id === 'ai-trainer'));
 });
+
+test('chat attaches the CV only when the visitor asks for it', async () => {
+  const { asksForCv } = await import('../src/utils/chatAttachments.ts');
+  assert.ok(asksForCv('Boleh minta CV Andy?'));
+  assert.ok(asksForCv('Can I see his resume?'));
+  assert.ok(!asksForCv('What does Andy build?'));
+  assert.ok(!asksForCv('Tell me about cvs and curves'));
+});
+
+test('chat turns contact details shared in an answer into links', async () => {
+  const { mentionedContacts } = await import('../src/utils/chatAttachments.ts');
+  const ids = (answer) => mentionedContacts(answer).map((link) => link.id);
+  assert.deepEqual(ids('Reach Andy at andychensaputra@gmail.com or on LinkedIn.'), ['linkedin', 'email']);
+  assert.deepEqual(ids('Nomor Andy: +62 819-9524-7372'), ['phone']);
+  assert.deepEqual(ids('His number is 081995247372.'), ['phone']);
+  assert.deepEqual(ids('Andy studies AI.'), []);
+  assert.ok(mentionedContacts('LinkedIn').every((link) => link.href.startsWith('https://')));
+});

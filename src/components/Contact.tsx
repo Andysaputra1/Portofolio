@@ -3,9 +3,10 @@ import { useState, type CSSProperties } from "react";
 import CoffeeChat from "./CoffeeChat";
 import CVModal from "./CVModal";
 import useScrollReveal from "../hook/useScrollReveal.ts";
+import contact from "../data/contact.json";
 
-const EMAIL = "andychensaputra@gmail.com";
-const PHONE = "+6281995247372";
+const EMAIL = contact.email;
+const PHONE = contact.phone;
 
 const si = (i: number) => ({ "--i": i } as CSSProperties & Record<"--i", number>);
 
@@ -49,7 +50,7 @@ export default function Contact() {
               <a
                 className="social-btn ig reveal"
                 style={si(0)}
-                href="https://instagram.com/anditific"
+                href={contact.instagram}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -59,7 +60,7 @@ export default function Contact() {
               <a
                 className="social-btn li reveal"
                 style={si(1)}
-                href="https://linkedin.com/in/andy-saputra-586b22247"
+                href={contact.linkedin}
                 target="_blank"
                 rel="noreferrer"
               >
