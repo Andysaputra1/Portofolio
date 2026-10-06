@@ -82,7 +82,10 @@ export default function ProjectModal({ open, onClose, project }: Props) {
 
         <footer className="project-dialog-footer">
           <span>{isRepository ? "Explore the code and documentation" : "Take a closer look at the project"}</span>
+          <div className="project-dialog-links">
+          {project.repo && project.repo !== project.link && <a className="project-dialog-link project-dialog-link-secondary" href={project.repo} target="_blank" rel="noreferrer"><FiGithub aria-hidden="true" />View repository</a>}
           <a className="project-dialog-link" href={project.link} target="_blank" rel="noreferrer">{isRepository ? <FiGithub aria-hidden="true" /> : <FiArrowUpRight aria-hidden="true" />}{isRepository ? "View repository" : "Visit project"}<FiArrowUpRight className="project-dialog-link-arrow" aria-hidden="true" /></a>
+          </div>
         </footer>
       </div>
     </dialog>,

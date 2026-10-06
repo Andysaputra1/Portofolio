@@ -31,6 +31,9 @@
 .project-dialog-link { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; padding: 10px 17px; border: 1px solid #e7e7e0; border-radius: 8px; background: #e7e7e0; color: #191919; font-size: .82rem; font-weight: 600; white-space: nowrap; transition: background .2s; }
 .project-dialog-link:hover { background: #ceddff; }
 .project-dialog-link-arrow { margin-left: 10px; }
+.project-dialog-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; }
+.project-dialog-link-secondary { border-color: #ffffff2e; background: transparent; color: #e7e7e0; }
+.project-dialog-link-secondary:hover { background: #ffffff12; }
 .project-dialog :is(button, a):focus-visible { outline: 2px solid #bed5ff; outline-offset: 4px; }
 @keyframes project-dialog-enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 700px) {
@@ -42,7 +45,8 @@
   .project-dialog-media img { max-height: 200px; }
   .project-dialog-footer { padding: 16px 20px max(16px, env(safe-area-inset-bottom)); }
   .project-dialog-footer > span { display: none; }
-  .project-dialog-link { width: 100%; }
+  .project-dialog-links { width: 100%; }
+  .project-dialog-link { flex: 1 1 100%; }
 }
 @media (prefers-reduced-motion: reduce) { .project-dialog[open] { animation: none; } .project-dialog-close, .project-dialog-link { transition: none; } }
 

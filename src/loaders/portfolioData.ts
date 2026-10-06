@@ -4,6 +4,7 @@ import experienceProject2 from "../images/experience-project/qms-polytron.webp";
 import experienceProject3 from "../images/experience-project/ats-polytron.webp";
 import experienceProject4 from "../images/experience-project/landingpage-qreedai.webp";
 import experienceProject5 from "../images/experience-project/generate-qreedai.webp";
+import experienceProject6 from "../images/experience-project/pricing-qreedai.webp";
 import rawOrganizations from "../data/organization.json";
 import rawProjects from "../data/projects.json";
 import imgPortfolio from "../images/projectPhotos/portofolio.webp";
@@ -38,7 +39,7 @@ export const projects: Project[] = (rawProjects as Project[]).map((project) => (
   image: builtInImages[project.image ?? ""] ?? project.image,
 }));
 
-export const experienceProjectImages: Record<string, string> = { "ess-polytron": experienceProject0, "scm-polytron": experienceProject1, "qms-polytron": experienceProject2, "ats-polytron": experienceProject3, "landingpage-qreedai": experienceProject4, "generate-qreedai": experienceProject5 };
+export const experienceProjectImages: Record<string, string> = { "ess-polytron": experienceProject0, "scm-polytron": experienceProject1, "qms-polytron": experienceProject2, "ats-polytron": experienceProject3, "landingpage-qreedai": experienceProject4, "generate-qreedai": experienceProject5, "pricing-qreedai": experienceProject6 };
 export const experienceImages: Record<string, string> = { polytron: polytronPhoto, freshmen: freshmenPhoto, 'binus-tv': binusTvPhoto, tfi: tfiPhoto };
 export const orgExperiences: OrgExp[] = (rawOrganizations as OrgExp[]).map((item) => ({
   ...item, image: experienceImages[item.image ?? ''] ?? item.image,
