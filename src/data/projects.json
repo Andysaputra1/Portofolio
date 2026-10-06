@@ -7,18 +7,18 @@
       "Web Development"
     ],
     "status": "In progress",
-    "stack": "Angular · Python / FastAPI · MySQL · Docker · SVM · Fuzzy Logic · Ollama",
+    "stack": "Angular · Python / FastAPI · MySQL · Docker · Ollama",
     "link": "https://silent-terror.andylabs.site/",
     "repo": "https://github.com/Andysaputra1/GamesSilentTerror",
     "image": "silent-terror",
-    "description": "Exploring hybrid conversational AI for a social-deduction game, combining intent classification, fuzzy reasoning, and LLM dialogue.",
+    "description": "Researching hybrid conversational AI for a social-deduction game by comparing three intent classifiers and three decision-making approaches, with LLM-generated dialogue.",
     "role": "Team Lead · Full-stack Developer · AI Researcher",
     "ai": {
-      "focus": "Natural Language Processing · Conversational AI",
-      "models": "SVM · Fuzzy Logic · Qwen3 8B / 14B (Ollama)",
-      "approach": "Classify chat intent with SVM.\nEstimate suspicion with fuzzy logic.\nGenerate role-aware replies with Qwen3, using the intent and suspicion signals.",
-      "output": "NOX bot dialogue informed by chat intent, suspicion scores, and game context.",
-      "evaluation": "Ongoing prototype: local CPU/GPU and API experiments. Game actions are rule-based; the silence input is fixed."
+      "focus": "Natural Language Processing · Conversational AI · Game AI",
+      "models": "SVM · Naive Bayes · Transformer · Behavior Tree · Fuzzy Logic · Utility AI · Qwen3 8B / 14B (Ollama)",
+      "approach": "Intent: compare SVM, Naive Bayes, and a Transformer for classifying player chat.\nDecision logic: compare Behavior Tree, Fuzzy Logic, and Utility AI for how the NOX bot reacts.\nNLG: generate role-aware replies with Qwen3 through Ollama, guided by the detected intent and the chosen decision.",
+      "output": "NOX bot dialogue shaped by chat intent, decision logic, and game context, with each classifier and decision approach compared side by side.",
+      "evaluation": "Ongoing research: the three classifiers and three decision approaches are still being compared, so results are not final. Experiments run on local CPU/GPU and through APIs; the silence input is fixed."
     }
   },
   {
