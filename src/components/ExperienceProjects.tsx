@@ -10,6 +10,10 @@ const accentStyle = (accent?: string) => ({ "--project-accent": accent ?? FALLBA
 // Below the pinned block, the next experience peeks into view by at least this much (and at most PEEK_MAX).
 const PEEK_MIN = 64;
 const PEEK_MAX = 240;
+// The block pins just below the fixed navbar; on short windows it pins higher, letting the summary slide
+// under the navbar, as long as the project box itself stays below NAV_BOTTOM.
+const PIN_TOP = 112;
+const NAV_BOTTOM = 100;
 
 function usePinnedLayout(stageRef: RefObject<HTMLDivElement | null>) {
   const [pinned, setPinned] = useState(false);
@@ -17,9 +21,13 @@ function usePinnedLayout(stageRef: RefObject<HTMLDivElement | null>) {
     const stage = stageRef.current;
     if (!stage) return;
     const media = window.matchMedia(DESKTOP_QUERY);
+    const item = stage.closest<HTMLElement>(".exp-item") ?? stage;
     const update = () => {
-      const top = parseFloat(getComputedStyle(stage).top) || 0;
-      setPinned(media.matches && stage.offsetHeight + top + PEEK_MIN <= window.innerHeight);
+      const panel = stage.querySelector<HTMLElement>(".exp-showcase");
+      const panelOffset = panel ? panel.getBoundingClientRect().top - stage.getBoundingClientRect().top : 0;
+      const top = Math.min(PIN_TOP, window.innerHeight - PEEK_MIN - stage.offsetHeight);
+      item.style.setProperty("--pin-top", top + "px");
+      setPinned(media.matches && top + panelOffset >= NAV_BOTTOM);
     };
     const observer = new ResizeObserver(update);
     observer.observe(stage);
@@ -29,6 +37,7 @@ function usePinnedLayout(stageRef: RefObject<HTMLDivElement | null>) {
       observer.disconnect();
       media.removeEventListener("change", update);
       window.removeEventListener("resize", update);
+      item.style.removeProperty("--pin-top");
     };
   }, [stageRef]);
   return pinned;
