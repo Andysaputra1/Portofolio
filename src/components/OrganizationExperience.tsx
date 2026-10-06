@@ -51,14 +51,9 @@ export default function OrganizationExperience() {
                   <ExperiencePhoto experience={x} />
                 </div>
                 <div className="exp-details">
-                  {(() => {
-                    const intro = <>
-                      {x.summary && <p className="exp-summary">{x.summary}</p>}
-                      {!!x.stack?.length && <ul className="exp-tech-tags" aria-label="Technologies">{x.stack.map((technology) => <li key={technology}>{technology}</li>)}</ul>}
-                    </>;
-                    // The showcase pins the intro with it so the summary stays visible while projects change.
-                    return x.projects?.length ? <ExperienceProjects projects={x.projects} organization={x.org} intro={intro} /> : intro;
-                  })()}
+                  {x.summary && <p className="exp-summary">{x.summary}</p>}
+                  {!!x.stack?.length && <ul className="exp-tech-tags" aria-label="Technologies">{x.stack.map((technology) => <li key={technology}>{technology}</li>)}</ul>}
+                  {!!x.projects?.length && <ExperienceProjects projects={x.projects} organization={x.org} />}
                   {x.roles?.map((r, i2) => (
                     <div key={r.title + (r.context || "")} className="exp-subrole" style={si(idx + i2 + 1)}>
                       <div className="exp-subtitle">
