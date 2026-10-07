@@ -1,6 +1,6 @@
-export type ExperienceProject = { id: string; title: string; subtitle: string; description: string; image?: string; stack: string[]; accent?: string };
+export type ExperienceProject = { id: string; title: string; subtitle: string; description: string; impact?: string; image?: string; stack: string[]; accent?: string };
 export type OrgSubRole = { title: string; context?: string; bullets: string[] };
-export type OrgExp = { id: number; role?: string; org: string; location?: string; period: string; summary?: string; stack?: string[]; projects?: ExperienceProject[]; roles?: OrgSubRole[]; image?: string; imageCaption?: string; imageLayout?: 'original' | 'landscape' };
+export type OrgExp = { id: number; role?: string; org: string; location?: string; period: string; summary?: string; impact?: string[]; stack?: string[]; projects?: ExperienceProject[]; roles?: OrgSubRole[]; image?: string; imageCaption?: string; imageLayout?: 'original' | 'landscape' };
 export type AIProjectDetails = { focus: string; models: string; approach: string; output: string; evaluation: string };
 export type Project = { id: string; title: string; tag: string; categories?: string[]; stack: string; link: string; repo?: string; image?: string; description: string; status?: "In progress" | "Completed"; role?: string; ai?: AIProjectDetails };
 /** Data fields list items with "·"; render them as a plain comma-separated list. */

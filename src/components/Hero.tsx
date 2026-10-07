@@ -137,9 +137,8 @@ export default function Hero() {
       </div>
 
       <div className="hero-content wrap">
-        <p className="hero-status"><span className="status-square" aria-hidden="true" />Now: application developer intern at Polytron, freelancing for Qreed AI</p>
         <h1 id="hero-title" className="hero-name">Andy<br />Saputra</h1>
-        <p className="hero-description">Full-stack developer and Computer Science student at BINUS University. I build web apps from the interface to the API and database, and bring in AI where it helps.</p>
+        <p className="hero-description">Full-stack developer and Computer Science student at BINUS University. Right now I build internal apps at Polytron and the Qreed AI website.</p>
         <div className="hero-actions">
           <div className="hero-swing-cta">
             <a href="#projects" className="btn btn-primary">See projects</a>

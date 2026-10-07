@@ -101,6 +101,7 @@ export default function ExperienceProjects({ projects, organization }: { project
               <h3>{project.title}</h3>
               <p className="exp-project-subtitle">{project.subtitle}</p>
               <p className="exp-project-description">{project.description}</p>
+              {project.impact && <p className="exp-impact exp-project-impact"><span>Impact</span>{project.impact}</p>}
               <ul className="tag-list" aria-label="Project technologies">{project.stack.map((technology) => <li key={technology}>{technology}</li>)}</ul>
             </div>
           </article>)}

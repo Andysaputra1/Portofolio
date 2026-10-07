@@ -183,6 +183,8 @@ html.modal-open, body.modal-open { overflow: hidden !important; overscroll-behav
     transition: opacity .2s, transform .2s var(--ease), visibility 0s linear .2s;
   }
   .topbar[data-open="true"] .nav-menu { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
+  /* The menu is out of flow here, so the actions need their own push to the right edge. */
+  .nav-actions { margin-left: auto; }
   .nav-links { flex-direction: column; align-items: stretch; gap: 0; }
   .nav-link { width: 100%; padding: 16px 0; border-radius: 0; border-bottom: 1px solid var(--line); color: var(--text); font: 600 26px/1 var(--ff-display); letter-spacing: -.02em; }
   .nav-link.is-active { background: none; color: var(--accent); }
@@ -227,19 +229,6 @@ html.modal-open, body.modal-open { overflow: hidden !important; overscroll-behav
 
 .hero-content { position: relative; z-index: 2; padding: calc(var(--bar-h) + 40px) 0 96px; pointer-events: none; }
 .hero-content :is(a, button) { pointer-events: auto; }
-.hero-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 28px;
-  padding: 7px 14px 7px 12px;
-  border: 1px solid var(--line-2);
-  border-radius: 999px;
-  background: rgba(17, 16, 14, .82);
-  color: var(--text-2);
-  font: 400 14px/1.4 var(--ff-body);
-}
-.status-square { flex: 0 0 8px; height: 8px; background: var(--accent); }
 .hero-name { margin: 0 0 26px -.03em; font-size: clamp(60px, 10vw, 140px); font-weight: 700; line-height: .92; letter-spacing: -.045em; color: var(--text); }
 .hero-description { max-width: 34em; margin-bottom: 34px; color: var(--text-2); font-size: clamp(17px, 1.4vw, 19px); line-height: 1.6; text-shadow: 0 0 18px var(--bg); }
 .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
@@ -260,8 +249,6 @@ html.modal-open, body.modal-open { overflow: hidden !important; overscroll-behav
 }
 @media (max-width: 600px) {
   .hero-content { padding-top: calc(var(--bar-h) + 28px); padding-bottom: 40px; }
-  .hero-status { align-items: flex-start; border-radius: 14px; }
-  .status-square { margin-top: 6px; }
 }
 
 /* ---------- Section heads ---------- */
@@ -361,6 +348,12 @@ html.modal-open, body.modal-open { overflow: hidden !important; overscroll-behav
 .exp-org { margin-bottom: 14px; color: var(--accent); font: 500 16px/1.4 var(--ff-body); }
 .exp-details > .exp-role:last-child { margin-bottom: 0; }
 .exp-summary { max-width: 68ch; color: var(--text-2); font-size: 16px; line-height: 1.75; }
+/* The STAR "result": brighter than the summary, labelled like the About facts. */
+.exp-impact { max-width: 68ch; margin-top: 14px; color: var(--text); font-size: 16px; line-height: 1.65; }
+.exp-impact > span { display: block; margin-bottom: 2px; color: var(--text-3); font: 400 13px/1.5 var(--ff-body); }
+.exp-impact .exp-bullets { margin-top: 0; }
+.exp-impact .exp-bullets li { margin-top: 4px; color: var(--text); font-size: 16px; }
+.exp-project-impact { margin-top: 12px; font-size: 15px; }
 .exp-subrole { margin-top: 24px; }
 .exp-subtitle { color: var(--text); font: 600 15px/1.5 var(--ff-body); }
 .exp-context { color: var(--text-3); font-weight: 400; }

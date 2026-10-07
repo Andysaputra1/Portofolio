@@ -39,6 +39,7 @@ export default function OrganizationExperience() {
                 <h3 className="exp-role">{x.role || x.org}</h3>
                 {x.role && <p className="exp-org">{x.org}</p>}
                 {x.summary && <p className="exp-summary">{x.summary}</p>}
+                {!!x.impact?.length && <div className="exp-impact"><span>Impact</span><ul className="exp-bullets">{x.impact.map((item) => <li key={item}>{item}</li>)}</ul></div>}
                 {!!x.stack?.length && <ul className="tag-list" aria-label="Technologies">{x.stack.map((technology) => <li key={technology}>{technology}</li>)}</ul>}
                 {!!x.projects?.length && <ExperienceProjects projects={x.projects} organization={x.org} />}
                 {x.roles?.map((r) => (

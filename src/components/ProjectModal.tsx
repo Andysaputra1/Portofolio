@@ -49,7 +49,6 @@ export default function ProjectModal({ open, onClose, project }: Props) {
       <div className="project-dialog-panel">
         <header className="project-dialog-header">
           <div>
-            <p className="project-dialog-eyebrow"><span /> Project details</p>
             <h2 id="project-dialog-title" ref={titleRef} tabIndex={-1}>{project.title}</h2>
             <div className="project-dialog-badges">{projectCategories(project).map((category) => <span className="project-dialog-category" key={category}>{category}</span>)}{project.status && <span className="proj-status">{project.status}</span>}</div>
           </div>
@@ -58,7 +57,7 @@ export default function ProjectModal({ open, onClose, project }: Props) {
 
         <div className="project-dialog-body">
           <aside className="project-dialog-visual" aria-label="Project preview and contribution">
-            {project.image && <figure className="project-dialog-media"><div className="project-dialog-preview-bar" aria-hidden="true"><span className="project-dialog-window-dots"><i /><i /><i /></span><span>preview</span><FiArrowUpRight /></div><img src={project.image} alt={project.title + " interface preview"} /></figure>}
+            {project.image && <figure className="project-dialog-media"><img src={project.image} alt={project.title + " interface preview"} /></figure>}
             {project.ai && <div className="project-dialog-models"><h3>Research focus</h3><p className="project-dialog-focus">{listText(project.ai.focus)}</p><h3>Models & methods</h3><ul className="project-dialog-technologies">{models.map((model) => <li key={model}>{model}</li>)}</ul></div>}
             {project.role && <p className="project-dialog-role"><span>My contribution</span>{listText(project.role)}</p>}
             {!project.ai && <ul className="project-dialog-technologies" aria-label="Built with">{technologies.map((technology, index) => <li key={index}>{technology}</li>)}</ul>}
@@ -69,9 +68,9 @@ export default function ProjectModal({ open, onClose, project }: Props) {
               <p className="project-dialog-intro">{project.description.split(/\n\s*\n/)[0]}</p>
               <section className="project-dialog-process" aria-labelledby="project-process-title">
                 <h3 id="project-process-title">How it works</h3>
-                <ol>{approachSteps.map((step, index) => <li key={index}><span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span><p>{step}</p></li>)}</ol>
+                <ol>{approachSteps.map((step, index) => <li key={index}>{step}</li>)}</ol>
               </section>
-              <section className="project-dialog-result" aria-labelledby="project-result-title"><h3 id="project-result-title">Result / output</h3><p>{project.ai.output}</p></section>
+              <section className="project-dialog-result" aria-labelledby="project-result-title"><h3 id="project-result-title" className="project-dialog-section-label">Result</h3><p>{project.ai.output}</p></section>
               <p className="project-dialog-evaluation"><span>Research note</span>{project.ai.evaluation}</p>
             </> : <>
               <p className="project-dialog-section-label">About the project</p>
