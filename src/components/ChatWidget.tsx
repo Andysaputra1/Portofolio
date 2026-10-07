@@ -5,6 +5,7 @@ import { usePortfolioData } from "../context/PortfolioDataContext";
 import { referencedProjects } from "../utils/chatProjects";
 import { asksForCv, mentionedContacts, type ContactLink } from "../utils/chatAttachments";
 import type { Project } from "../types/portfolio";
+import { OPEN_ASSISTANT_EVENT } from "../utils/assistant";
 import ArrowIcon from "./ArrowIcon";
 
 type Msg = { role: "user" | "assistant"; content: string; projects?: Project[]; cv?: boolean; contacts?: ContactLink[] };
@@ -69,6 +70,11 @@ export default function ChatWidget() {
     observer.observe(contact);
     return () => { observer.disconnect(); clearTimeout(timer); };
   }, []);
+  useEffect(() => {
+    const openFromPage = () => { setOpen(true); setInvite(false); inviteSeen.current = true; };
+    window.addEventListener(OPEN_ASSISTANT_EVENT, openFromPage);
+    return () => window.removeEventListener(OPEN_ASSISTANT_EVENT, openFromPage);
+  }, []);
   const close = () => { setOpen(false); requestAnimationFrame(() => launcherRef.current?.focus()); };
   useEffect(() => {
     if (!open) return;
@@ -116,12 +122,12 @@ export default function ChatWidget() {
           <InviteAndy />
         </span></span>
       </span>}
-      <AndyAvatar /><span>Ask Andy's Assistant</span>
+      <AndyAvatar /><span>Ask Andy's assistant</span>
     </button>
     {open && <div className="ai-panel" role="dialog" aria-modal="true" aria-labelledby="andy-chat-title">
       <div className="ai-card" ref={panelRef}>
         <div className="ai-card-head">
-          <div className="ai-card-title"><AndyAvatar /><div><strong id="andy-chat-title">Ask Andy's Assistant</strong><small>AI guide to Andy's world</small></div></div>
+          <div className="ai-card-title"><AndyAvatar /><div><strong id="andy-chat-title">Andy's assistant</strong><small>Answers questions about Andy's work</small></div></div>
           <button className="ai-close" onClick={close} aria-label="Close chat"><i className="fa-solid fa-xmark" aria-hidden="true" /></button>
         </div>
         <div className="ai-messages" ref={messagesRef} role="log" aria-label="Conversation" aria-live="polite" aria-relevant="additions">
@@ -157,7 +163,7 @@ export default function ChatWidget() {
           <input ref={inputRef} value={input} onChange={e => setInput(e.target.value)} placeholder="Ask anything about Andy..." aria-label="Your question about Andy" maxLength={800} />
           <button type="submit" className="ai-send" aria-label="Send message" disabled={isSending || !input.trim()}><ArrowIcon direction="up" /></button>
         </form>
-        <p className="ai-footnote">Powered by AI. A little help getting to know Andy.</p>
+        <p className="ai-footnote">AI-generated answers can be wrong. For anything important, email Andy.</p>
       </div>
     </div>}
   </>;

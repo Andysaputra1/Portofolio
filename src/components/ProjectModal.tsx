@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { FiArrowUpRight, FiGithub, FiX } from "react-icons/fi";
 import { projectCategories, type Project } from "../types/portfolio";
@@ -49,7 +49,7 @@ export default function ProjectModal({ open, onClose, project }: Props) {
       <div className="project-dialog-panel">
         <header className="project-dialog-header">
           <div>
-            <p className="project-dialog-eyebrow"><span /> SELECTED WORK / PROJECT DETAILS</p>
+            <p className="project-dialog-eyebrow"><span /> Project details</p>
             <h2 id="project-dialog-title" ref={titleRef} tabIndex={-1}>{project.title}</h2>
             <div className="project-dialog-badges">{projectCategories(project).map((category) => <span className="project-dialog-category" key={category}>{category}</span>)}{project.status && <span className="proj-status">{project.status}</span>}</div>
           </div>
@@ -58,14 +58,14 @@ export default function ProjectModal({ open, onClose, project }: Props) {
 
         <div className="project-dialog-body">
           <aside className="project-dialog-visual" aria-label="Project preview and contribution">
-            {project.image && <figure className="project-dialog-media"><div className="project-dialog-preview-bar" aria-hidden="true"><span className="project-dialog-window-dots"><i /><i /><i /></span><span>PROJECT PREVIEW</span><FiArrowUpRight /></div><img src={project.image} alt={project.title + " interface preview"} /></figure>}
+            {project.image && <figure className="project-dialog-media"><div className="project-dialog-preview-bar" aria-hidden="true"><span className="project-dialog-window-dots"><i /><i /><i /></span><span>preview</span><FiArrowUpRight /></div><img src={project.image} alt={project.title + " interface preview"} /></figure>}
             {project.ai && <div className="project-dialog-models"><h3>Research focus</h3><p className="project-dialog-focus">{project.ai.focus}</p><h3>Models & methods</h3><ul className="project-dialog-technologies">{models.map((model) => <li key={model}>{model}</li>)}</ul></div>}
             {project.role && <p className="project-dialog-role"><span>My contribution</span>{project.role}</p>}
             {!project.ai && <ul className="project-dialog-technologies" aria-label="Built with">{technologies.map((technology, index) => <li key={index}>{technology}</li>)}</ul>}
           </aside>
           <section className="project-dialog-content" aria-label={project.ai ? "AI research details" : "About the project"}>
             {project.ai ? <>
-              <p className="project-dialog-section-label">THE IDEA</p>
+              <p className="project-dialog-section-label">The idea</p>
               <p className="project-dialog-intro">{project.description.split(/\n\s*\n/)[0]}</p>
               <section className="project-dialog-process" aria-labelledby="project-process-title">
                 <h3 id="project-process-title">How it works</h3>
@@ -74,7 +74,7 @@ export default function ProjectModal({ open, onClose, project }: Props) {
               <section className="project-dialog-result" aria-labelledby="project-result-title"><h3 id="project-result-title">Result / output</h3><p>{project.ai.output}</p></section>
               <p className="project-dialog-evaluation"><span>Research note</span>{project.ai.evaluation}</p>
             </> : <>
-              <p className="project-dialog-focus">ABOUT THE PROJECT</p>
+              <p className="project-dialog-section-label">About the project</p>
               {project.description.split(/\n\s*\n/).filter(Boolean).map((paragraph, index) => <p className="project-dialog-intro" key={index}>{paragraph}</p>)}
             </>}
           </section>

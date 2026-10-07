@@ -5,84 +5,84 @@ import { usePortfolioData } from "../context/PortfolioDataContext";
 import DinoBuilder from "./DinoBuilder";
 import ProjectModal from "./ProjectModal";
 import ArrowIcon from "./ArrowIcon";
+import SectionHead from "./SectionHead";
 import useScrollReveal from "../hook/useScrollReveal.ts";
 
 const si = (i: number) => ({ "--i": i } as CSSProperties & Record<"--i", number>);
+const ALL = "All";
 
 export default function Projects() {
   const { projects } = usePortfolioData();
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<Project | null>(null);
-  const [filter, setFilter] = useState("All projects");
-  const filters = ["All projects", ...new Set(projects.flatMap(projectCategories))];
-  const visibleProjects = projects.filter((p) => filter === "All projects" || projectCategories(p).includes(filter));
+  const [filter, setFilter] = useState(ALL);
+  const filters = [ALL, ...new Set(projects.flatMap(projectCategories))];
+  const visibleProjects = projects.filter((p) => filter === ALL || projectCategories(p).includes(filter));
 
-  const titleRef = useScrollReveal<HTMLHeadingElement>();
-  const gridRef  = useScrollReveal<HTMLDivElement>();
+  const gridRef = useScrollReveal<HTMLDivElement>();
 
   const openModal = (p: Project) => { setActive(p); setOpen(true); };
   const closeModal = () => { setOpen(false); setActive(null); };
 
   return (
-    <section id="projects" className="section" aria-labelledby="projects-title">
-      <div className="section-title">
-        <p className="section-kicker">04 / SELECTED WORK</p>
-        <h2 id="projects-title" className="reveal" ref={titleRef}>
-          From an idea <span>to something real.</span>
-        </h2>
-        <p className="section-description">Exploring intelligent systems and building useful web experiences. From models and experiments to working applications.</p>
-      </div>
-      <div className="project-collection section-center">
-      <div className="project-builder-stage"><DinoBuilder /></div>
-      <div className="project-filters" aria-label="Filter projects">
-        {filters.map((tag) => <button key={tag} type="button" className={filter === tag ? "is-active" : ""} aria-pressed={filter === tag} onClick={() => setFilter(tag)}>{tag}<span>{tag === "All projects" ? projects.length : projects.filter((p) => projectCategories(p).includes(tag)).length}</span></button>)}
-      </div>
+    <section id="projects" className="section projects" aria-labelledby="projects-title">
+      <div className="wrap">
+        <SectionHead label="projects" title="Selected projects" titleId="projects-title" aside={<DinoBuilder />}>
+          {projects.length} projects, from deep-learning experiments to web apps people use. Open one for the method, the stack and what came out of it.
+        </SectionHead>
 
-      {/* grid diberi reveal-stagger agar kartu animasi berurutan */}
-      <div className="proj-grid reveal-stagger" ref={gridRef}>
-        {visibleProjects.map((p, idx) => (
-          <article key={p.id} className="proj-card reveal" style={si(idx)}>
-            <div className="proj-media">
-              {p.image ? (
-                <img className="proj-img" src={p.image} alt={p.title} loading="lazy" decoding="async" />
-              ) : <div className="proj-img-placeholder"><i className="fa-regular fa-image" aria-hidden="true" /></div>}
-              {p.status && <span className="proj-status">{p.status}</span>}
-              <span className="proj-number">{String(idx + 1).padStart(2, "0")}</span>
-            </div>
+        <div className="project-filters" role="group" aria-label="Filter projects by category">
+          {filters.map((tag) => {
+            const count = tag === ALL ? projects.length : projects.filter((p) => projectCategories(p).includes(tag)).length;
+            return <button key={tag} type="button" aria-pressed={filter === tag} onClick={() => setFilter(tag)}>{tag}<span>{count}</span></button>;
+          })}
+        </div>
 
-            <div className="proj-body">
-              <h3 className="proj-title">{p.title}</h3>
-              <div className="proj-categories" aria-label="Project categories">{projectCategories(p).map((category) => <span className="proj-chip" key={category}>{category}</span>)}</div>
-              <p className="proj-summary">{p.description}</p>
-              <p className="proj-card-method"><span>{p.ai ? "MODEL / METHOD" : "BUILT WITH"}</span>{p.ai?.models ?? p.stack}</p>
-            </div>
+        <div className="proj-grid reveal-stagger" ref={gridRef}>
+          {visibleProjects.map((p, idx) => {
+            const isRepository = p.link.startsWith("https://github.com/");
+            return (
+              <article key={p.id} className="proj-card" style={si(idx)}>
+                <div className="proj-media">
+                  {p.image ? (
+                    <img className="proj-img" src={p.image} alt="" loading="lazy" decoding="async" />
+                  ) : <div className="proj-img-placeholder"><i className="fa-regular fa-image" aria-hidden="true" /></div>}
+                  <span className="proj-number" aria-hidden="true">{String(projects.indexOf(p) + 1).padStart(2, "0")}</span>
+                  {p.status && <span className="proj-status">{p.status}</span>}
+                </div>
 
-            <div className="proj-actions">
-              <button
-                type="button"
-                className="btn proj-btn"
-                onClick={() => openModal(p)}
-                aria-haspopup="dialog"
-                aria-controls="project-modal"
-                aria-label={`Project details: ${p.title}`}
-              >
-                Project details <span aria-hidden="true"><ArrowIcon direction="right" /></span>
-              </button>
+                <div className="proj-body">
+                  <p className="proj-categories">{projectCategories(p).join(" · ")}</p>
+                  <h3 className="proj-title">{p.title}</h3>
+                  <p className="proj-summary">{p.description}</p>
+                  <p className="proj-method"><span>{p.ai ? "Method" : "Stack"}</span>{p.ai?.models ?? p.stack}</p>
+                </div>
 
-              <a
-                className="btn proj-btn-alt"
-                href={p.link}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={`${p.link.startsWith("https://github.com/") ? "Source code" : "Live website"}: ${p.title} (opens in a new tab)`}
-              >
-                {p.link.startsWith("https://github.com/") ? "Source code" : "Live website"} <span aria-hidden="true"><ArrowIcon /></span>
-              </a>
-            </div>
-          </article>
-        ))}
-      </div>
-
+                <div className="proj-actions">
+                  {/* The details button stretches over the whole card, so any click on it opens the dialog. */}
+                  <button
+                    type="button"
+                    className="proj-open"
+                    onClick={() => openModal(p)}
+                    aria-haspopup="dialog"
+                    aria-controls="project-modal"
+                  >
+                    Details<span className="sr-only">: {p.title}</span> <ArrowIcon direction="right" />
+                  </button>
+                  <a
+                    className="proj-link"
+                    href={p.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`${isRepository ? "Source code" : "Live website"}: ${p.title} (opens in a new tab)`}
+                  >
+                    {isRepository ? "Code" : "Live site"} <ArrowIcon />
+                  </a>
+                </div>
+              </article>
+            );
+          })}
+        </div>
       </div>
       <ProjectModal open={open} onClose={closeModal} project={active} />
     </section>

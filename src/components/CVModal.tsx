@@ -1,4 +1,4 @@
-﻿import { createPortal } from "react-dom";
+import { createPortal } from "react-dom";
 import { useEffect, useRef } from "react";
 import { FiArrowUpRight, FiDownload, FiFileText, FiX } from "react-icons/fi";
 import { lockScroll, unlockScroll } from "../utils/scrollLock";
@@ -37,14 +37,14 @@ export default function CVModal({ open, onClose }: Props) {
         <header className="cv-sheet-header">
           <div className="cv-sheet-heading">
             <span className="cv-sheet-icon"><FiFileText aria-hidden="true" /></span>
-            <div><p className="cv-sheet-kicker">PROFILE / CURRICULUM VITAE</p><h2 id="cv-sheet-title">My CV<span>Andy Saputra</span></h2></div>
+            <div><p className="cv-sheet-kicker">Curriculum vitae</p><h2 id="cv-sheet-title">My CV<span>Andy Saputra</span></h2></div>
           </div>
           <button ref={closeRef} className="cv-sheet-close" type="button" aria-label="Close CV" onClick={onClose}><FiX aria-hidden="true" /></button>
         </header>
-        <div className="cv-sheet-toolbar"><span>Experience, skills & selected work</span><span className="cv-sheet-format">PDF DOCUMENT</span></div>
+        <div className="cv-sheet-toolbar"><span>Experience, skills & selected work</span><span className="cv-sheet-format">PDF</span></div>
         <div className="cv-sheet-preview"><PDFViewer url={cvUrl} title="Andy Saputra CV preview" /></div>
         <footer className="cv-sheet-footer">
-          <p>Keep a copy for a closer look.<span>Preview unavailable? Open the PDF in a new tab.</span></p>
+          <p>Prefer a copy? Download the PDF.<span>Preview not loading? Open it in a new tab.</span></p>
           <div className="cv-sheet-actions">
             <a className="cv-sheet-open" href={cvUrl} target="_blank" rel="noreferrer">Open PDF<FiArrowUpRight aria-hidden="true" /></a>
             <a className="cv-sheet-download" href={cvUrl} download={cvName}><FiDownload aria-hidden="true" />Download CV</a>

@@ -1,5 +1,6 @@
 // src/components/Skills.tsx
 import DeskBuddy from "./DeskBuddy";
+import SectionHead from "./SectionHead";
 import useScrollReveal from "../hook/useScrollReveal.ts";
 import { usePortfolioData } from "../context/PortfolioDataContext";
 import { skillGroups, type Skill } from "../types/portfolio";
@@ -27,16 +28,18 @@ function TechGroup({ title, items, index }: { title: string; items: Skill[]; ind
 
   return (
     <section className="toolkit-group reveal" ref={groupRef} aria-labelledby={`toolkit-group-${index}`}>
-      <div className="toolkit-group-heading">
+      <h3 id={`toolkit-group-${index}`}>
         <span className="toolkit-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-        <h3 id={`toolkit-group-${index}`}>{title}</h3>
-      </div>
-      <ul className="toolkit-tags">
+        {title}
+      </h3>
+      <ul className="toolkit-list">
         {items.map((skill) => {
           const Icon = iconMap[skill.id] ?? FaCode;
           return (
-            <li key={skill.id} className="toolkit-tag" data-skill={skill.id}>
-              {skill.image && !["c", "python"].includes(skill.image) ? <img className="skill-icon" src={imageMap[skill.image] ?? skill.image} alt="" loading="lazy" /> : <Icon className="skill-symbol" aria-hidden="true" />}
+            <li key={skill.id} className="toolkit-item" data-skill={skill.id}>
+              <span className="toolkit-icon" aria-hidden="true">
+                {skill.image && !["c", "python"].includes(skill.image) ? <img src={imageMap[skill.image] ?? skill.image} alt="" loading="lazy" /> : <Icon />}
+              </span>
               <span>{skill.name}</span>
             </li>
           );
@@ -49,21 +52,17 @@ function TechGroup({ title, items, index }: { title: string; items: Skill[]; ind
 export default function Skills() {
   const { skills } = usePortfolioData();
 
-  // Section title ikut reveal
-  const wrapTitleRef = useScrollReveal<HTMLHeadingElement>();
-
   return (
-    <section id="skills" className="skills-wrap">
-      <p className="section-kicker">02 / THE TOOLKIT</p>
-      <h2 className="skills-title reveal" ref={wrapTitleRef}>
-        Ideas meet <span>the right tools.</span>
-      </h2>
-      <p className="section-description">The technologies I use to turn a blank canvas into something useful.</p>
-      <div className="toolkit-groups">
-        {skillGroups.map((group, index) => (
-          <TechGroup key={group} title={group} index={index} items={skills.filter((skill) => skill.group === group)} />
-        ))}
-        <DeskBuddy />
+    <section id="skills" className="section toolkit" aria-labelledby="skills-title">
+      <div className="wrap">
+        <SectionHead label="toolkit" title="Tools I work with" titleId="skills-title" aside={<DeskBuddy />}>
+          Languages, frameworks and tools I've used in coursework, internships and my own projects.
+        </SectionHead>
+        <div className="toolkit-groups">
+          {skillGroups.map((group, index) => (
+            <TechGroup key={group} title={group} index={index} items={skills.filter((skill) => skill.group === group)} />
+          ))}
+        </div>
       </div>
     </section>
   );

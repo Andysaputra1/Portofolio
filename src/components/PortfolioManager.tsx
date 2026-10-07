@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState, type ChangeEvent, type FormEv
 import { createPortal } from "react-dom";
 import { skillGroups, type OrgExp, type Project, type Skill } from "../types/portfolio";
 import { usePortfolioData } from "../context/PortfolioDataContext";
+import "./ManagerBase.css";
 import "./PortfolioManager.css";
 import { safeImage, safeLink, validProjects, validOrganizations, validSkills } from '../utils/validatePortfolio';
 import App from '../App';

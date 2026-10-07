@@ -11,7 +11,7 @@ const SCROLL_QUERY = "(min-width: 901px)";
 const START_VISIBLE = 0.35;
 const END_TOP = 0.2;
 const NAV_BOTTOM = 112;
-const FALLBACK_ACCENT = "#d4d4d4";
+const FALLBACK_ACCENT = "#2740d9";
 const accentStyle = (accent?: string) => ({ "--project-accent": accent ?? FALLBACK_ACCENT } as CSSProperties);
 
 function useMediaQuery(query: string) {
@@ -74,7 +74,7 @@ export default function ExperienceProjects({ projects, organization }: { project
   return <section className="exp-showcase" data-scroll={scrollDriven} style={{ ...accentStyle(active.accent), "--project-count": projects.length } as CSSProperties} aria-label={organization + ' selected projects'} aria-roledescription="carousel">
     <div className="exp-showcase-panel" ref={panelRef}>
       <div className="exp-showcase-nav">
-        <p className="exp-showcase-label">Selected projects</p>
+        <p className="exp-showcase-label"><span>Selected projects</span><span aria-hidden="true">{index + 1}/{projects.length}</span></p>
         <div className="exp-project-picker" aria-label="Choose a project">
           {projects.map((project, i) => <button type="button" key={project.id} style={accentStyle(project.accent)} aria-pressed={i === index} data-state={i < index ? "done" : i === index ? "active" : "upcoming"} onClick={() => go(i)}>
             <span className="exp-project-picker-index" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
@@ -94,7 +94,7 @@ export default function ExperienceProjects({ projects, organization }: { project
               <button type="button" onClick={() => go(index + 1)} disabled={scrollDriven && index === projects.length - 1} aria-label={'Next project at ' + organization} title="Next project"><ArrowIcon direction="right" /></button>
             </div>}
           </div>
-          {projects.length > 1 && <p className="exp-project-hint"><span>{!scrollDriven ? "Explore projects with the arrows" : index < projects.length - 1 ? "Keep scrolling to see the next project" : "Last project"}</span><span>{index + 1} / {projects.length}</span></p>}
+          {projects.length > 1 && <p className="exp-project-hint">{!scrollDriven ? "Use the arrows or tabs to switch projects" : index < projects.length - 1 ? "Keep scrolling for the next project" : "That's all of them"}</p>}
         </div>
         <div className="exp-project-slides" aria-live="polite" aria-atomic="true">
           {projects.map((project, slideIndex) => <article key={project.id} className="exp-project-slide" data-active={slideIndex === index} aria-hidden={slideIndex !== index} aria-roledescription="slide" aria-label={(slideIndex + 1) + ' of ' + projects.length + ': ' + project.title}>
@@ -102,7 +102,7 @@ export default function ExperienceProjects({ projects, organization }: { project
               <h3>{project.title}</h3>
               <p className="exp-project-subtitle">{project.subtitle}</p>
               <p className="exp-project-description">{project.description}</p>
-              <ul className="exp-tech-tags" aria-label="Project technologies">{project.stack.map((technology) => <li key={technology}>{technology}</li>)}</ul>
+              <ul className="tag-list" aria-label="Project technologies">{project.stack.map((technology) => <li key={technology}>{technology}</li>)}</ul>
             </div>
           </article>)}
         </div>

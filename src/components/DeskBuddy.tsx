@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import deskSprites from "../images/andy-laptop-sprites.webp";
 import "./DeskBuddy.css";
 
@@ -6,6 +6,7 @@ import "./DeskBuddy.css";
 const frames = ["100 40 500 560", "630 40 500 560", "100 620 500 560", "630 620 500 560"];
 
 export default function DeskBuddy() {
+  const maskId = useId();
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
@@ -17,9 +18,18 @@ export default function DeskBuddy() {
 
   return (
     <div className="desk-buddy" ref={ref} data-paused={!visible} role="img" aria-label="Pixel Andy sits on the card, works on his laptop, has a lightbulb idea, then takes a sip of coffee.">
+      <svg width="0" height="0" aria-hidden="true" focusable="false" style={{ position: "absolute" }}>
+        {/* Same matte removal as the other sprites, so the atlas's dark backdrop disappears on paper. */}
+        <filter id={maskId} x="0" y="0" width="100%" height="100%" colorInterpolationFilters="sRGB">
+          <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 .2126 .7152 .0722 0 0" />
+          <feComponentTransfer><feFuncA type="linear" slope="255" intercept="-18" /></feComponentTransfer>
+          <feMorphology operator="dilate" radius="4" result="mask" />
+          <feComposite in="SourceGraphic" in2="mask" operator="in" />
+        </filter>
+      </svg>
       {frames.map((viewBox, index) => (
         <svg key={viewBox} className={`desk-frame desk-frame--${index}`} viewBox={viewBox} aria-hidden="true">
-          <image href={deskSprites} width="1254" height="1254" />
+          <image href={deskSprites} width="1254" height="1254" filter={`url(#${maskId})`} />
         </svg>
       ))}
       <svg className="desk-thought" viewBox="0 0 48 44" aria-hidden="true" shapeRendering="crispEdges">

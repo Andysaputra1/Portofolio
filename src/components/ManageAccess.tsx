@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from "react";
 import PortfolioManager from "./PortfolioManager";
 import ArrowIcon from "./ArrowIcon";
+import "./ManagerBase.css";
 
 const SESSION_KEY = "portfolio-manage-access";
 const ADMIN_USERNAME = "administrator";

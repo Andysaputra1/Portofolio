@@ -48,8 +48,7 @@ export default function PixelBuddy() {
     <div className="pixel-buddy" ref={sceneRef}>
       <div className="pixel-scene" data-frame={frameIndex} role="img" aria-label="Pixel Andy runs to the right in side view, turns to face you and waves hello, then mines crystals.">
         <svg className="pixel-scenery" viewBox="0 0 300 112" aria-hidden="true" shapeRendering="crispEdges">
-          <path d="M5 105H295" stroke="#353842" />
-          <path d="M12 105v-4h4v4m39 0v-2h5v2" fill="#66738d" />
+          <path d="M12 104v-4h4v4m39 0v-2h5v2" fill="#8a8476" />
           <g className="pixel-rock">
             <path d="M256 105V95H262V86H275V82H286V91H292V98H295V105Z" fill="#393b4b" />
             <path d="M262 94V88H275V85H284V91H273V96Z" fill="#565b73" />
@@ -74,10 +73,6 @@ export default function PixelBuddy() {
           </svg>
           <span className="pixel-hello">Hi!</span>
         </div>
-      </div>
-      <div className="pixel-caption">
-        <span>A tiny me. A little adventure.</span>
-
       </div>
     </div>
   );

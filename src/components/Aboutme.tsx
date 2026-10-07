@@ -1,35 +1,42 @@
-﻿import meImg from "../images/Photo1.webp";
+import meImg from "../images/Photo1.webp";
 import useScrollReveal from "../hook/useScrollReveal.ts";
 import PixelBuddy from "./PixelBuddy";
 import ArrowIcon from "./ArrowIcon";
+import SectionHead from "./SectionHead";
+
+const facts = [
+  { label: "Studying", value: "Computer Science (Intelligent Systems), BINUS University, 2023–2027" },
+  { label: "Now", value: "Application developer intern, Polytron" },
+  { label: "Also", value: "Freelance full-stack developer, Qreed AI" },
+  { label: "Based in", value: "Jakarta, Indonesia" },
+  { label: "Speaks", value: "Indonesian, English, Mandarin (basic), Teochew" },
+];
 
 export default function About() {
   const copyRef = useScrollReveal<HTMLDivElement>();
-  const photoRef = useScrollReveal<HTMLDivElement>();
+  const photoRef = useScrollReveal<HTMLElement>();
   return (
-    <section id="about" className="intro section" aria-labelledby="about-title">
-      <div className="intro-grid">
-        <div className="intro-copy reveal-stagger" ref={copyRef}>
-          <p className="section-kicker">01 / A LITTLE ABOUT ME</p>
-          <h2 id="about-title" className="intro-title">Curious mind.<br /><span>Purposeful work.</span></h2>
-          <p className="intro-lead">Hi, I'm Andy. I see possibilities beyond the code.</p>
-          <p className="intro-text">I’m a Computer Science student at BINUS University, specializing in Intelligent Systems. I explore how technology can solve real problems, combining web development, artificial intelligence, and thoughtful digital experiences.</p>
-          <p className="intro-text">From building projects to broadcasting and leading teams, I love connecting ideas and people to make something meaningful.</p>
-          <div className="about-facts">
-            <div><span>STUDYING AT</span><strong>BINUS University</strong></div>
-            <div className="about-focus"><span>MY FOCUS</span>
-              <ul className="about-focus-tags" aria-label="Areas of focus">
-                <li>Intelligent Systems</li><li>Web Development</li><li>Full-Stack Development</li><li>AI Engineering</li>
-              </ul>
+    <section id="about" className="section about" aria-labelledby="about-title">
+      <div className="wrap">
+        <SectionHead label="about" title="About me" titleId="about-title" aside={<PixelBuddy />}>
+          The short version, plus the facts people usually ask for.
+        </SectionHead>
+        <div className="about-grid">
+          <figure className="about-photo reveal" ref={photoRef}>
+            <div className="about-photo-frame">
+              <img src={meImg} alt="Andy Saputra smiling at a campus event" loading="lazy" />
             </div>
+            <figcaption>The non-pixel version.</figcaption>
+          </figure>
+          <div className="about-copy reveal-stagger" ref={copyRef}>
+            <p className="about-lead">I'm Andy. I like work that needs both halves: a model that holds up, and an app people actually want to use.</p>
+            <p>I'm in my final year of Computer Science at BINUS University, majoring in Intelligent Systems. My thesis, <em>Silent Terror</em>, is a strategy game whose characters run on a hybrid of NLU, fuzzy logic and an LLM.</p>
+            <p>Before most of the code, I edited videos and ran technical crews at BINUS TV Club, led freshmen, and directed school events in Batam. Getting people and ideas to meet is still my favorite part of a project.</p>
+            <dl className="spec-list">
+              {facts.map((fact) => <div key={fact.label}><dt>{fact.label}</dt><dd>{fact.value}</dd></div>)}
+            </dl>
+            <a href="#experience" className="text-link">See where I've worked <ArrowIcon direction="down" /></a>
           </div>
-          <a href="#experience" className="text-link">A little more about my journey <span aria-hidden="true"><ArrowIcon /></span></a>
-          <PixelBuddy />
-        </div>
-        <div className="intro-photo-card reveal" ref={photoRef}>
-          <img className="intro-photo" src={meImg} alt="Andy Saputra" loading="lazy" />
-          <div className="photo-caption"><span>THE PERSON BEHIND THE PIXELS</span><strong>Always learning.<br />Always building.</strong></div>
-          <span className="photo-corner" aria-hidden="true"><ArrowIcon /></span>
         </div>
       </div>
     </section>

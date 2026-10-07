@@ -1,11 +1,10 @@
-.pixel-buddy { width: min(300px, 100%); margin-top: 24px; }
-.pixel-scene { --pixel-loop: 12s; position: relative; height: 112px; isolation: isolate; background: #101010; }
+.pixel-buddy { width: min(300px, 100%); }
+.pixel-scene { --pixel-loop: 12s; position: relative; height: 112px; isolation: isolate; }
 .pixel-scenery { position: absolute; z-index: 1; pointer-events: none; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.pixel-traveler { position: absolute; top: 14px; left: 0; width: 96px; height: 96px; }
+.pixel-traveler { position: absolute; top: 12px; left: 0; width: 96px; height: 96px; }
 .pixel-character { display: block; width: 100%; height: 100%; overflow: hidden; image-rendering: pixelated; }
-.pixel-hello { position: absolute; top: -5px; right: -5px; padding: 4px 7px; border: 2px solid #8f9db9; background: #d2def7; color: #283049; font: bold 11px/1 monospace; opacity: 0; }
-.pixel-hello::after { content: ''; position: absolute; left: 5px; bottom: -5px; width: 4px; height: 5px; background: #d2def7; border-left: 2px solid #8f9db9; }
+.pixel-hello { position: absolute; top: -5px; right: -5px; padding: 4px 7px 3px; border: 2px solid #11100e; background: #ece7df; color: #11100e; font: 400 10px/1 var(--ff-pixel, monospace); opacity: 0; }
+.pixel-hello::after { content: ''; position: absolute; left: 5px; bottom: -6px; width: 4px; height: 4px; background: #ece7df; border-left: 2px solid #11100e; border-bottom: 2px solid #11100e; }
 .pixel-sparks { opacity: 0; }
-.pixel-caption { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 4px; color: #9296a3; font-size: .7rem; letter-spacing: .02em; }
 .pixel-scene[data-frame="2"] .pixel-hello, .pixel-scene[data-frame="3"] .pixel-hello { opacity: 1; }
 .pixel-scene[data-frame="5"] .pixel-sparks { opacity: 1; }
