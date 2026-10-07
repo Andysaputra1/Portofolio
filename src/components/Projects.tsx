@@ -1,14 +1,12 @@
 // src/components/Projects.tsx
-import { useState, type CSSProperties } from "react";
-import { projectCategories, type Project } from "../types/portfolio";
+import { useState } from "react";
+import { listText, projectCategories, type Project } from "../types/portfolio";
 import { usePortfolioData } from "../context/PortfolioDataContext";
 import DinoBuilder from "./DinoBuilder";
 import ProjectModal from "./ProjectModal";
 import ArrowIcon from "./ArrowIcon";
 import SectionHead from "./SectionHead";
-import useScrollReveal from "../hook/useScrollReveal.ts";
 
-const si = (i: number) => ({ "--i": i } as CSSProperties & Record<"--i", number>);
 const ALL = "All";
 
 export default function Projects() {
@@ -19,15 +17,13 @@ export default function Projects() {
   const filters = [ALL, ...new Set(projects.flatMap(projectCategories))];
   const visibleProjects = projects.filter((p) => filter === ALL || projectCategories(p).includes(filter));
 
-  const gridRef = useScrollReveal<HTMLDivElement>();
-
   const openModal = (p: Project) => { setActive(p); setOpen(true); };
   const closeModal = () => { setOpen(false); setActive(null); };
 
   return (
     <section id="projects" className="section projects" aria-labelledby="projects-title">
       <div className="wrap">
-        <SectionHead label="projects" title="Selected projects" titleId="projects-title" aside={<DinoBuilder />}>
+        <SectionHead title="Selected projects" titleId="projects-title" aside={<DinoBuilder />}>
           {projects.length} projects, from deep-learning experiments to web apps people use. Open one for the method, the stack and what came out of it.
         </SectionHead>
 
@@ -38,24 +34,23 @@ export default function Projects() {
           })}
         </div>
 
-        <div className="proj-grid reveal-stagger" ref={gridRef}>
-          {visibleProjects.map((p, idx) => {
+        <div className="proj-grid">
+          {visibleProjects.map((p) => {
             const isRepository = p.link.startsWith("https://github.com/");
             return (
-              <article key={p.id} className="proj-card" style={si(idx)}>
+              <article key={p.id} className="proj-card">
                 <div className="proj-media">
                   {p.image ? (
                     <img className="proj-img" src={p.image} alt="" loading="lazy" decoding="async" />
                   ) : <div className="proj-img-placeholder"><i className="fa-regular fa-image" aria-hidden="true" /></div>}
-                  <span className="proj-number" aria-hidden="true">{String(projects.indexOf(p) + 1).padStart(2, "0")}</span>
                   {p.status && <span className="proj-status">{p.status}</span>}
                 </div>
 
                 <div className="proj-body">
-                  <p className="proj-categories">{projectCategories(p).join(" · ")}</p>
+                  <p className="proj-categories">{projectCategories(p).join(", ")}</p>
                   <h3 className="proj-title">{p.title}</h3>
                   <p className="proj-summary">{p.description}</p>
-                  <p className="proj-method"><span>{p.ai ? "Method" : "Stack"}</span>{p.ai?.models ?? p.stack}</p>
+                  <p className="proj-method"><span>{p.ai ? "Method" : "Stack"}</span>{listText(p.ai?.models ?? p.stack)}</p>
                 </div>
 
                 <div className="proj-actions">
@@ -67,7 +62,7 @@ export default function Projects() {
                     aria-haspopup="dialog"
                     aria-controls="project-modal"
                   >
-                    Details<span className="sr-only">: {p.title}</span> <ArrowIcon direction="right" />
+                    Details<span className="sr-only">: {p.title}</span>
                   </button>
                   <a
                     className="proj-link"

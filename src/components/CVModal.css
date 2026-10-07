@@ -6,13 +6,13 @@
 .cv-sheet-header { display: flex; flex-shrink: 0; align-items: center; justify-content: space-between; gap: 18px; padding: 18px 24px; border-bottom: 1px solid var(--line); }
 .cv-sheet-heading { display: flex; align-items: center; gap: 14px; min-width: 0; }
 .cv-sheet-icon { display: grid; place-items: center; flex: 0 0 44px; height: 44px; border: 1px solid var(--line-2); border-radius: 12px; color: var(--accent); font-size: 1.25rem; }
-.cv-sheet-kicker { margin: 0 0 4px; color: var(--text-3); font: 400 12px/1.4 var(--ff-mono); }
+.cv-sheet-kicker { margin: 0 0 4px; color: var(--text-3); font: 400 13px/1.4 var(--ff-body); }
 .cv-sheet-heading h2 { display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px; margin: 0; font-size: 26px; line-height: 1.1; letter-spacing: -.025em; }
 .cv-sheet-heading h2 span { color: var(--text-3); font: 400 14px/1.4 var(--ff-body); letter-spacing: 0; }
 .cv-sheet-close { display: grid; place-items: center; flex: 0 0 40px; height: 40px; border: 1px solid var(--line-2); border-radius: 50%; background: transparent; color: var(--text-2); font-size: 1.15rem; transition: background-color .2s, color .2s; }
 .cv-sheet-close:hover { background: var(--bg-3); color: var(--text); }
 .cv-sheet-toolbar { display: flex; flex-shrink: 0; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 24px; color: var(--text-3); font-size: 13px; }
-.cv-sheet-format { color: var(--text-3); font: 400 11px/1 var(--ff-mono); }
+.cv-sheet-format { color: var(--text-3); font: 400 12px/1 var(--ff-body); }
 .cv-sheet-preview { flex: 1; min-height: 0; margin: 0 18px; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--bg); }
 .cv-sheet-footer { display: flex; flex-shrink: 0; justify-content: space-between; align-items: center; gap: 20px; padding: 16px 24px 18px; }
 .cv-sheet-footer p { margin: 0; color: var(--text); font-size: 14px; line-height: 1.5; }

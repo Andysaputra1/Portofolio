@@ -3,11 +3,7 @@ import ExperienceProjects from "./ExperienceProjects";
 import TeamLead from "./TeamLead";
 import SectionHead from "./SectionHead";
 import { usePortfolioData } from "../context/PortfolioDataContext";
-import useScrollReveal from "../hook/useScrollReveal.ts";
-import type { CSSProperties } from "react";
 import type { OrgExp } from "../types/portfolio";
-
-const si = (i: number) => ({ "--i": i } as CSSProperties & Record<"--i", number>);
 
 function ExperiencePhoto({ experience }: { experience: OrgExp }) {
   if (!experience.image) return null;
@@ -23,19 +19,17 @@ function ExperiencePhoto({ experience }: { experience: OrgExp }) {
 
 export default function OrganizationExperience() {
   const { organizations } = usePortfolioData();
-  // The list staggers its children in as they scroll into view.
-  const listRef = useScrollReveal<HTMLOListElement>();
 
   return (
     <section id="experience" className="section experience" aria-labelledby="experience-title">
       <div className="wrap">
-        <SectionHead label="experience" title="Experience" titleId="experience-title" aside={<div className="exp-team-stage"><TeamLead /></div>}>
+        <SectionHead title="Experience" titleId="experience-title" aside={<div className="exp-team-stage"><TeamLead /></div>}>
           Internships and freelance work first, then the clubs and teams I've led or volunteered with.
         </SectionHead>
 
-        <ol className="exp-list reveal-stagger" ref={listRef}>
-          {organizations.map((x, idx) => (
-            <li key={x.id} className={"exp-item" + (x.projects?.length ? " exp-item-with-projects" : "")} style={si(idx)}>
+        <ol className="exp-list">
+          {organizations.map((x) => (
+            <li key={x.id} className="exp-item">
               <div className="exp-meta">
                 <p className="exp-period">{x.period}</p>
                 {x.location && <p className="exp-location">{x.location}</p>}

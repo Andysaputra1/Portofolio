@@ -6,7 +6,6 @@ import TechStack from "./components/Skills";
 import Projects from "./components/Projects.tsx";
 import Contact from "./components/Contact.tsx";
 import OrganizationExperience from "./components/OrganizationExperience.tsx";
-import ArrowIcon from "./components/ArrowIcon";
 import NavRunner from "./components/NavRunner";
 
 export default function App() {
@@ -28,7 +27,7 @@ export default function App() {
         <div className="wrap footer-inner">
           <a href="#home" className="footer-mark">andy<span>.</span></a>
           <p>Designed and built by Andy Saputra, {new Date().getFullYear()}. React, TypeScript and a handful of pixel sprites.</p>
-          <a href="#home" className="footer-top">Back to top <ArrowIcon direction="up" /></a>
+          <a href="#home" className="footer-top">Back to top</a>
         </div>
       </footer>
     </>

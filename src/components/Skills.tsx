@@ -1,7 +1,6 @@
 // src/components/Skills.tsx
 import DeskBuddy from "./DeskBuddy";
 import SectionHead from "./SectionHead";
-import useScrollReveal from "../hook/useScrollReveal.ts";
 import { usePortfolioData } from "../context/PortfolioDataContext";
 import { skillGroups, type Skill } from "../types/portfolio";
 import type { IconType } from "react-icons";
@@ -23,15 +22,11 @@ const imageMap: Record<string, string> = { react: reactImg, html: htmlImg, css: 
 const iconMap: Record<string, IconType> = { c: SiC, python: SiPython, node: SiNodedotjs, angular: SiAngular, express: SiExpress, docker: SiDocker, git: SiGit, "rest-api": FaCode, llm: FaRobot, openai: SiOpenai, nlp: FaCommentDots, "machine-learning": FaBrain, "deep-learning": FaNetworkWired };
 
 function TechGroup({ title, items, index }: { title: string; items: Skill[]; index: number }) {
-  const groupRef = useScrollReveal<HTMLElement>();
   if (!items.length) return null;
 
   return (
-    <section className="toolkit-group reveal" ref={groupRef} aria-labelledby={`toolkit-group-${index}`}>
-      <h3 id={`toolkit-group-${index}`}>
-        <span className="toolkit-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-        {title}
-      </h3>
+    <section className="toolkit-group" aria-labelledby={`toolkit-group-${index}`}>
+      <h3 id={`toolkit-group-${index}`}>{title}</h3>
       <ul className="toolkit-list">
         {items.map((skill) => {
           const Icon = iconMap[skill.id] ?? FaCode;
@@ -55,7 +50,7 @@ export default function Skills() {
   return (
     <section id="skills" className="section toolkit" aria-labelledby="skills-title">
       <div className="wrap">
-        <SectionHead label="toolkit" title="Tools I work with" titleId="skills-title" aside={<DeskBuddy />}>
+        <SectionHead title="Tools I work with" titleId="skills-title" aside={<DeskBuddy />}>
           Languages, frameworks and tools I've used in coursework, internships and my own projects.
         </SectionHead>
         <div className="toolkit-groups">

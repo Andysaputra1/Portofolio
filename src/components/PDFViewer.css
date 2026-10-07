@@ -1,6 +1,6 @@
 /* Dark viewer chrome around white PDF pages; shared by the CV sheet and the /manage editor. */
 .pdf-viewer { display: flex; flex-direction: column; width: 100%; height: 100%; min-height: 0; color: #ece7df; background: #11100e; }
-.pdf-viewer-toolbar { display: flex; flex: 0 0 auto; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px 12px; padding: 6px 10px; border-bottom: 1px solid rgba(236, 231, 223, .09); font: 400 12px/1.3 var(--ff-mono, monospace); color: #b4ada2; }
+.pdf-viewer-toolbar { display: flex; flex: 0 0 auto; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px 12px; padding: 6px 10px; border-bottom: 1px solid rgba(236, 231, 223, .09); font: 400 12px/1.3 var(--ff-body, sans-serif); color: #b4ada2; }
 .pdf-viewer-zoom { display: flex; align-items: center; gap: 4px; }
 .pdf-viewer button { min-width: 40px; min-height: 36px; padding: 4px 8px; border: 1px solid rgba(236, 231, 223, .17); border-radius: 8px; color: #ece7df; background: transparent; cursor: pointer; font: inherit; }
 .pdf-viewer button:hover:not(:disabled) { background: #211e1b; }
@@ -8,7 +8,7 @@
 .pdf-viewer :is(button, a, [tabindex]):focus-visible { outline: 2px solid #e6a85c; outline-offset: -2px; }
 .pdf-viewer-scroll { flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; padding: 0 12px 12px; }
 .pdf-viewer-page { position: relative; margin: 0 auto 16px; }
-.pdf-viewer-page-label { position: sticky; left: 0; width: fit-content; margin: 0; padding: 10px 0 6px; color: #8f887c; font: 400 11px/1.3 var(--ff-mono, monospace); }
+.pdf-viewer-page-label { position: sticky; left: 0; width: fit-content; margin: 0; padding: 10px 0 6px; color: #8f887c; font: 400 11px/1.3 var(--ff-body, sans-serif); }
 .pdf-viewer-canvas { min-height: 100px; background: #fff; border-radius: 4px; overflow: hidden; }
 .pdf-viewer-canvas canvas { display: block; max-width: none; }
 .pdf-viewer-accessible-text { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }

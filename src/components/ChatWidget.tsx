@@ -132,7 +132,7 @@ export default function ChatWidget() {
         </div>
         <div className="ai-messages" ref={messagesRef} role="log" aria-label="Conversation" aria-live="polite" aria-relevant="additions">
           <div className="ai-message assistant"><AndyAvatar /><div className="ai-bubble assistant">Hi there! I'm Andy's AI assistant. Ask me anything about his skills, projects, experience, or how to get in touch.</div></div>
-          {msgs.length === 0 && <div className="ai-suggestions">{["What does Andy build?", "Tell me about his AI projects"].map(q => <button key={q} onClick={() => void send(q)}>{q} <ArrowIcon /></button>)}</div>}
+          {msgs.length === 0 && <div className="ai-suggestions">{["What does Andy build?", "Tell me about his AI projects"].map(q => <button key={q} onClick={() => void send(q)}>{q}</button>)}</div>}
           {msgs.map((m, i) => <div key={i} className={`ai-message ${m.role}`}>
             {m.role === "assistant" && <AndyAvatar />}
             <div className={`ai-bubble ${m.role}`}><span className="ai-sr-only">{m.role === "user" ? "You: " : "Andy's assistant: "}</span>{m.content}
@@ -147,7 +147,7 @@ export default function ChatWidget() {
               </ul>}
               {m.cv && <a className="ai-project-preview ai-cv-attachment" href={cvUrl} target="_blank" rel="noreferrer" aria-label="Andy Saputra's CV, PDF (opens in a new tab)">
                 <span className="ai-cv-icon" aria-hidden="true"><i className="fa-regular fa-file-lines" /></span>
-                <span><strong>Andy Saputra — CV</strong><small>PDF · Opens in a new tab</small></span>
+                <span><strong>Andy Saputra — CV</strong><small>PDF, opens in a new tab</small></span>
                 <span className="ai-project-arrow" aria-hidden="true"><ArrowIcon /></span>
               </a>}
               {!!m.contacts?.length && <ul className="ai-contact-links" aria-label="Contact links in this answer">

@@ -4,7 +4,6 @@ import CoffeeChat from "./CoffeeChat";
 import CVModal from "./CVModal";
 import SectionHead from "./SectionHead";
 import ArrowIcon from "./ArrowIcon";
-import useScrollReveal from "../hook/useScrollReveal.ts";
 import contact from "../data/contact.json";
 import { openAssistant } from "../utils/assistant";
 
@@ -15,7 +14,6 @@ const [EMAIL_USER, EMAIL_DOMAIN] = EMAIL.split("@");
 export default function Contact() {
   const [openCV, setOpenCV] = useState(false);
   const [copied, setCopied] = useState<string | null>(null);
-  const bodyRef = useScrollReveal<HTMLDivElement>();
 
   const copy = async (text: string, label: string) => {
     try {
@@ -30,11 +28,11 @@ export default function Contact() {
   return (
     <section id="contact" className="section contact" aria-labelledby="contact-title">
       <div className="wrap">
-        <SectionHead label="contact" title="Say hello" titleId="contact-title" aside={<CoffeeChat />}>
-          Open to internships, freelance work and questions about any of the projects. Email, phone or socials all work.
+        <SectionHead title="Say hello" titleId="contact-title" aside={<CoffeeChat />}>
+          Open to full-time and part-time roles, freelance work and questions about any of the projects. Email, phone or socials all work.
         </SectionHead>
 
-        <div className="contact-body reveal-stagger" ref={bodyRef}>
+        <div className="contact-body">
           <div className="contact-email-row">
             <a className="contact-email" href={`mailto:${EMAIL}`}>
               {EMAIL_USER}<wbr />@{EMAIL_DOMAIN}
@@ -64,14 +62,14 @@ export default function Contact() {
             </li>
             <li>
               <span className="contact-label">Curriculum vitae</span>
-              <button className="contact-value" type="button" onClick={() => setOpenCV(true)}>View or download CV <ArrowIcon /></button>
+              <button className="contact-value" type="button" onClick={() => setOpenCV(true)}>View or download CV</button>
             </li>
           </ul>
 
           <p className="contact-assistant">
             <span>Rather ask a few questions first?</span>
             <button type="button" className="text-link" onClick={openAssistant}>
-              Ask my AI assistant about my work <ArrowIcon direction="right" />
+              Ask my AI assistant about my work
             </button>
           </p>
         </div>

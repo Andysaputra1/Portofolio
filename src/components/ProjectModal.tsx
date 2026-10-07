@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { FiArrowUpRight, FiGithub, FiX } from "react-icons/fi";
-import { projectCategories, type Project } from "../types/portfolio";
+import { listText, projectCategories, type Project } from "../types/portfolio";
 import { lockScroll, unlockScroll } from "../utils/scrollLock";
 import "./ProjectModal.css";
 
@@ -59,8 +59,8 @@ export default function ProjectModal({ open, onClose, project }: Props) {
         <div className="project-dialog-body">
           <aside className="project-dialog-visual" aria-label="Project preview and contribution">
             {project.image && <figure className="project-dialog-media"><div className="project-dialog-preview-bar" aria-hidden="true"><span className="project-dialog-window-dots"><i /><i /><i /></span><span>preview</span><FiArrowUpRight /></div><img src={project.image} alt={project.title + " interface preview"} /></figure>}
-            {project.ai && <div className="project-dialog-models"><h3>Research focus</h3><p className="project-dialog-focus">{project.ai.focus}</p><h3>Models & methods</h3><ul className="project-dialog-technologies">{models.map((model) => <li key={model}>{model}</li>)}</ul></div>}
-            {project.role && <p className="project-dialog-role"><span>My contribution</span>{project.role}</p>}
+            {project.ai && <div className="project-dialog-models"><h3>Research focus</h3><p className="project-dialog-focus">{listText(project.ai.focus)}</p><h3>Models & methods</h3><ul className="project-dialog-technologies">{models.map((model) => <li key={model}>{model}</li>)}</ul></div>}
+            {project.role && <p className="project-dialog-role"><span>My contribution</span>{listText(project.role)}</p>}
             {!project.ai && <ul className="project-dialog-technologies" aria-label="Built with">{technologies.map((technology, index) => <li key={index}>{technology}</li>)}</ul>}
           </aside>
           <section className="project-dialog-content" aria-label={project.ai ? "AI research details" : "About the project"}>

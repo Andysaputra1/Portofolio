@@ -6,7 +6,6 @@ import {
   type CSSProperties,
 } from "react";
 import HeroSwing from './HeroSwing';
-import ArrowIcon from './ArrowIcon';
 
 const SNAKE_LENGTH = 18;
 
@@ -140,10 +139,10 @@ export default function Hero() {
       <div className="hero-content wrap">
         <p className="hero-status"><span className="status-square" aria-hidden="true" />Now: application developer intern at Polytron, freelancing for Qreed AI</p>
         <h1 id="hero-title" className="hero-name">Andy<br />Saputra</h1>
-        <p className="hero-description">Computer Science student at BINUS University, majoring in Intelligent Systems. I train machine-learning models and build the web apps that put them to work.</p>
+        <p className="hero-description">Full-stack developer and Computer Science student at BINUS University. I build web apps from the interface to the API and database, and bring in AI where it helps.</p>
         <div className="hero-actions">
           <div className="hero-swing-cta">
-            <a href="#projects" className="btn btn-primary">See projects <ArrowIcon direction="down" /></a>
+            <a href="#projects" className="btn btn-primary">See projects</a>
             <HeroSwing mobile />
           </div>
           <a href="#contact" className="btn btn-ghost">Get in touch</a>

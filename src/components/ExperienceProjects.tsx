@@ -77,7 +77,6 @@ export default function ExperienceProjects({ projects, organization }: { project
         <p className="exp-showcase-label"><span>Selected projects</span><span aria-hidden="true">{index + 1}/{projects.length}</span></p>
         <div className="exp-project-picker" aria-label="Choose a project">
           {projects.map((project, i) => <button type="button" key={project.id} style={accentStyle(project.accent)} aria-pressed={i === index} data-state={i < index ? "done" : i === index ? "active" : "upcoming"} onClick={() => go(i)}>
-            <span className="exp-project-picker-index" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
             {project.title}
             <span className="exp-project-picker-bar" aria-hidden="true"><i /></span>
           </button>)}
