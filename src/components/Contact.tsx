@@ -29,7 +29,7 @@ export default function Contact() {
     <section id="contact" className="section contact" aria-labelledby="contact-title">
       <div className="wrap">
         <SectionHead title="Say hello" titleId="contact-title" aside={<CoffeeChat />}>
-          Open to full-time and part-time roles, freelance work and questions about any of the projects. Email, phone or socials all work.
+          Open to <strong className="text-emphasis">full-time and part-time roles</strong>, <strong className="text-emphasis">freelance work</strong> and questions about any of the projects. Email, phone or socials all work.
         </SectionHead>
 
         <div className="contact-body">

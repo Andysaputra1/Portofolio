@@ -6,6 +6,7 @@ import DinoBuilder from "./DinoBuilder";
 import ProjectModal from "./ProjectModal";
 import ArrowIcon from "./ArrowIcon";
 import SectionHead from "./SectionHead";
+import EmphasizedText from "./EmphasizedText";
 
 const ALL = "All";
 
@@ -49,7 +50,7 @@ export default function Projects() {
                 <div className="proj-body">
                   <p className="proj-categories">{projectCategories(p).join(", ")}</p>
                   <h3 className="proj-title">{p.title}</h3>
-                  <p className="proj-summary">{p.description}</p>
+                  <p className="proj-summary"><EmphasizedText text={p.description} /></p>
                   <p className="proj-method"><span>{p.ai ? "Method" : "Stack"}</span>{listText(p.ai?.models ?? p.stack)}</p>
                 </div>
 

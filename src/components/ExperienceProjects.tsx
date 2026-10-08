@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import type { ExperienceProject } from "../types/portfolio";
 import ArrowIcon from "./ArrowIcon";
+import EmphasizedText from "./EmphasizedText";
 
 // On desktop the page scrolls normally and the box steps forward through its projects as it rises through
 // the viewport. Scrolling back up leaves the current project in place (playing it backwards felt odd);
@@ -38,7 +39,8 @@ export default function ExperienceProjects({ projects, organization }: { project
     if (!panel) return null;
     const rect = panel.getBoundingClientRect();
     const start = window.innerHeight - rect.height * START_VISIBLE;
-    const end = Math.max(window.innerHeight * END_TOP, NAV_BOTTOM);
+    const scale = Number.parseFloat(getComputedStyle(document.documentElement).zoom) || 1;
+    const end = Math.max(window.innerHeight * END_TOP, NAV_BOTTOM * scale);
     return start > end ? { top: rect.top, start, end } : null;
   }, []);
 
@@ -100,8 +102,8 @@ export default function ExperienceProjects({ projects, organization }: { project
             <div className="exp-project-body">
               <h3>{project.title}</h3>
               <p className="exp-project-subtitle">{project.subtitle}</p>
-              <p className="exp-project-description">{project.description}</p>
-              {project.impact && <p className="exp-impact exp-project-impact"><span>Impact</span>{project.impact}</p>}
+              <p className="exp-project-description"><EmphasizedText text={project.description} /></p>
+              {project.impact && <p className="exp-impact exp-project-impact"><span>Impact</span><EmphasizedText text={project.impact} /></p>}
               <ul className="tag-list" aria-label="Project technologies">{project.stack.map((technology) => <li key={technology}>{technology}</li>)}</ul>
             </div>
           </article>)}

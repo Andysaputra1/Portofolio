@@ -5,6 +5,7 @@ import './index.css'
 import App from './App.tsx'
 import { PortfolioDataProvider } from './context/PortfolioDataContext.tsx'
 import ManageAccess from './components/ManageAccess.tsx'
+import './desktop-scale.css'
 
 // The BotID challenge is served through vercel.json rewrites, which exist only on Vercel deployments.
 if (import.meta.env.PROD) initBotId({ protect: [{ path: '/api/chat', method: 'POST' }] })

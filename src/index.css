@@ -54,6 +54,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
 button { cursor: pointer; }
 a, button { -webkit-tap-highlight-color: transparent; }
 h1, h2, h3, h4, h5, h6 { font-family: var(--ff-display); font-weight: 600; line-height: 1.15; }
+.text-emphasis { color: var(--text); font-weight: 600; }
 ::selection { background: var(--accent); color: var(--on-accent); }
 :where(a, button, input, textarea, select, [tabindex]):focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
 
@@ -348,11 +349,12 @@ html.modal-open, body.modal-open { overflow: hidden !important; overscroll-behav
 .exp-org { margin-bottom: 14px; color: var(--accent); font: 500 16px/1.4 var(--ff-body); }
 .exp-details > .exp-role:last-child { margin-bottom: 0; }
 .exp-summary { max-width: 68ch; color: var(--text-2); font-size: 16px; line-height: 1.75; }
-/* The STAR "result": brighter than the summary, labelled like the About facts. */
+/* Keep outcomes bright, with amber emphasis on the key phrases. */
 .exp-impact { max-width: 68ch; margin-top: 14px; color: var(--text); font-size: 16px; line-height: 1.65; }
 .exp-impact > span { display: block; margin-bottom: 2px; color: var(--text-3); font: 400 13px/1.5 var(--ff-body); }
 .exp-impact .exp-bullets { margin-top: 0; }
 .exp-impact .exp-bullets li { margin-top: 4px; color: var(--text); font-size: 16px; }
+.exp-impact .text-emphasis { color: var(--accent); }
 .exp-project-impact { margin-top: 12px; font-size: 15px; }
 .exp-subrole { margin-top: 24px; }
 .exp-subtitle { color: var(--text); font: 600 15px/1.5 var(--ff-body); }

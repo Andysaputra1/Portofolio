@@ -95,9 +95,9 @@
     "role": "Full Stack Developer (Freelance)",
     "org": "Qreed AI",
     "period": "September 2026 – Present",
-    "summary": "Qreed AI needed its website built and kept up to date as the product grows. As a freelance full-stack developer I turn the client's requests into pages and features with Next.js, React and Express, and I set up Sentry so issues get caught early.",
+    "summary": "As Qreed AI grows, its website needs new pages, ongoing updates and a full redesign. As a freelance full-stack developer, I translate the client's requests into designs, pages and features with Next.js, React and Express, and use Sentry to catch issues early.",
     "impact": [
-      "Built the three pages on a user's path from first visit to paid plan: the landing, generation and pricing pages."
+      "Redesigned the entire website and built and maintained multiple pages across the product, including the landing, generation and pricing pages."
     ],
     "stack": [
       "Next.js",

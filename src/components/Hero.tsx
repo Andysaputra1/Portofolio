@@ -24,8 +24,9 @@ function getColumnCount() {
 }
 
 function getCellCount(columns: number) {
+  const scale = Number.parseFloat(getComputedStyle(document.documentElement).zoom) || 1;
   return (
-    columns * Math.ceil(Math.max(720, window.innerHeight) / (window.innerWidth / columns))
+    columns * Math.ceil(Math.max(720 * scale, window.innerHeight) / (window.innerWidth / columns))
   );
 }
 
@@ -138,7 +139,7 @@ export default function Hero() {
 
       <div className="hero-content wrap">
         <h1 id="hero-title" className="hero-name">Andy<br />Saputra</h1>
-        <p className="hero-description">Full-stack developer and Computer Science student at BINUS University. Right now I build internal apps at Polytron and the Qreed AI website.</p>
+        <p className="hero-description"><strong className="text-emphasis">Full-stack developer</strong> and Computer Science student at BINUS University. Right now I build internal apps at <strong className="text-emphasis">Polytron</strong> and the <strong className="text-emphasis">Qreed AI</strong> website.</p>
         <div className="hero-actions">
           <div className="hero-swing-cta">
             <a href="#projects" className="btn btn-primary">See projects</a>

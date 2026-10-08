@@ -1,5 +1,6 @@
 // src/components/OrganizationExperience.tsx
 import ExperienceProjects from "./ExperienceProjects";
+import EmphasizedText from "./EmphasizedText";
 import TeamLead from "./TeamLead";
 import SectionHead from "./SectionHead";
 import { usePortfolioData } from "../context/PortfolioDataContext";
@@ -38,8 +39,8 @@ export default function OrganizationExperience() {
               <div className="exp-details">
                 <h3 className="exp-role">{x.role || x.org}</h3>
                 {x.role && <p className="exp-org">{x.org}</p>}
-                {x.summary && <p className="exp-summary">{x.summary}</p>}
-                {!!x.impact?.length && <div className="exp-impact"><span>Impact</span><ul className="exp-bullets">{x.impact.map((item) => <li key={item}>{item}</li>)}</ul></div>}
+                {x.summary && <p className="exp-summary"><EmphasizedText text={x.summary} /></p>}
+                {!!x.impact?.length && <div className="exp-impact"><span>Impact</span><ul className="exp-bullets">{x.impact.map((item) => <li key={item}><EmphasizedText text={item} /></li>)}</ul></div>}
                 {!!x.stack?.length && <ul className="tag-list" aria-label="Technologies">{x.stack.map((technology) => <li key={technology}>{technology}</li>)}</ul>}
                 {!!x.projects?.length && <ExperienceProjects projects={x.projects} organization={x.org} />}
                 {x.roles?.map((r) => (
@@ -47,7 +48,7 @@ export default function OrganizationExperience() {
                     <p className="exp-subtitle">
                       {r.title} {r.context && <span className="exp-context">{r.context}</span>}
                     </p>
-                    {r.bullets.length > 0 && <ul className="exp-bullets">{r.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul>}
+                    {r.bullets.length > 0 && <ul className="exp-bullets">{r.bullets.map((bullet) => <li key={bullet}><EmphasizedText text={bullet} /></li>)}</ul>}
                   </div>
                 ))}
               </div>

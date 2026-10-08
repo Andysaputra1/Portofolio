@@ -1,0 +1,44 @@
+/* A roomier 110% presentation on desktop. Keep the compact layouts at their
+   original scale, including touch-first tablets. Import after component CSS.
+   Viewport lengths compensate for the scale so dialogs still fit the screen. */
+@media screen and (min-width: 1280px) and (hover: hover) and (pointer: fine) {
+  html { --desktop-scale: 1.1; zoom: var(--desktop-scale); }
+  :root { --pad-x: clamp(20px, calc(5vw / var(--desktop-scale)), 48px); }
+
+  .section { padding-top: clamp(96px, calc(12vw / var(--desktop-scale)), 152px); }
+  .hero { min-height: max(calc(100svh / var(--desktop-scale)), 640px); }
+  .hero-name { font-size: clamp(60px, calc(10vw / var(--desktop-scale)), 140px); }
+  .hero-description { font-size: clamp(17px, calc(1.4vw / var(--desktop-scale)), 19px); }
+  .section-head { margin-bottom: clamp(40px, calc(5vw / var(--desktop-scale)), 56px); }
+  .section-head h2 { font-size: clamp(36px, calc(4.6vw / var(--desktop-scale)), 56px); }
+  .about { min-height: calc(calc(100svh / var(--desktop-scale)) - var(--bar-h)); }
+  .about-grid { column-gap: clamp(32px, calc(5vw / var(--desktop-scale)), 72px); }
+  .about-lead { font-size: clamp(20px, calc(1.9vw / var(--desktop-scale)), 25px); }
+  .exp-item { gap: clamp(24px, calc(4vw / var(--desktop-scale)), 56px); }
+  .exp-role { font-size: clamp(22px, calc(2.2vw / var(--desktop-scale)), 28px); }
+  .contact-email { font-size: clamp(24px, calc(3vw / var(--desktop-scale)), 40px); }
+  .site-footer { margin-top: clamp(120px, calc(14vw / var(--desktop-scale)), 180px); }
+
+  /* Dialogs and the assistant still fit the actual browser viewport. */
+  .project-dialog { width: min(1120px, calc(calc(100vw / var(--desktop-scale)) - 48px)); max-height: calc(calc(100dvh / var(--desktop-scale)) - 48px); }
+  .project-dialog-header h2 { font-size: clamp(28px, calc(3.4vw / var(--desktop-scale)), 40px); }
+  .cv-sheet { width: min(1080px, calc(calc(100vw / var(--desktop-scale)) - 48px)); height: min(900px, calc(calc(100dvh / var(--desktop-scale)) - 48px)); max-height: calc(calc(100dvh / var(--desktop-scale)) - 48px); }
+  .ai-panel { padding: clamp(12px, calc(3vw / var(--desktop-scale)), 24px); }
+  .ai-card { width: min(410px, calc(calc(100vw / var(--desktop-scale)) - 24px)); height: min(620px, calc(calc(100dvh / var(--desktop-scale)) - 48px)); }
+  .manager-panel { max-height: min(840px, calc(calc(100vh / var(--desktop-scale)) - 32px)); }
+  .manage-login-page { min-height: calc(100vh / var(--desktop-scale)); }
+  .manager-cv-preview { height: calc(70dvh / var(--desktop-scale)); }
+
+  /* The original 860px height breakpoint, adjusted for the larger scale. */
+  @media (max-height: 946px) {
+    .about { padding-block: 20px; }
+    .about .section-head { margin-bottom: 18px; padding-bottom: 16px; }
+    .about .section-scene { margin-bottom: -17px; }
+    .about .section-head h2 { font-size: clamp(34px, calc(3.4vw / var(--desktop-scale)), 46px); }
+    .about-lead { margin-bottom: 12px; font-size: clamp(19px, calc(1.6vw / var(--desktop-scale)), 22px); }
+    .about-copy > p:not(.about-lead) { margin-bottom: 8px; font-size: 15px; line-height: 1.6; }
+    .spec-list { margin: 16px 0 0; }
+    .spec-list > div { padding: 8px 0; }
+    .about-copy .text-link { display: none; }
+  }
+}

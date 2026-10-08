@@ -23,8 +23,8 @@ export default function About() {
         </figure>
         <div className="about-copy">
           <p className="about-lead">Hi, I'm Andy. I see possibilities beyond the code.</p>
-          <p>I'm a Computer Science student at BINUS University, majoring in Intelligent Systems. I like exploring how technology can solve real problems, mixing web development, AI and things that are simply nice to use.</p>
-          <p>From building projects to broadcasting at BINUS TV Club and leading teams, I love connecting ideas and people to make something meaningful.</p>
+          <p>I'm a Computer Science student at BINUS University, majoring in <strong className="text-emphasis">Intelligent Systems</strong>. I like exploring how technology can solve real problems, mixing <strong className="text-emphasis">web development, AI</strong> and things that are simply nice to use.</p>
+          <p>From building projects to broadcasting at BINUS TV Club and <strong className="text-emphasis">leading teams</strong>, I love connecting ideas and people to make something meaningful.</p>
           <dl className="spec-list">
             {facts.map((fact) => (
               <div key={fact.label}>

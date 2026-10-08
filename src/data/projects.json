@@ -65,6 +65,22 @@
     }
   },
   {
+    "id": "diabetes",
+    "title": "Diebety AI Predict",
+    "tag": "AI & Machine Learning",
+    "stack": "Python · scikit-learn · XGBoost · SHAP · Streamlit",
+    "link": "https://kyhr-app.streamlit.app",
+    "image": "diabetes",
+    "description": "Exploring diabetes-risk prediction from tabular data, with interpretable machine learning and SHAP feature analysis.",
+    "ai": {
+      "focus": "Supervised Machine Learning · Explainable AI",
+      "models": "Logistic Regression · Random Forest · XGBoost",
+      "approach": "Preprocess tabular health data.\nExplore Logistic Regression, Random Forest, and XGBoost.\nExplain feature contributions with SHAP.",
+      "output": "Diabetes-risk predictions from user inputs, delivered through a Streamlit demo.",
+      "evaluation": "About 90% accuracy reported in the profile; the evaluation split and per-model scores are unspecified."
+    }
+  },
+  {
     "id": "mushroom-vision",
     "title": "Mushroom Vision",
     "tag": "AI & Machine Learning",
@@ -79,22 +95,6 @@
       "approach": "Resize mushroom photos to 128 x 128.\nExtract color, texture, shape, and keypoint features.\nScale the feature vector and classify it with a CNN.",
       "output": "Predicted mushroom class, per-image confidence score, and descriptive metadata.",
       "evaluation": "Uses HSV, GLCM, Hu, HOG, LBP, and FAST features. Confidence is per prediction; no overall benchmark is reported."
-    }
-  },
-  {
-    "id": "diabetes",
-    "title": "Diebety AI Predict",
-    "tag": "AI & Machine Learning",
-    "stack": "Python · scikit-learn · XGBoost · SHAP · Streamlit",
-    "link": "https://kyhr-app.streamlit.app",
-    "image": "diabetes",
-    "description": "Exploring diabetes-risk prediction from tabular data, with interpretable machine learning and SHAP feature analysis.",
-    "ai": {
-      "focus": "Supervised Machine Learning · Explainable AI",
-      "models": "Logistic Regression · Random Forest · XGBoost",
-      "approach": "Preprocess tabular health data.\nExplore Logistic Regression, Random Forest, and XGBoost.\nExplain feature contributions with SHAP.",
-      "output": "Diabetes-risk predictions from user inputs, delivered through a Streamlit demo.",
-      "evaluation": "About 90% accuracy reported in the profile; the evaluation split and per-model scores are unspecified."
     }
   },
   {
