@@ -7,6 +7,7 @@ import Projects from "./components/Projects.tsx";
 import Contact from "./components/Contact.tsx";
 import OrganizationExperience from "./components/OrganizationExperience.tsx";
 import NavRunner from "./components/NavRunner";
+import ScrollSnake from "./components/ScrollSnake";
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
         <Contact />
       </main>
       <ChatWidget />
+      <ScrollSnake />
       <footer className="site-footer">
         <div className="footer-track" aria-hidden="true"><span className="footer-runner"><NavRunner /></span></div>
         <div className="wrap footer-inner">

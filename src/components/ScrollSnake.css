@@ -1,0 +1,33 @@
+.scroll-snake { display: none; }
+@media (min-width: 1280px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .scroll-snake {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    contain: strict;
+    pointer-events: none;
+    user-select: none;
+    /* Fade the body at the viewport edge, regardless of the current section. */
+    mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
+  }
+  .scroll-snake > span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--scroll-snake-tile);
+    height: var(--scroll-snake-tile);
+  }
+  /* Let the hero grid fade to transparency over the matching body underneath.
+     An opaque fade here would cut the snake at the hero's bottom edge. */
+  .hero { z-index: 1; }
+  .hero-board, .hero::before { mask-image: linear-gradient(to bottom, #000 62%, transparent 100%); }
+  .hero::after { display: none; }
+  /* Only visible surfaces (cards and photos) cover the snake. Section wrappers
+     stay transparent so empty space cannot hide rectangular pieces of it. */
+  .section > .wrap, .footer-inner { position: relative; z-index: 1; }
+}
+html.modal-open .scroll-snake,
+body:has(dialog[open]) .scroll-snake { visibility: hidden !important; }
+@media print { .scroll-snake { display: none; } }
