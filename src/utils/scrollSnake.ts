@@ -1,6 +1,6 @@
 import { SNAKE_LENGTH } from './snakeAppearance.ts';
 
-export const SCROLL_SNAKE_MEDIA = '(min-width: 1280px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)';
+export const SCROLL_SNAKE_MEDIA = '(min-width: 1280px) and (prefers-reduced-motion: no-preference)';
 export const SNAKE_DEPARTURE_RATIO = .65;
 export type SnakeCell = { column: number; row: number };
 const key = (point: SnakeCell) => point.column + ',' + point.row;
