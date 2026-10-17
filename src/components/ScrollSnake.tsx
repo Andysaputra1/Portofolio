@@ -103,7 +103,9 @@ export default function ScrollSnake() {
     };
 
     const wander = () => {
-      if (reduced.matches || document.hidden || !visible || journey) return;
+      // A blocked departure keeps the snake moving off-screen until it can leave the hero.
+      const departing = desktop.matches && window.scrollY > heroHeight * SNAKE_DEPARTURE_RATIO;
+      if (reduced.matches || document.hidden || (!visible && !departing) || journey) return;
       const head = body[0];
       const neighbours = [[1, 0], [0, 1], [-1, 0], [0, -1]]
         .map(([dx, dy]) => ({ column: head.column + dx, row: head.row + dy }))
