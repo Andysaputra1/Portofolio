@@ -84,7 +84,8 @@ function PDFViewerDocument({ url, title }: { url: string; title: string }) {
   const [error, setError] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const [width, setWidth] = useState(0);
-  const [zoom, setZoom] = useState(1);
+  // Tablets and desktops open at 75% so a whole page fits; phones keep the full width.
+  const [zoom, setZoom] = useState(() => window.matchMedia("(min-width: 701px)").matches ? 0.75 : 1);
 
   useEffect(() => {
     const element = scrollRef.current;
