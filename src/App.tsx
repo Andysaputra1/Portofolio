@@ -8,10 +8,12 @@ import Contact from "./components/Contact.tsx";
 import OrganizationExperience from "./components/OrganizationExperience.tsx";
 import NavRunner from "./components/NavRunner";
 import ScrollSnake from "./components/ScrollSnake";
+import PageLoader from "./components/PageLoader";
 
 export default function App() {
   return (
     <>
+      <PageLoader />
       <a className="skip-link" href="#about">Skip to content</a>
       <Navbar />
       <main>

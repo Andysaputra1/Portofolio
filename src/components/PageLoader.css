@@ -1,0 +1,29 @@
+/* Pixel Andy runs along the progress line; the page underneath waits, unscrolled and unanimated. */
+.page-loader {
+  --progress: 0;
+  --runner: 48px;
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 18px;
+  background: var(--bg);
+  touch-action: none;
+  transition: opacity .5s var(--ease), visibility .5s;
+}
+.page-loader[data-leaving="true"] { opacity: 0; visibility: hidden; pointer-events: none; }
+.page-loader-track { position: relative; width: min(260px, 64vw); height: var(--runner); }
+.page-loader-track::before, .page-loader-fill { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; border-radius: 2px; }
+.page-loader-track::before { background: var(--line-2); }
+.page-loader-fill { background: var(--accent); transform-origin: left; transform: scaleX(var(--progress)); }
+/* The sprite's feet sit a few pixels above its box, so the box dips below the line. */
+.page-loader-runner { position: absolute; bottom: -2px; left: calc(var(--progress) * (100% - var(--runner))); width: var(--runner); height: var(--runner); }
+.page-loader-runner .nav-pixel-runner { width: 100%; height: 100%; }
+.page-loader-word { font: 600 22px/1 var(--ff-display); letter-spacing: -.02em; color: var(--text); }
+.page-loader-word span { color: var(--accent); }
+
+html[data-loading] { overflow: hidden; scrollbar-gutter: stable; }
+/* The hero's entrance starts once the loader lifts, not behind it. */
+html[data-loading] .hero-content > * { animation: none; }
