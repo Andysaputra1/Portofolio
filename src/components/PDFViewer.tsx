@@ -6,8 +6,8 @@ const PDFJS_BASE = "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/";
 // Loading progress: the library is the first step, the PDF's bytes fill most of the rest.
 const LIBRARY_SHARE = 0.2;
 const BYTES_SHARE = 0.75;
-// The percentage counts up at most this fast, so a cached CV still shows it reach 100%.
-const COUNT_UP_MS = 1000;
+// The percentage takes at least this long to reach 100%, so even a cached CV shows the loader for 2 seconds.
+const COUNT_UP_MS = 2000;
 type Viewport = { width: number; height: number };
 type RenderTask = { promise: Promise<void>; cancel: () => void };
 type PDFPage = {
