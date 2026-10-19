@@ -3,7 +3,7 @@ import NavRunner from './NavRunner';
 import './PageLoader.css';
 
 // Even a cached visit lets the runner cross the line instead of flashing.
-const MIN_RUN_MS = 2000;
+const MIN_RUN_MS = 1750;
 // A slow connection still gets the page rather than an endless loader.
 const MAX_WAIT_MS = 10000;
 const EXIT_MS = 500;
