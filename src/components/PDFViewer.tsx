@@ -3,6 +3,11 @@ import "./PDFViewer.css";
 
 // Keep the API, worker and supporting assets on the same pinned version.
 const PDFJS_BASE = "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/";
+// Loading progress: the library is the first step, the PDF's bytes fill most of the rest.
+const LIBRARY_SHARE = 0.2;
+const BYTES_SHARE = 0.75;
+// The percentage counts up at most this fast, so a cached CV still shows it reach 100%.
+const COUNT_UP_MS = 1000;
 type Viewport = { width: number; height: number };
 type RenderTask = { promise: Promise<void>; cancel: () => void };
 type PDFPage = {
@@ -11,7 +16,7 @@ type PDFPage = {
   render: (options: { canvasContext: CanvasRenderingContext2D; viewport: Viewport; transform: number[] }) => RenderTask;
 };
 type PDFDocument = { numPages: number; getPage: (number: number) => Promise<PDFPage> };
-type LoadingTask = { promise: Promise<PDFDocument>; destroy: () => Promise<void> };
+type LoadingTask = { promise: Promise<PDFDocument>; destroy: () => Promise<void>; onProgress?: (progress: { loaded: number; total?: number }) => void };
 type PDFLibrary = {
   GlobalWorkerOptions: { workerSrc: string };
   getDocument: (options: { url: string; cMapUrl: string; cMapPacked: boolean; standardFontDataUrl: string; isEvalSupported: boolean }) => LoadingTask;
@@ -83,6 +88,7 @@ function PDFViewerDocument({ url, title }: { url: string; title: string }) {
   const [pdf, setPdf] = useState<PDFDocument | null>(null);
   const [error, setError] = useState(false);
   const [attempt, setAttempt] = useState(0);
+  const [percent, setPercent] = useState(0);
   const [width, setWidth] = useState(0);
   // Tablets and desktops open at 75% so a whole page fits; phones keep the full width.
   const [zoom, setZoom] = useState(() => window.matchMedia("(min-width: 701px)").matches ? 0.75 : 1);
@@ -98,21 +104,39 @@ function PDFViewerDocument({ url, title }: { url: string; title: string }) {
   useEffect(() => {
     let cancelled = false;
     let task: LoadingTask | undefined;
+    let opened: PDFDocument | undefined;
+    let target = 0;
+    let shown = 0;
+    let previous = 0;
+    let frame = 0;
+    // The shown percentage chases the real one, and the pages appear once it reaches 100%.
+    const tick = (time: number) => {
+      shown = Math.min(target, shown + (previous ? time - previous : 0) / COUNT_UP_MS);
+      previous = time;
+      setPercent(Math.round(shown * 100));
+      if (shown < 1) frame = requestAnimationFrame(tick);
+      else if (opened) setPdf(opened);
+    };
     async function load() {
       setError(false);
       setPdf(null);
+      setPercent(0);
+      frame = requestAnimationFrame(tick);
       try {
         const library = await loadLibrary();
         if (cancelled) return;
+        target = LIBRARY_SHARE;
         task = library.getDocument({ url, cMapUrl: `${PDFJS_BASE}cmaps/`, cMapPacked: true, standardFontDataUrl: `${PDFJS_BASE}standard_fonts/`, isEvalSupported: false });
-        const document = await task.promise;
-        if (!cancelled) setPdf(document);
+        task.onProgress = ({ loaded, total }) => { if (total) target = Math.max(target, LIBRARY_SHARE + BYTES_SHARE * Math.min(1, loaded / total)); };
+        opened = await task.promise;
+        target = 1;
       } catch {
+        cancelAnimationFrame(frame);
         if (!cancelled) setError(true);
       }
     }
     void load();
-    return () => { cancelled = true; void task?.destroy().catch(() => {}); };
+    return () => { cancelled = true; cancelAnimationFrame(frame); void task?.destroy().catch(() => {}); };
   }, [url, attempt]);
 
   return <div className="pdf-viewer" role="region" aria-label={title}>
@@ -126,7 +150,10 @@ function PDFViewerDocument({ url, title }: { url: string; title: string }) {
     </div>
     <div className="pdf-viewer-scroll" ref={scrollRef} tabIndex={0} aria-label="PDF pages">
       {error ? <div className="pdf-viewer-message" role="alert"><p>Unable to load the PDF preview.</p><button type="button" onClick={() => setAttempt((value) => value + 1)}>Try again</button><a href={url} target="_blank" rel="noreferrer">Open PDF</a></div>
-        : !pdf ? <p className="pdf-viewer-message" role="status">Loading PDF…</p>
+        : !pdf ? <div className="pdf-viewer-message" role="progressbar" aria-label="Loading PDF" aria-valuemin={0} aria-valuemax={100} aria-valuenow={percent}>
+          <p>Loading PDF<span className="pdf-viewer-dots" aria-hidden="true"><span>.</span><span>.</span><span>.</span></span></p>
+          <p className="pdf-viewer-percent">{percent}%</p>
+        </div>
           : width > 0 && Array.from({ length: pdf.numPages }, (_, index) => <PDFPageView key={index + 1} pdf={pdf} number={index + 1} width={Math.floor(Math.min(width, 1000) * zoom)} />)}
     </div>
   </div>;
