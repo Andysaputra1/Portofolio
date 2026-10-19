@@ -7,7 +7,7 @@ const PDFJS_BASE = "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/";
 const LIBRARY_SHARE = 0.2;
 const BYTES_SHARE = 0.75;
 // The percentage takes at least this long to reach 100%, so even a cached CV shows the loader briefly.
-const COUNT_UP_MS = 1250;
+const COUNT_UP_MS = 1000;
 type Viewport = { width: number; height: number };
 type RenderTask = { promise: Promise<void>; cancel: () => void };
 type PDFPage = {
