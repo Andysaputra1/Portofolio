@@ -6,7 +6,7 @@
     "period": "February 2026 – January 2027",
     "summary": "Polytron's employees, HR team and service centers rely on internal apps for their daily work. On the application team I build and maintain four of them, from the interface and API down to the SQL database, run them in Docker containers so they're easy to deploy, and add AI features to two of them.",
     "impact": [
-      "The employee self-service app (ESS) I built is now the gateway to 6+ internal apps, used by every Polytron employee.",
+      "The employee self-service app (ESS) I built is now the gateway to 7+ internal apps, used by every Polytron employee.",
       "The queue management system (QMS) I adapted runs at every Polytron service center.",
       "My research on the supply-chain AI assistant (SCM) became the benchmark for adopting AI at Polytron."
     ],
@@ -33,7 +33,7 @@
         "subtitle": "Employee self-service",
         "image": "ess-polytron",
         "description": "Took ESS from an early start by another developer to a full progressive web app: letter requests, meeting-room bookings, attendance checks, company announcements and links into Polytron's other internal apps. Firebase notifications keep everyone up to date.",
-        "impact": "The gateway to 6+ internal apps, used by every Polytron employee.",
+        "impact": "The gateway to 7+ internal apps, used by every Polytron employee.",
         "stack": [
           "Node.js",
           "Docker",
@@ -92,19 +92,25 @@
   },
   {
     "id": 8,
-    "role": "Full Stack Developer (Freelance)",
+    "role": "Full Stack Developer & AI Researcher (Freelance)",
     "org": "Qreed AI",
     "period": "September 2026 – Present",
-    "summary": "As Qreed AI grows, its website needs new pages, ongoing updates and a full redesign. As a freelance full-stack developer, I translate the client's requests into designs, pages and features with Next.js, React and Express, and use Sentry to catch issues early.",
+    "summary": "Qreed AI runs an AI content platform for creators, and alongside it a growing set of tools and research projects. As a freelance full-stack developer and AI researcher, I build and maintain them end to end, from the main website to AI dubbing and an automated software factory, turning the client's requests into production-ready features with Next.js, React and Express.",
     "impact": [
-      "Redesigned the entire website and built and maintained multiple pages across the product, including the landing, generation and pricing pages."
+      "Redesigned the main website and shipped 31 pages and 170+ API endpoints, plus fixes on 38 pages and 37 production errors.",
+      "Cut transcript errors in the dubbing tool from 13% to 2.4%, running entirely on a 6 GB laptop GPU.",
+      "The software factory delivered a pilot café ordering app and caught two security bugs before deploy."
     ],
     "stack": [
       "Next.js",
       "React",
       "Express",
-      "Sentry",
-      "Docker"
+      "PostgreSQL",
+      "TypeScript",
+      "Python",
+      "LLM",
+      "Docker",
+      "Sentry"
     ],
     "projects": [
       {
@@ -138,6 +144,37 @@
         "stack": [
           "Next.js",
           "React"
+        ]
+      },
+      {
+        "id": "qreed-dubbing",
+        "title": "Qreed Dubbing",
+        "subtitle": "Speech recognition & computer vision research",
+        "image": "dubbing-qreedai",
+        "description": "Built a local AI tool that dubs Chinese dramas into Indonesian or English in each actor's own voice, using Whisper speech-to-text, RapidOCR, LLM translation and voice-cloning TTS (Chatterbox, OmniVoice).",
+        "impact": "Runs entirely on a 6 GB laptop GPU with no paid cloud voice service, and cut transcript errors from 13% to 2.4%.",
+        "stack": [
+          "Python",
+          "Whisper",
+          "RapidOCR",
+          "LLM",
+          "Chatterbox",
+          "OmniVoice"
+        ]
+      },
+      {
+        "id": "qreed-factory",
+        "title": "Qreed Factory",
+        "subtitle": "Coding agents in a software factory",
+        "image": "factory-qreedai",
+        "description": "Operated an AI pipeline where agents plan, write and review code, with automated checks and human-approved deploys.",
+        "impact": "Delivered a pilot café ordering app (QR ordering, payment, owner dashboard) and caught a credential race condition and a quota bypass before deploy.",
+        "stack": [
+          "TypeScript",
+          "Fastify",
+          "PostgreSQL",
+          "Docker",
+          "AI Agents"
         ]
       }
     ]
