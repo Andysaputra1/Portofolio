@@ -27,9 +27,9 @@ export default function PageLoader() {
     const html = document.documentElement;
     html.setAttribute('data-loading', '');
 
-    // Lazy images are fetched now too, so nothing pops in later while scrolling.
+    // Lazy images below the fold still load on scroll; waiting for them all made the loader crawl.
     const sources = new Set<string>();
-    document.querySelectorAll('img').forEach((img) => { if (img.src) sources.add(img.src); });
+    document.querySelectorAll<HTMLImageElement>('img:not([loading="lazy"])').forEach((img) => { if (img.src) sources.add(img.src); });
     document.querySelectorAll('image').forEach((image) => { const href = image.getAttribute('href'); if (href) sources.add(href); });
     const tasks = [
       ...Array.from(sources, loadImage),
