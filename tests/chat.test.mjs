@@ -27,6 +27,9 @@ test('chat validates requests, handles provider failures, and limits repeated ca
     assert.equal(new Headers(init.headers).get('authorization'),'Bearer test-placeholder');
     const payload=JSON.parse(init.body);
     assert.equal(payload.model,process.env.OPEN_ROUTER_MODEL || 'nvidia/nemotron-3.5-super-vl:free');
+    assert.equal(payload.models[0],payload.model);
+    assert.ok(payload.models.length>1 && payload.models.every((model)=>model.endsWith(':free')));
+    assert.equal(payload.reasoning.effort,'none');
     assert.equal(payload.max_tokens,700);
     assert.equal(payload.messages[0].role,'system');
     assert.match(payload.messages[0].content,/Strictly Adhere to Context/);
@@ -37,10 +40,10 @@ test('chat validates requests, handles provider failures, and limits repeated ca
     assert.ok(input.includes('Team Lead'));
     assert.ok(input.includes('linkedin.com/in/andy-saputra-586b22247'));
     assert.ok(input.includes('SOURCE: cv') && input.includes('GPA: 3.77'));
-    return new Response(JSON.stringify({id:'test',object:'chat.completion',choices:empty?[]:[{index:0,message:{role:'assistant',content:'Test answer [current-portfolio]'},finish_reason:'stop'}]}),{headers:{'content-type':'application/json'}});
+    return new Response(JSON.stringify({id:'test',object:'chat.completion',choices:empty?[]:[{index:0,message:{role:'assistant',content:'Test **answer** in *plain* text [current-portfolio]'},finish_reason:'stop'}]}),{headers:{'content-type':'application/json'}});
   });
   try {
-    const ok=await call('What are Andy skills?');assert.equal(ok.code,200);assert.match(ok.body.answer,/Test answer/);assert.equal(ok.headers['Cache-Control'],'no-store');assert.equal(calls,1);
+    const ok=await call('What are Andy skills?');assert.equal(ok.code,200);assert.equal(ok.body.answer,'Test answer in plain text [current-portfolio]');assert.equal(ok.headers['Cache-Control'],'no-store');assert.equal(calls,1);
     process.env.OPEN_ROUTER_MODEL='test/model:free';assert.equal((await call('custom',{ip:'custom'})).code,200);delete process.env.OPEN_ROUTER_MODEL;
     empty=true;assert.equal((await call('empty',{ip:'empty'})).code,502);empty=false;
     fail=true;const failure=await call('error',{ip:'failure'});assert.equal(failure.code,500);assert.ok(!JSON.stringify(failure.body).includes('private-provider-detail'));fail=false;

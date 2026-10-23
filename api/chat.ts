@@ -6,6 +6,7 @@ import OpenAI from "openai";
 const MAX_QUESTION_LENGTH = 800;
 const RATE_LIMIT = 12;
 const RATE_WINDOW_MS = 60_000;
+const FALLBACK_MODELS = ['nvidia/nemotron-3-ultra-550b-a55b:free', 'google/gemma-4-31b-it:free'];
 const recentRequests = new Map<string, number[]>();
 
 const require = createRequire(import.meta.url);
@@ -75,20 +76,28 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // OpenRouter exposes its models through an OpenAI-compatible Chat Completions endpoint.
-    const openrouter = new OpenAI({ apiKey, baseURL: 'https://openrouter.ai/api/v1', timeout: 25_000, maxRetries: 0 });
+    // Fallbacks run inside this one request, so the timeout leaves room for a second model within the 60-second function limit.
+    const openrouter = new OpenAI({ apiKey, baseURL: 'https://openrouter.ai/api/v1', timeout: 45_000, maxRetries: 0 });
     // The model has no clock; today's date lets it tell current roles from past ones.
     const context = `SOURCE: current-portfolio\nToday's date: ${new Date().toISOString().slice(0, 10)}\n${currentContext}\n\nSOURCE: cv\n${cv.text}`;
     const model = process.env.OPEN_ROUTER_MODEL?.trim() || 'nvidia/nemotron-3.5-super-vl:free';
-    const response = await openrouter.chat.completions.create({
+    // Free endpoints go down without notice; OpenRouter tries the next model in `models` when one errors.
+    // Keep fallbacks :free, since a paid fallback would be billed.
+    const body: OpenAI.ChatCompletionCreateParamsNonStreaming & { models: string[], reasoning: { effort: 'none' } } = {
       model,
+      models: [model, ...FALLBACK_MODELS.filter((fallback) => fallback !== model)],
+      // Reasoning fallbacks otherwise spend max_tokens on hidden thinking and answer in long markdown lists.
+      reasoning: { effort: 'none' },
       messages: [
         { role: 'system', content: SYSTEM_PROMPT },
         { role: 'user', content: `Context:\n${context}\n\nQuestion:\n${question}\n\nAnswer based only on the context provided, citing with tags.` },
       ],
       max_tokens: 700,
-    });
+    };
+    const response = await openrouter.chat.completions.create(body);
 
-    const answer = response.choices?.[0]?.message?.content?.trim();
+    // The chat shows raw text, and fallback models still bold or italicize despite the prompt.
+    const answer = response.choices?.[0]?.message?.content?.replace(/\*{1,2}([^*\n]+)\*{1,2}/g, '$1').trim();
     if (!answer) return res.status(502).json({ error: "AI belum menghasilkan jawaban. Silakan coba lagi." });
     return res.status(200).json({ answer });
   } catch (e: unknown) {
