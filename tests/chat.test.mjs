@@ -26,7 +26,7 @@ test('chat validates requests, handles provider failures, and limits repeated ca
     assert.equal(String(url),'https://openrouter.ai/api/v1/chat/completions');
     assert.equal(new Headers(init.headers).get('authorization'),'Bearer test-placeholder');
     const payload=JSON.parse(init.body);
-    assert.equal(payload.model,process.env.OPEN_ROUTER_MODEL || 'nvidia/nemotron-3-super-120b-a12b:free');
+    assert.equal(payload.model,process.env.OPEN_ROUTER_MODEL || 'nvidia/nemotron-3.5-super-vl:free');
     assert.equal(payload.max_tokens,700);
     assert.equal(payload.messages[0].role,'system');
     assert.match(payload.messages[0].content,/Strictly Adhere to Context/);

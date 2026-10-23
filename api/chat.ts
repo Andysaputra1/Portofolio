@@ -78,7 +78,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const openrouter = new OpenAI({ apiKey, baseURL: 'https://openrouter.ai/api/v1', timeout: 25_000, maxRetries: 0 });
     // The model has no clock; today's date lets it tell current roles from past ones.
     const context = `SOURCE: current-portfolio\nToday's date: ${new Date().toISOString().slice(0, 10)}\n${currentContext}\n\nSOURCE: cv\n${cv.text}`;
-    const model = process.env.OPEN_ROUTER_MODEL?.trim() || 'nvidia/nemotron-3-super-120b-a12b:free';
+    const model = process.env.OPEN_ROUTER_MODEL?.trim() || 'nvidia/nemotron-3.5-super-vl:free';
     const response = await openrouter.chat.completions.create({
       model,
       messages: [
