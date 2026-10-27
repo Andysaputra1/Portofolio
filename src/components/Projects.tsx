@@ -85,7 +85,7 @@ export default function Projects() {
                       rel="noreferrer"
                       aria-label={`${isRepository ? "Source code" : "Live website"}: ${p.title} (opens in a new tab)`}
                     >
-                      {isRepository ? "Code" : "Live site"} <ArrowIcon />
+                      {isRepository ? <><FiGithub aria-hidden="true" focusable="false" /> Code</> : <>Live site <ArrowIcon /></>}
                     </a>
                   </div>
                 </div>

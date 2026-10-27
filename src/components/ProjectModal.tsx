@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { FiArrowUpRight, FiGithub, FiX } from "react-icons/fi";
+import { FiGithub, FiX } from "react-icons/fi";
 import { listText, projectCategories, type Project } from "../types/portfolio";
 import { lockScroll, unlockScroll } from "../utils/scrollLock";
 import "./ProjectModal.css";
@@ -84,7 +84,7 @@ export default function ProjectModal({ open, onClose, project }: Props) {
           <span>{isRepository ? "Explore the code and documentation" : "Take a closer look at the project"}</span>
           <div className="project-dialog-links">
           {project.repo && project.repo !== project.link && <a className="project-dialog-link project-dialog-link-secondary" href={project.repo} target="_blank" rel="noreferrer"><FiGithub aria-hidden="true" />View repository</a>}
-          <a className="project-dialog-link" href={project.link} target="_blank" rel="noreferrer">{isRepository ? <FiGithub aria-hidden="true" /> : <FiArrowUpRight aria-hidden="true" />}{isRepository ? "View repository" : "Visit project"}<FiArrowUpRight className="project-dialog-link-arrow" aria-hidden="true" /></a>
+          <a className="project-dialog-link" href={project.link} target="_blank" rel="noreferrer">{isRepository && <FiGithub aria-hidden="true" />}{isRepository ? "View repository" : "Live site"}</a>
           </div>
         </footer>
       </div>
