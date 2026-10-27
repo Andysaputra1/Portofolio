@@ -1,5 +1,6 @@
 // src/components/Projects.tsx
 import { useState } from "react";
+import { FiGithub } from "react-icons/fi";
 import { listText, projectCategories, type Project } from "../types/portfolio";
 import { usePortfolioData } from "../context/PortfolioDataContext";
 import DinoBuilder from "./DinoBuilder";
@@ -65,15 +66,28 @@ export default function Projects() {
                   >
                     Details<span className="sr-only">: {p.title}</span>
                   </button>
-                  <a
-                    className="proj-link"
-                    href={p.link}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={`${isRepository ? "Source code" : "Live website"}: ${p.title} (opens in a new tab)`}
-                  >
-                    {isRepository ? "Code" : "Live site"} <ArrowIcon />
-                  </a>
+                  <div className="proj-links">
+                    {p.repo && p.repo !== p.link && (
+                      <a
+                        className="proj-link proj-link-repo"
+                        href={p.repo}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={`Source code on GitHub: ${p.title} (opens in a new tab)`}
+                      >
+                        <FiGithub aria-hidden="true" focusable="false" /> GitHub
+                      </a>
+                    )}
+                    <a
+                      className="proj-link"
+                      href={p.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`${isRepository ? "Source code" : "Live website"}: ${p.title} (opens in a new tab)`}
+                    >
+                      {isRepository ? "Code" : "Live site"} <ArrowIcon />
+                    </a>
+                  </div>
                 </div>
               </article>
             );

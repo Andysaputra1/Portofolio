@@ -448,6 +448,9 @@ html.modal-open, body.modal-open { overflow: hidden !important; overscroll-behav
 .proj-open:focus-visible { outline: none; }
 .proj-link { position: relative; z-index: 2; display: inline-flex; align-items: center; gap: 6px; color: var(--accent); font: 500 14px/1.2 var(--ff-body); }
 .proj-link:hover { color: var(--accent-hover); text-decoration: underline; text-underline-offset: 4px; }
+.proj-links { display: flex; align-items: center; gap: 18px; }
+.proj-link-repo { color: var(--text-2); }
+.proj-link-repo:hover { color: var(--text); }
 @media (max-width: 1000px) { .proj-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 640px) { .proj-grid { grid-template-columns: minmax(0, 1fr); } }
 
