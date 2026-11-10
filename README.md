@@ -23,6 +23,20 @@ Run `npm run dev`. Vite runs `/api/chat` through the same server-only handler us
 
 ## Validation and deployment
 
+### Sitemap and Google Search Console
+
+`public/sitemap.xml` lists the public homepage at `https://www.andylabs.site/`, the destination of the non-www domain's redirect. The portfolio is a single page, so section anchors such as `#about` and `#projects` are not separate sitemap entries. The management page, API routes, and projects hosted on other domains are also excluded. `public/robots.txt` points crawlers to the sitemap and disallows crawling the management page and API routes; these crawl rules are not access control or a guarantee against indexing.
+
+Vite copies both files to the root of `dist` when you run `npm run build`. After deploying:
+
+1. Open `https://www.andylabs.site/sitemap.xml` and confirm it serves XML, and check `https://www.andylabs.site/robots.txt`.
+2. In Google Search Console, select the verified `andylabs.site` domain property or the `https://www.andylabs.site/` URL-prefix property.
+3. Open **Sitemaps**, submit `https://www.andylabs.site/sitemap.xml` (or `sitemap.xml` if the site prefix is already shown), and check the processing status.
+
+If you add public pages with their own URLs, add their canonical URLs to `public/sitemap.xml`. If the production domain changes, update the URLs in both public files. See [Google's sitemap documentation](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap).
+
+### Checks and hosting
+
 Run `npm run lint`, `npm test`, and `npm run build`. The automated chat test mocks OpenRouter; it makes no network calls and requires no real API key.
 
 On Vercel, configure `OPEN_ROUTER` and optionally `OPEN_ROUTER_MODEL` for the appropriate deployment environment, then redeploy. Your local `.env` is ignored by Git and is not uploaded by a push. Vercel runs `api/chat.ts`; static hosting alone cannot run the chatbot.
