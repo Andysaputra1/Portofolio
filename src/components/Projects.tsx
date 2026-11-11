@@ -8,6 +8,7 @@ import ProjectModal from "./ProjectModal";
 import ArrowIcon from "./ArrowIcon";
 import SectionHead from "./SectionHead";
 import EmphasizedText from "./EmphasizedText";
+import { parallax, reveal } from "../utils/scrollMotion";
 
 const ALL = "All";
 
@@ -29,7 +30,7 @@ export default function Projects() {
           {projects.length} projects, from deep-learning experiments to web apps people use. Open one for the method, the stack and what came out of it.
         </SectionHead>
 
-        <div className="project-filters" role="group" aria-label="Filter projects by category">
+        <div ref={reveal} data-reveal="up" className="project-filters" role="group" aria-label="Filter projects by category">
           {filters.map((tag) => {
             const count = tag === ALL ? projects.length : projects.filter((p) => projectCategories(p).includes(tag)).length;
             return <button key={tag} type="button" aria-pressed={filter === tag} onClick={() => setFilter(tag)}>{tag}<span>{count}</span></button>;
@@ -40,10 +41,10 @@ export default function Projects() {
           {visibleProjects.map((p) => {
             const isRepository = p.link.startsWith("https://github.com/");
             return (
-              <article key={p.id} className="proj-card">
+              <article key={p.id} ref={reveal} data-reveal="up" className="proj-card">
                 <div className="proj-media">
                   {p.image ? (
-                    <img className="proj-img" src={p.image} alt="" loading="lazy" decoding="async" />
+                    <img ref={parallax} data-parallax className="proj-img" src={p.image} alt="" loading="lazy" decoding="async" />
                   ) : <div className="proj-img-placeholder"><i className="fa-regular fa-image" aria-hidden="true" /></div>}
                   {p.status && <span className="proj-status">{p.status}</span>}
                 </div>

@@ -1,6 +1,7 @@
 // src/components/Skills.tsx
 import DeskBuddy from "./DeskBuddy";
 import SectionHead from "./SectionHead";
+import { reveal } from "../utils/scrollMotion";
 import { usePortfolioData } from "../context/PortfolioDataContext";
 import { skillGroups, type Skill } from "../types/portfolio";
 import type { IconType } from "react-icons";
@@ -25,7 +26,7 @@ function TechGroup({ title, items, index }: { title: string; items: Skill[]; ind
   if (!items.length) return null;
 
   return (
-    <section className="toolkit-group" aria-labelledby={`toolkit-group-${index}`}>
+    <section ref={reveal} data-reveal="up" className="toolkit-group" aria-labelledby={`toolkit-group-${index}`}>
       <h3 id={`toolkit-group-${index}`}>{title}</h3>
       <ul className="toolkit-list">
         {items.map((skill) => {

@@ -2,8 +2,8 @@
   Warm dark
   ---------
   A quiet, warm dark page with one amber accent. Type does the work: Funnel Display for headings,
-  Onest for everything else. Surfaces are thin hairlines and soft radii, nothing glows, and the only
-  motion nobody asked for is the hero's entrance. The one loud thing on the page is pixel Andy: each
+  Onest for everything else. Surfaces are thin hairlines and soft radii, nothing glows, and motion stays
+  quiet: the hero enters and drifts away on scroll, and each section eases in once. The one loud thing on the page is pixel Andy: each
   section's heading line is the floor his scene stands on.
 */
 
@@ -242,6 +242,17 @@ html.modal-open, body.modal-open { overflow: hidden !important; overscroll-behav
   .hero-content > :nth-child(4) { animation-delay: .24s; }
 }
 @keyframes hero-enter { from { opacity: 0; transform: translateY(14px); } }
+/* As the hero scrolls away, each step of the copy rises a little faster than the one above it and the
+   whole block fades out over the last 65%. `translate` stays separate from the entrance's `transform`. */
+.hero-line { display: block; }
+@media (prefers-reduced-motion: no-preference) {
+  .hero-content { --drift: 1; opacity: clamp(0, (1 - var(--hero-scroll, 0)) / .65, 1); }
+  .hero-line, .hero-description, .hero-actions { translate: 0 calc(var(--hero-scroll, 0) * var(--drift) * var(--rise, 0px)); }
+  .hero-line + .hero-line { --rise: -40px; }
+  .hero-description { --rise: -80px; }
+  .hero-actions { --rise: -120px; }
+}
+@media (max-width: 767px) { .hero-content { --drift: .5; } }
 .hero-hint { position: absolute; z-index: 2; left: var(--gutter); bottom: 28px; margin: 0; color: var(--text-3); font: 400 13px/1.4 var(--ff-body); }
 @media (hover: none) { .hero-hint { display: none; } }
 @media (max-width: 1024px) {
@@ -253,7 +264,8 @@ html.modal-open, body.modal-open { overflow: hidden !important; overscroll-behav
 }
 
 /* ---------- Section heads ---------- */
-.section-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; padding-bottom: 22px; margin-bottom: clamp(40px, 5vw, 56px); border-bottom: 1px solid var(--line-2); }
+/* The line is a background painted over a transparent border, so it can be drawn in on first view. */
+.section-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; padding-bottom: 22px; margin-bottom: clamp(40px, 5vw, 56px); border-bottom: 1px solid transparent; background: linear-gradient(var(--line-2), var(--line-2)) left bottom / 100% 1px no-repeat border-box; }
 .section-head-text { min-width: 0; }
 .section-head h2 { font-size: clamp(36px, 4.6vw, 56px); font-weight: 600; line-height: 1.04; letter-spacing: -.035em; }
 .section-lede { max-width: 52ch; margin-top: 16px; color: var(--text-2); font-size: 17px; line-height: 1.6; text-wrap: pretty; }
@@ -268,6 +280,25 @@ html.modal-open, body.modal-open { overflow: hidden !important; overscroll-behav
   .section-scene { align-self: flex-end; }
   .section-lede { font-size: 16px; }
 }
+
+/* ---------- Scroll motion (src/utils/scrollMotion.ts) ---------- */
+/* Each section plays once as it comes into view: the head's line draws from the left and the title and
+   scene fade in on it, then the content rises 16px into place, one piece after another. Photos drift
+   slowly inside their frames while they are on screen. */
+@media screen and (prefers-reduced-motion: no-preference) {
+  [data-reveal="up"]:not([data-revealed]),
+  [data-reveal="line"]:not([data-revealed]) > * { opacity: 0; }
+  [data-reveal="line"]:not([data-revealed]) { background-size: 0 1px; }
+  [data-reveal="up"][data-revealed] { animation: reveal-up .5s ease-out var(--reveal-delay, 0s) backwards; }
+  [data-reveal="line"][data-revealed] { animation: reveal-line .8s ease-out backwards; }
+  [data-reveal="line"][data-revealed] > * { animation: reveal-fade .4s ease-out .4s backwards; }
+
+  [data-parallax] { --parallax-range: 8%; scale: 1.16; translate: 0 calc((1 - 2 * var(--parallax, .5)) * var(--parallax-range)); }
+}
+@media (max-width: 767px) { [data-parallax] { --parallax-range: 4%; } }
+@keyframes reveal-up { from { opacity: 0; translate: 0 16px; } }
+@keyframes reveal-line { from { background-size: 0 1px; } }
+@keyframes reveal-fade { from { opacity: 0; } }
 
 /* ---------- About ---------- */
 /* Small screens stack heading, photo, then copy. From 901px the whole section fits one screen:

@@ -3,6 +3,7 @@ import ExperienceProjects from "./ExperienceProjects";
 import EmphasizedText from "./EmphasizedText";
 import TeamLead from "./TeamLead";
 import SectionHead from "./SectionHead";
+import { parallax, reveal } from "../utils/scrollMotion";
 import { usePortfolioData } from "../context/PortfolioDataContext";
 import type { OrgExp } from "../types/portfolio";
 
@@ -11,7 +12,7 @@ function ExperiencePhoto({ experience }: { experience: OrgExp }) {
   return (
     <figure className={`exp-photo${experience.imageLayout === 'landscape' ? " exp-photo-landscape" : ""}`}>
       <div className="exp-photo-frame">
-        <img src={experience.image} alt={experience.imageCaption || `${experience.role || experience.org} experience`} loading="lazy" decoding="async" />
+        <img ref={parallax} data-parallax src={experience.image} alt={experience.imageCaption || `${experience.role || experience.org} experience`} loading="lazy" decoding="async" />
       </div>
       {experience.imageCaption && <figcaption>{experience.imageCaption}</figcaption>}
     </figure>
@@ -31,12 +32,12 @@ export default function OrganizationExperience() {
         <ol className="exp-list">
           {organizations.map((x) => (
             <li key={x.id} className="exp-item">
-              <div className="exp-meta">
+              <div ref={reveal} data-reveal="up" className="exp-meta">
                 <p className="exp-period">{x.period}</p>
                 {x.location && <p className="exp-location">{x.location}</p>}
                 <ExperiencePhoto experience={x} />
               </div>
-              <div className="exp-details">
+              <div ref={reveal} data-reveal="up" className="exp-details">
                 <h3 className="exp-role">{x.role || x.org}</h3>
                 {x.role && <p className="exp-org">{x.org}</p>}
                 {x.summary && <p className="exp-summary"><EmphasizedText text={x.summary} /></p>}

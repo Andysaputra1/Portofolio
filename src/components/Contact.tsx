@@ -6,6 +6,7 @@ import SectionHead from "./SectionHead";
 import ArrowIcon from "./ArrowIcon";
 import contact from "../data/contact.json";
 import { openAssistant } from "../utils/assistant";
+import { reveal } from "../utils/scrollMotion";
 
 const EMAIL = contact.email;
 const PHONE = contact.phone;
@@ -33,7 +34,7 @@ export default function Contact() {
         </SectionHead>
 
         <div className="contact-body">
-          <div className="contact-email-row">
+          <div ref={reveal} data-reveal="up" className="contact-email-row">
             <a className="contact-email" href={`mailto:${EMAIL}`}>
               {EMAIL_USER}<wbr />@{EMAIL_DOMAIN}
             </a>
@@ -42,7 +43,7 @@ export default function Contact() {
             </button>
           </div>
 
-          <ul className="contact-links">
+          <ul ref={reveal} data-reveal="up" className="contact-links">
             <li>
               <span className="contact-label">Phone</span>
               <span className="contact-value">
@@ -66,7 +67,7 @@ export default function Contact() {
             </li>
           </ul>
 
-          <p className="contact-assistant">
+          <p ref={reveal} data-reveal="up" className="contact-assistant">
             <span>Rather ask a few questions first?</span>
             <button type="button" className="text-link" onClick={openAssistant}>
               Ask my AI assistant about my work
